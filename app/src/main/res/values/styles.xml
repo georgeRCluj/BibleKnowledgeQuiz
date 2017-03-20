@@ -1,0 +1,113 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:textColorTertiary">#a98553</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!-- Pre-defined typography styles as per Material Design https://material.io/guidelines/style/typography.html#typography-styles -->
+    <!-- for English and English-like scripts-->
+    <!--    sans-serif = roboto regular
+            sans-serif-medium = roboto medium -->
+    <style name="Headline">
+        <item name="android:textSize">@dimen/Headline</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="Title">
+        <item name="android:textSize">@dimen/Title</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+
+    </style>
+
+    <style name="Subheading">
+        <item name="android:textSize">@dimen/Subheading</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="Button">
+        <item name="android:textSize">@dimen/Button</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <!-- HOME: Text Header, menu, Start quiz button -->
+    <style name="TextHeader" parent="@style/Headline">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/header_text_color</item>
+        <item name="android:background">@color/header_background_color</item>
+        <item name="android:layout_marginTop">@dimen/activity_vertical_margin</item>
+        <item name="android:gravity">center</item>
+        <!-- customized shadowing -->
+        <item name="android:shadowColor">@color/button_disabled</item>
+        <item name="android:shadowDx">4</item>
+        <item name="android:shadowDy">4</item>
+        <item name="android:shadowRadius">1</item>
+    </style>
+
+    <style name="homeText" parent="Subheading">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/header_text_color</item>
+        <item name="android:layout_marginTop">@dimen/story_vertical_margin</item>
+        <item name="android:paddingTop">@dimen/story_vertical_padding</item>
+        <item name="android:paddingBottom">@dimen/story_vertical_padding</item>
+        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:background">@color/header_background_color</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">italic</item>
+        <!-- customized shadowing -->
+        <item name="android:shadowColor">@color/button_disabled</item>
+        <item name="android:shadowDx">2</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowRadius">0.3</item>
+    </style>
+
+    <style name="homeMenuDimensions">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="homeMenuStyle" parent="Subheading">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/header_text_color</item>
+        <!-- customized shadowing -->
+        <item name="android:shadowColor">@color/button_disabled</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">5</item>
+    </style>
+
+    <style name="homeMenuLayout" parent="homeMenuDimensions">
+        <item name="android:layout_marginTop">@dimen/home_menu_vertical_top_margin</item>
+        <item name="android:paddingTop">@dimen/home_menu_vertical_body_margin_2</item>
+        <item name="android:paddingBottom">@dimen/home_menu_vertical_body_margin_2</item>
+        <item name="android:background">@color/menu_background_color</item>
+    </style>
+
+    <style name="homeButtonStyle" parent="Button">
+        <item name="android:minHeight">@dimen/home_button_min_height</item>
+        <item name="android:background">@drawable/button_shape</item>
+        <item name="android:textColor">@color/header_text_color</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_marginBottom">@dimen/home_button_vertical_margin</item>
+        <item name="android:gravity">center</item>
+        <!-- customized shadowing -->
+        <item name="android:shadowColor">@color/button_disabled</item>
+        <item name="android:shadowDx">3</item>
+        <item name="android:shadowDy">3</item>
+        <item name="android:shadowRadius">3</item>
+    </style>
+
+    <!-- TAKE OUT HARDCODED FROM BELOW! -->
+    <style name="quizButtonStyle" parent="homeButtonStyle">
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+</resources>

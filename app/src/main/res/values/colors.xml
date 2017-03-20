@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#212121</color>
+
+    <!-- Header and home text colors and transparency -->
+    <color name="header_text_color">#212121</color>     <!-- Black 54% or 87%, as per Material Design specs. Here used black of 87%.
+        https://material.io/guidelines/style/typography.html#typography-line-height and http://www.december.com/html/spec/colorcodes.html-->
+    <color name="header_background_color">#45dec6aa</color>
+    <color name="menu_background_color">#65dec6aa</color>
+
+    <!-- Home - choose difficulty -->
+    <color name="home_difficulty_color">#292929</color>
+
+    <!-- Buttons' and toasts' colors -->
+    <color name="button_border">#65dec6aa</color>
+    <color name="button_shadow">#45dec6aa</color>
+    <color name="button_background_enabled">#23dec6aa</color>
+    <color name="button_background_pressed">#85dec6aa</color>
+    <color name="button_disabled">#757575</color>
+    <color name="toast_shadow">#65dec6aa</color>
+
+</resources>

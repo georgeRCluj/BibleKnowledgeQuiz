@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string-array name="q_b_1_ans"> <!-- question beginner 1 possible answers [CHECKBOX] -->
+        <item>Isaiah</item>
+        <item>David</item>
+        <item>Joshua</item>
+        <item>Goliath</item>
+    </string-array>
+
+    <string-array name="q_b_1_cr"> <!-- question beginner 1 correct answers [CHECKBOX]-->
+        <item>"David"</item>
+        <item>"Goliath"</item>
+        <item>""</item>
+        <item>""</item>
+    </string-array>
+
+    <string-array name="q_b_2_cr"> <!-- question beginner 2 correct answers [EDIT] -->
+        <item>Red Sea</item>
+        <item>The Red Sea</item>
+    </string-array>
+
+    <string-array name="q_b_3_ans"> <!-- question beginner 3 possible answers [RADIO] -->
+        <item>Jesus raising Lazarus from the dead</item>
+        <item>Jesus preaching to the people</item>
+        <item>Jesus multiplying the loaves and fishes</item>
+        <item>Jesus talking to Nicodemus</item>
+    </string-array>
+
+</resources>

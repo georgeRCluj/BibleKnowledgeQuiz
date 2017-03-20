@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Bible Knowledge Quiz</string>
+    <string name="home_text">The Bible is the book left by God as a treasure for the humankind. It is the most important book, that changed many people\'s lives and should be read daily. This app gives you the opportunity to test your Bible knowledge.</string>
+    <string name="home_difficulty">Please select the difficulty level: </string>
+    <string name="home_choose_no_of_questions">Please select the number of questions: </string>
+    <string name="home_no_of_questions">3</string>
+    <string name="home_Level_1">Beginner</string>
+    <string name="home_Level_2">Advanced</string>
+    <string name="home_button_start_quiz">Start Quiz</string>
+    <string name="home_toast_message_start_quiz">Please select the difficulty level!</string>
+
+    <!-- QUESTIONS BELOW -->
+    <!-- BEGINNER -->
+    <string name="q_b_1_txt">Who are the characters in the picture?</string> <!-- question 1 beginner text -->
+    <string name="q_b_2_txt">What is the name of the sea in the picture?</string>
+    <string name="q_b_3_txt">What story is presented in the picture?</string>
+
+    <!-- ADVANCED -->
+
+    <!-- CORRECT ANSWERS FOR EDIT TEXT QUESTIONS -->
+    <!-- BEGINNER -->
+    <string name="q_b_2_cr">Red Sea</string>
+    <string name="q_b_3_cr">Jesus multiplying the loaves and fishes</string>
+
+    <!-- ADVANCED -->
+</resources>

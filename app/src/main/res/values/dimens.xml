@@ -1,0 +1,39 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- Text Sizes, as per material design - https://material.io/guidelines/style/typography.html#typography-styles -->
+    <dimen name="Display_4">112sp</dimen>       //Display 4 - light 112sp
+    <dimen name="Display_3">56sp</dimen>        //Display 3 - regular 56sp
+    <dimen name="Display_2">45sp</dimen>        //Display 2 - regular 45sp
+    <dimen name="Display_1">34sp</dimen>        //Display 1 - regular 34sp
+    <dimen name="Headline">24sp</dimen>         //Headline - regular 24sp
+    <dimen name="Title">20sp</dimen>            //Title - medium 20sp
+    <dimen name="Subheading">16sp</dimen>       //Subheading - regular 16sp (device)
+    <dimen name="Body_2">14sp</dimen>           //Body 2 - medium 14sp (device)
+    <dimen name="Body_1">14sp</dimen>           //Body 1 - regular 14sp (device)
+    <dimen name="Caption">12sp</dimen>          //Caption - regular 12sp
+    <dimen name="Button">14sp</dimen>           //MEDIUM (ALL CAPS) 14sp
+
+    <!-- Margins and paddings -->
+    <!-- Story text -->
+    <dimen name="story_vertical_margin">32dp</dimen>
+    <dimen name="story_vertical_padding">4dp</dimen>
+    <!-- Menu -->
+    <dimen name="home_menu_vertical_top_margin">64dp</dimen>
+    <dimen name="home_menu_vertical_body_margin_1">4dp</dimen>
+    <dimen name="home_menu_vertical_body_margin_2">8dp</dimen>
+    <dimen name="home_menu_vertical_body_margin_3">16dp</dimen>
+    <dimen name="home_menu_vertical_body_margin_4">24dp</dimen>
+    <dimen name="home_space_btw_radio_buttons">15dp</dimen>
+
+    <!-- Home Start Quiz Button -->
+    <dimen name="home_button_min_height">35dp</dimen>
+    <dimen name="home_button_vertical_margin">32dp</dimen>
+
+    <!-- Toast padding -->
+    <dimen name="toast_padding_vertical">5dp</dimen>
+    <dimen name="toast_padding_horizontal">8dp</dimen>
+
+</resources>
