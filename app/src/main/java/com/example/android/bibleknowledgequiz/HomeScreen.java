@@ -69,13 +69,13 @@ public class HomeScreen extends AppCompatActivity {
                 // (150 on the Y vertical to lift up the Toast)
                 switch (difficultyLevel_radioGroup.getCheckedRadioButtonId()) {
                     case -1: {
-                        AppTools.customToast(HomeScreen, HomeScreen.this, Gravity.BOTTOM, 0, getResources().getInteger(R.integer.home_toast_vertical_uplift), Toast.LENGTH_SHORT, getResources().getString(R.string.home_toast_message_start_quiz));
+                        AppTools.customToast(HomeScreen.this, Gravity.BOTTOM, 0, getResources().getInteger(R.integer.home_toast_vertical_uplift), Toast.LENGTH_SHORT, getResources().getString(R.string.home_toast_message_start_quiz));
                         break;
                     }
                     case (R.id.home_level_1_Button):
                     case (R.id.home_level_2_Button): {
                         Bundle bundle = new Bundle();   // pass number of questions and difficulty level to the Quiz activity through a bundle
-                        int level = (difficultyLevel_radioGroup.getCheckedRadioButtonId() == R.id.home_level_1_Button) ? 1 : 2; // used ternary operator for quiz difficulty level selection;
+                        int level = (difficultyLevel_radioGroup.getCheckedRadioButtonId() == R.id.home_level_1_Button) ? 0 : 1; // used ternary operator for quiz difficulty level selection;
                         bundle.putInt(BUNDLE_LEVEL, level);
                         bundle.putInt(BUNDLE_QUESTIONS, homeSeekBar.getProgress() + MIN_NR_QUEST);
                         Intent quizIntent = new Intent(HomeScreen.this, Quiz.class);
@@ -87,20 +87,4 @@ public class HomeScreen extends AppCompatActivity {
             }
         });
     }
-
-    // below is a custom Toast method which uses custom_toast.xml from the layout resource directory
-    public void customToast(Context context, int gravity, int dX, int dY, int duration, String textInput) {
-        LayoutInflater inflater = getLayoutInflater();
-        View layout = inflater.inflate(R.layout.custom_toast, (ViewGroup) findViewById(R.id.custom_toast_container));
-        TextView text = (TextView) layout.findViewById(R.id.text);
-        text.setTextSize(getResources().getInteger(R.integer.toast_text_size));
-        text.setText(textInput);
-        Toast toast = new Toast(context);
-        toast.setGravity(gravity, dX, dY);
-        toast.setDuration(duration);
-        toast.setView(layout);
-        toast.show();
-    }
-
-
 }

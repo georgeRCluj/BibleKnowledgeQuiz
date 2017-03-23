@@ -40,7 +40,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/header_text_color</item>
-        <item name="android:background">@color/header_background_color</item>
+        <item name="android:background">@drawable/view_shape_1</item>
         <item name="android:layout_marginTop">@dimen/activity_vertical_margin</item>
         <item name="android:gravity">center</item>
         <!-- customized shadowing -->
@@ -59,7 +59,7 @@
         <item name="android:paddingBottom">@dimen/story_vertical_padding</item>
         <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
         <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
-        <item name="android:background">@color/header_background_color</item>
+        <item name="android:background">@drawable/view_shape_1</item>
         <item name="android:gravity">center</item>
         <item name="android:textStyle">italic</item>
         <!-- customized shadowing -->
@@ -88,7 +88,7 @@
         <item name="android:layout_marginTop">@dimen/home_menu_vertical_top_margin</item>
         <item name="android:paddingTop">@dimen/home_menu_vertical_body_margin_2</item>
         <item name="android:paddingBottom">@dimen/home_menu_vertical_body_margin_2</item>
-        <item name="android:background">@color/menu_background_color</item>
+        <item name="android:background">@drawable/view_shape_2</item>
     </style>
 
     <style name="homeButtonStyle" parent="Button">

@@ -8,19 +8,45 @@
     <string name="home_Level_2">Advanced</string>
     <string name="home_button_start_quiz">Start Quiz</string>
     <string name="home_toast_message_start_quiz">Please select the difficulty level!</string>
+    <string name="previous_button_forbidden_message">You cannot browse back during the quiz</string>
+    <string name="edit_text_hint">Please enter your answer here</string>
+
 
     <!-- QUESTIONS BELOW -->
     <!-- BEGINNER -->
     <string name="q_b_1_txt">Who are the characters in the picture?</string> <!-- question 1 beginner text -->
     <string name="q_b_2_txt">What is the name of the sea in the picture?</string>
     <string name="q_b_3_txt">What story is presented in the picture?</string>
+    <string name="q_b_4_txt">Who is the man in the tree and who is his father?</string>
+    <string name="q_b_5_txt">What is the name of the ladie\'s husband?</string>
+    <string name="q_b_6_txt">What is the name of the woman who brought her boy to serve the Temple?</string>
+    <string name="q_b_7_txt">Why did Jesus die on a cross?</string>
+    <string name="q_b_8_txt">Who is the apostle in the image who was blinded?</string>
+    <string name="q_b_9_txt">What event is represented in the image?</string>
+    <string name="q_b_10_txt">What does the image above represent?</string>
 
     <!-- ADVANCED -->
+    <string name="q_a_1_txt">Why did the 4 teenagers refuse the food?</string> <!-- question 1 advanced text -->
+    <string name="q_a_2_txt">Who was guilty for the situation described above?</string>
+    <string name="q_a_3_txt">What did this man try to avoid?</string>
+    <string name="q_a_4_txt">Who is the man in the picture?</string>
+    <string name="q_a_5_txt">Where was the man in the picture exiled?</string>
+    <string name="q_a_6_txt">Who is the man who helped Jesus carrying the cross and where is he from?</string>
+    <string name="q_a_7_txt">Why did Jesus die on a cross?</string>
+    <string name="q_a_8_txt">Who is the woman on the right corner and who is her grandson?</string>
+    <string name="q_a_9_txt">Who was praying for the man in the picture to be set free?</string>
+    <string name="q_a_10_txt">Who is the queen in the image?</string>
 
-    <!-- CORRECT ANSWERS FOR EDIT TEXT QUESTIONS -->
+    <!-- CORRECT ANSWERS -->
     <!-- BEGINNER -->
     <string name="q_b_2_cr">Red Sea</string>
     <string name="q_b_3_cr">Jesus multiplying the loaves and fishes</string>
+    <string name="q_b_6_cr">Hannah</string>
+    <string name="q_b_9_cr">The Pentecost</string>
 
     <!-- ADVANCED -->
+    <string name="q_a_3_cr">Going to Niniveh</string>
+    <string name="q_a_4_cr">Samson</string>
+    <string name="q_a_9_cr">People in the house of Mary</string>
+
 </resources>

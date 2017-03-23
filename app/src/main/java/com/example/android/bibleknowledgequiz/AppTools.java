@@ -11,9 +11,8 @@ import android.widget.Toast;
 import java.util.Arrays;
 import java.util.Random;
 
-/**
- * Created by Emanuela on 3/19/2017.
- */
+import static android.R.attr.resource;
+import static com.example.android.bibleknowledgequiz.R.layout.custom_toast;
 
 public class AppTools {
 
@@ -50,14 +49,16 @@ public class AppTools {
         }
     }
 
-    // below is a custom Toast method which uses custom_toast.xml from the layout resource directory
-    public static void customToast(Activity activity, Context context, int gravity, int dX, int dY, int duration, String textInput) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE); // when used in an activity, replace with "= getLayoutInflater();"
-        View layout = inflater.inflate(R.layout.custom_toast, (ViewGroup) activity.findViewById(R.id.custom_toast_container)); // when used in an activity, remove "activity."
+    /**
+     * The below method implements a custom Toast method which uses custom_toast.xml from the layout resource directory
+     **/
+    public static void customToast(Activity activity, int gravity, int dX, int dY, int duration, String textInput) {
+        LayoutInflater inflater = (LayoutInflater) activity.getSystemService(activity.LAYOUT_INFLATER_SERVICE);                 // when used in an activity, replace with "= getLayoutInflater();"
+        View layout = inflater.inflate(custom_toast, (ViewGroup) activity.findViewById(R.id.custom_toast_container));           // when used in an activity, remove "activity."
         TextView text = (TextView) layout.findViewById(R.id.text);
-        text.setTextSize(context.getResources().getInteger(R.integer.toast_text_size));  // when used in an activity, remove "context."
+        text.setTextSize(activity.getResources().getInteger(R.integer.toast_text_size));                                        // when used in an activity, remove "activity."
         text.setText(textInput);
-        Toast toast = new Toast(context);
+        Toast toast = new Toast(activity);                                                                                      // when used in an activity, replace "activity" with context
         toast.setGravity(gravity, dX, dY);
         toast.setDuration(duration);
         toast.setView(layout);
