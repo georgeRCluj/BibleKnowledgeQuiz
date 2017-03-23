@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+import static android.R.attr.x;
 import static android.R.id.edit;
 import static android.view.View.GONE;
 import static android.widget.Toast.makeText;
@@ -32,13 +33,16 @@ import static com.example.android.bibleknowledgequiz.HomeScreen.INTENT_TOQUIZ;
 import static com.example.android.bibleknowledgequiz.R.layout.activity_quiz;
 
 public class Quiz extends AppCompatActivity {
-    int difficultyLevel, nrOfQuestions;                 // these two variables retrieve data from bundle from HomeScreen;
-    int currentQuestion, crtQ;                          // these two variables helps us to go through the all the questions and to show the questions in a shuffled order
+    int difficultyLevel, nrOfQuestions;                         // these two variables retrieve data from bundle from HomeScreen;
+    int currentQuestion, crtQ;                                  // these two variables helps us to go through the all the questions and to show the questions in a shuffled order
     public Question[][] quizQuestion = new Question[2][10];     // quizQuestion - array of questions: [2] meaning beginner or advanced; [10] meaning the number of total questions in the quiz
 
     // below we initialize the answers and questions showing order variables;
     int[] showAnswersOrder = {0, 1, 2, 3};      // after shuffling, the showAnswersOrder might look like this: {2, 0, 1, 3} or any other combination
     int[] showQuestionsOrder = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+    // below we declare a variable Array of UserAnswer where we record all user answers
+    ArrayList<UserAnswer> allUserAnswers = new ArrayList<UserAnswer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +74,9 @@ public class Quiz extends AppCompatActivity {
         // the order is shuffled every time, for the user not to "learn" which question follows or the order of the answers within every question
         AppTools.shuffleArray(showQuestionsOrder);  // after shuffling, the showQuestionsOrder might look like this: {8, 6, 2, 0, 9, 1, 3, 5, 7, 4} or any other combination
 
+        AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_LONG, "Please select the right arrow to go to the next question!");
         initializeQuestions(difficultyLevel);           // questions are defined in an array of questions in the method "initializeQuestions" based on the difficulty level chosen by the user;
+        currentQuestion = 0;                            // even if is initialized by default with 0, for better tracking we initialized it here;
         crtQ = showQuestionsOrder[currentQuestion];     // we use a different counter for questions, based on the previous shuffling;
         displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
 
@@ -84,61 +90,121 @@ public class Quiz extends AppCompatActivity {
                     }
                     case MotionEvent.ACTION_UP: {
                         nextButton.setAlpha(.6f);
-                        if (currentQuestion < nrOfQuestions)
+                        Boolean userAnswered = false;
+                        if (currentQuestion + 1 <= nrOfQuestions) {
                             switch (quizQuestion[difficultyLevel][crtQ].answerType) {
                                 case "C": {
-                                    String[] answerListCheckbox = {"", "", "", ""};
-                                    for (int i = 0; i < answerListCheckbox.length; i++)
-                                        if (checkBoxId[i].isChecked())
-                                            answerListCheckbox[i] = (String) checkBoxId[i].getText();
-                                    if (AppTools.compareStringArrays(answerListCheckbox, quizQuestion[difficultyLevel][crtQ].correctAnswersCheckBox))  // compareStringArrays - method used for comparing string arrays
-                                        AppTools.customToast(Quiz.this, Gravity.BOTTOM, 0, getResources().getInteger(R.integer.home_toast_vertical_uplift), Toast.LENGTH_SHORT, "Right answer");
-                                    else
-                                        AppTools.customToast(Quiz.this, Gravity.BOTTOM, 0, getResources().getInteger(R.integer.home_toast_vertical_uplift), Toast.LENGTH_SHORT, "Wrong answer");
-                                    currentQuestion += 1;
-                                    if (currentQuestion < nrOfQuestions) {
-                                        crtQ = showQuestionsOrder[currentQuestion];
-                                        displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
+                                    ArrayList<String> userAnswersCheckbox = new ArrayList<String>();
+                                    int nrOfCheckedBoxes = 0;
+                                    for (int i = 0; i < quizQuestion[difficultyLevel][crtQ].correctAnswersCheckBox.length; i++)
+                                        if (checkBoxId[i].isChecked()) {
+                                            nrOfCheckedBoxes += 1;
+                                            userAnswersCheckbox.add((String) checkBoxId[i].getText());
+                                        }
+                                    if (nrOfCheckedBoxes == 0) userAnswered = false;
+                                    else {
+                                        userAnswered = true;
+                                        allUserAnswers.add(new UserAnswer("C", userAnswersCheckbox));
                                     }
+                                    /** String[] answerListCheckbox = {"", "", "", ""};
+                                     for (int i = 0; i < answerListCheckbox.length; i++)
+                                     if (checkBoxId[i].isChecked())
+                                     answerListCheckbox[i] = (String) checkBoxId[i].getText();
+                                     if (AppTools.compareStringArrays(answerListCheckbox, quizQuestion[difficultyLevel][crtQ].correctAnswersCheckBox))  // compareStringArrays - method used for comparing string arrays
+                                     AppTools.customToast(Quiz.this, Gravity.BOTTOM, 0, getResources().getInteger(R.integer.home_toast_vertical_uplift), Toast.LENGTH_SHORT, "Right answer");
+                                     else
+                                     AppTools.customToast(Quiz.this, Gravity.BOTTOM, 0, getResources().getInteger(R.integer.home_toast_vertical_uplift), Toast.LENGTH_SHORT, "Wrong answer"); **/
                                     break;
                                 }
                                 case "R": {
                                     for (int i = 0; i < radioButtonId.length; i++)
                                         if (radioButtonId[i].isChecked()) {
-                                            if (radioButtonId[i].getText().equals(quizQuestion[difficultyLevel][crtQ].correctAnswerRadio))  //Strings' values' are compared with equals.(), not with ==, because they are objects, not primitive data.
-                                                AppTools.customToast(Quiz.this, Gravity.BOTTOM, 0, getResources().getInteger(R.integer.home_toast_vertical_uplift), Toast.LENGTH_SHORT, "Right answer");
-                                            else
-                                                AppTools.customToast(Quiz.this, Gravity.BOTTOM, 0, getResources().getInteger(R.integer.home_toast_vertical_uplift), Toast.LENGTH_SHORT, "Wrong answer");
+                                            allUserAnswers.add(new UserAnswer("R", (String) radioButtonId[i].getText()));
+                                            userAnswered = true;
+                                            /**
+                                             if (radioButtonId[i].getText().equals(quizQuestion[difficultyLevel][crtQ].correctAnswerRadio))  //Strings' values' are compared with equals.(), not with ==, because they are objects, not primitive data.
+                                             AppTools.customToast(Quiz.this, Gravity.BOTTOM, 0, getResources().getInteger(R.integer.home_toast_vertical_uplift), Toast.LENGTH_SHORT, "Right answer");
+                                             else
+                                             AppTools.customToast(Quiz.this, Gravity.BOTTOM, 0, getResources().getInteger(R.integer.home_toast_vertical_uplift), Toast.LENGTH_SHORT, "Wrong answer");
+                                             **/
                                             break;      // exit for loop after the radio button is checked
                                         }
-                                    currentQuestion += 1;
-                                    if (currentQuestion < nrOfQuestions) {
-                                        crtQ = showQuestionsOrder[currentQuestion];
-                                        displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
-                                    }
                                     break;
                                 }
                                 case "E": {
-                                    boolean answeredCorrectly = false;
-                                    for (int i = 0; i < quizQuestion[difficultyLevel][crtQ].correctAnswerEdit.length; i++)
-                                        if (editTextId.getText().toString().equalsIgnoreCase(quizQuestion[difficultyLevel][crtQ].correctAnswerEdit[i])) {
-                                            answeredCorrectly = true;
-                                            break;
-                                        }
-                                    if (answeredCorrectly)
-                                        AppTools.customToast(Quiz.this, Gravity.BOTTOM, 0, getResources().getInteger(R.integer.home_toast_vertical_uplift), Toast.LENGTH_SHORT, "Right answer");
-                                    else
-                                        AppTools.customToast(Quiz.this, Gravity.BOTTOM, 0, getResources().getInteger(R.integer.home_toast_vertical_uplift), Toast.LENGTH_SHORT, "Wrong answer");
-                                    currentQuestion += 1;
-                                    if (currentQuestion < nrOfQuestions) {
-                                        crtQ = showQuestionsOrder[currentQuestion];
-                                        displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
+                                    if (editTextId.getText().toString().trim().length() > 0) {          // "trim" returns a copy of this string with leading and trailing white space removed; the user will not be able to give an answer consisting just of white spaces
+                                        userAnswered = true;
+                                        allUserAnswers.add(new UserAnswer("E", editTextId.getText().toString()));
+                                        Log.v("string equals to", "starting point ->" + editTextId.getText().toString() + "<- ending point ");
                                     }
+                                    /** boolean answeredCorrectly = false;
+                                     for (int i = 0; i < quizQuestion[difficultyLevel][crtQ].correctAnswerEdit.length; i++)
+                                     if (editTextId.getText().toString().equalsIgnoreCase(quizQuestion[difficultyLevel][crtQ].correctAnswerEdit[i])) {
+                                     answeredCorrectly = true;
+                                     break;
+                                     }
+                                     if (answeredCorrectly)
+                                     AppTools.customToast(Quiz.this, Gravity.BOTTOM, 0, getResources().getInteger(R.integer.home_toast_vertical_uplift), Toast.LENGTH_SHORT, "Right answer");
+                                     else
+                                     AppTools.customToast(Quiz.this, Gravity.BOTTOM, 0, getResources().getInteger(R.integer.home_toast_vertical_uplift), Toast.LENGTH_SHORT, "Wrong answer"); **/
                                     break;
                                 }
                             }
-                        else
-                            AppTools.customToast(Quiz.this, Gravity.BOTTOM, 0, getResources().getInteger(R.integer.home_toast_vertical_uplift), Toast.LENGTH_SHORT, "This is the last question!");
+                            if (!userAnswered)
+                                AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_SHORT, "Please answer the question!");
+                            else if (currentQuestion + 1 == nrOfQuestions) {
+                                float score = 0;
+                                for (int count = 0; count + 1 <= nrOfQuestions; count++)
+                                    switch (allUserAnswers.get(count).answerType) {
+                                        case "C": {
+                                            String[] answerListCheckbox = {"", "", "", ""};
+                                            for (int i = 0; i < allUserAnswers.get(count).answersCheckBox.size(); i++)
+                                                answerListCheckbox[i] = allUserAnswers.get(count).answersCheckBox.get(i);
+                                            if (AppTools.compareStringArrays(answerListCheckbox, quizQuestion[difficultyLevel][showAnswersOrder[count]].correctAnswersCheckBox))
+                                                score += 1;
+                                        }
+                                        case "R": {
+                                            if (allUserAnswers.get(count).answerRadioEdit.equals(quizQuestion[difficultyLevel][showAnswersOrder[count]].correctAnswerRadio))
+                                                score += 1;
+                                            break;
+                                        }
+                                        case "E": {
+                                            for (int i = 0; i < quizQuestion[difficultyLevel][showAnswersOrder[count]].correctAnswerEdit.length; i++)
+                                                if (allUserAnswers.get(count).answerRadioEdit.equalsIgnoreCase(quizQuestion[difficultyLevel][showAnswersOrder[count]].correctAnswerEdit[i])) {
+                                                    score += 1;
+                                                    break;
+                                                }
+                                            break;
+                                        }
+                                    }
+                                score = (score / nrOfQuestions) * 10;
+                                AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_SHORT, "Your score is " + String.valueOf(score) + " out of 10");
+                            } else {
+                                currentQuestion += 1;
+                                crtQ = showQuestionsOrder[currentQuestion];
+                                displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
+                            }
+                        }
+                        /** else {
+                         for (int i = 0; i < nrOfQuestions; i++) {
+                         Log.v("question nr ", String.valueOf(i + 1) + "\n");
+                         switch (allUserAnswers.get(i).answerType) {
+                         case "C": {
+                         for (int x = 0; x < allUserAnswers.get(i).answersCheckBox.size(); x++)
+                         Log.v("checkbox ", String.valueOf(x + 1) + ":" + allUserAnswers.get(i).answersCheckBox.get(x) + "\n");
+                         break;
+                         }
+                         case "R": {
+                         Log.v("radio ", allUserAnswers.get(i).answerRadioEdit + "\n");
+                         break;
+                         }
+                         case "E": {
+                         Log.v("edit ", allUserAnswers.get(i).answerRadioEdit + "\n");
+                         break;
+                         }
+                         }
+                         }
+                         } **/
                     }
                 }
                 return false;
