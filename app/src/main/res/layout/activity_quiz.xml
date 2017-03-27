@@ -49,7 +49,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
-                android:layout_marginRight="24dp"
+                android:layout_marginRight="16dp"
+                android:padding="8dp"
                 android:alpha=".90"
                 android:clickable="true"
                 android:src="@drawable/icon_right_arrow_black" />
@@ -60,7 +61,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="24dp"
+                android:layout_marginLeft="16dp"
+                android:padding="8dp"
                 android:alpha=".90"
                 android:clickable="true"
                 android:src="@drawable/icon_left_arrow_black" />

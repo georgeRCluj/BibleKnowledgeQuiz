@@ -130,12 +130,13 @@ public class Quiz extends AppCompatActivity {
                                         break;
                                     }
                                     case "R": {
-                                        for (int i = 0; i < radioButtonId.length; i++)
-                                            if (radioButtonId[i].isChecked()) {
-                                                allUserAnswers.add(new UserAnswer("R", (String) radioButtonId[i].getText(), showAnswersOrder));
+                                        for (int vr3 = 0; vr3 < radioButtonId.length; vr3++) {
+                                            if (radioButtonId[vr3].isChecked()) {
+                                                allUserAnswers.add(new UserAnswer("R", (String) radioButtonId[vr3].getText(), showAnswersOrder));
                                                 userAnswered = true;
                                                 break;      // exit for loop after the radio button is checked
                                             }
+                                        }
                                         break;
                                     }
                                     case "E": {
@@ -273,14 +274,18 @@ public class Quiz extends AppCompatActivity {
         });
     }
 
+    /*************************************************************************************
+     * THIS METHOD IS USED FOR DISPLAYING QUSTIONS EITHER IN QUIZ MODE OR IN REVIEW MODE *
+     *************************************************************************************/
     public void displayQuestion(String answerType, RadioGroup radioGroupId, RadioButton[] radioButtonId, LinearLayout checkBoxGroupId, CheckBox[] checkBoxId, EditText editTextId, TextView current_questionText, ImageView current_questionImage) {
+        int vr1, vr2, vr3, vr4, vr5, vr6, vr7, vr8;
         // when displaying a new question, we firstly erase the content from the previous question
         checkBoxGroupId.setVisibility(View.GONE);
-        for (int i = 0; i < showAnswersOrder.length; i++) {
-            checkBoxId[i].setChecked(false);
-            checkBoxId[i].setBackgroundColor(Color.TRANSPARENT);
-            radioButtonId[i].setChecked(false);
-            radioButtonId[i].setBackgroundColor(Color.TRANSPARENT);
+        for (vr1 = 0; vr1 < showAnswersOrder.length; vr1++) {
+            checkBoxId[vr1].setChecked(false);
+            checkBoxId[vr1].setBackgroundColor(Color.TRANSPARENT);
+            radioButtonId[vr1].setChecked(false);
+            radioButtonId[vr1].setBackgroundColor(Color.TRANSPARENT);
             editTextId.setText("");
             editTextId.setHint(getResources().getString(R.string.edit_text_hint));
         }
@@ -295,22 +300,22 @@ public class Quiz extends AppCompatActivity {
             case "C": {
                 checkBoxGroupId.setVisibility(View.VISIBLE);
                 if (reviewQuiz)
-                    for (int t = 0; t < showAnswersOrder.length; t++)
-                        showAnswersOrder[t] = allUserAnswers.get(currentQuestion).checkBoxOrder[t];     // if we are in the review mode, we do not want to shuffle the answers order
+                    for (vr2 = 0; vr2 < showAnswersOrder.length; vr2++)
+                        showAnswersOrder[vr2] = allUserAnswers.get(currentQuestion).checkBoxOrder[vr2];     // if we are in the review mode, we do not want to shuffle the answers order
                 else
                     AppTools.shuffleArray(showAnswersOrder);                                            // here we shuffle the answers order for the checkbox question
-                for (int i = 0; i < showAnswersOrder.length; i++) {
-                    checkBoxId[i].setVisibility(View.VISIBLE);
-                    checkBoxId[i].setText(quizQuestion[difficultyLevel][crtQ].possibleAnswers[showAnswersOrder[i]]);
+                for (vr3 = 0; vr3 < showAnswersOrder.length; vr3++) {
+                    checkBoxId[vr3].setVisibility(View.VISIBLE);
+                    checkBoxId[vr3].setText(quizQuestion[difficultyLevel][crtQ].possibleAnswers[showAnswersOrder[vr3]]);
 
                     if (reviewQuiz) {
-                        checkBoxId[i].setClickable(false);
-                        for (int cnt = 0; cnt < quizQuestion[difficultyLevel][crtQ].correctAnswersCheckBox.length; cnt++)               // cnt standing for counter
-                            if (checkBoxId[i].getText().equals(quizQuestion[difficultyLevel][crtQ].correctAnswersCheckBox[cnt]))
-                                checkBoxId[i].setBackgroundColor(ContextCompat.getColor(Quiz.this, R.color.correct_answers));           // ContextCompat - will choose the Marshmallow two parameter method or the pre-Marshmallow method appropriately.
-                        for (int cnt = 0; cnt < allUserAnswers.get(currentQuestion).answersCheckBox.size(); cnt++)
-                            if (checkBoxId[i].getText().equals(allUserAnswers.get(currentQuestion).answersCheckBox.get(cnt)))
-                                checkBoxId[i].setChecked(true);
+                        checkBoxId[vr3].setClickable(false);
+                        for (vr4 = 0; vr4 < quizQuestion[difficultyLevel][crtQ].correctAnswersCheckBox.length; vr4++)               // cnt standing for counter
+                            if (checkBoxId[vr3].getText().equals(quizQuestion[difficultyLevel][crtQ].correctAnswersCheckBox[vr4]))
+                                checkBoxId[vr3].setBackgroundColor(ContextCompat.getColor(Quiz.this, R.color.correct_answers));           // ContextCompat - will choose the Marshmallow two parameter method or the pre-Marshmallow method appropriately.
+                        for (vr5 = 0; vr5 < allUserAnswers.get(currentQuestion).answersCheckBox.size(); vr5++)
+                            if (checkBoxId[vr3].getText().equals(allUserAnswers.get(currentQuestion).answersCheckBox.get(vr5)))
+                                checkBoxId[vr3].setChecked(true);
                     }
                 }
                 break;
@@ -318,18 +323,22 @@ public class Quiz extends AppCompatActivity {
             case "R": {
                 radioGroupId.setVisibility(View.VISIBLE);
                 if (reviewQuiz)
-                    showAnswersOrder = allUserAnswers.get(currentQuestion).radioOrder;          // if we are in the review mode, we do not want to shuffle the answers order
+                    for (vr7 = 0; vr7 < showAnswersOrder.length; vr7++)
+                        showAnswersOrder[vr7] = allUserAnswers.get(currentQuestion).radioOrder[vr7];        // if we are in the review mode, we do not want to shuffle the answers order
                 else
                     AppTools.shuffleArray(showAnswersOrder);                                                // here we shuffle the answers order for the radio question
-                for (int i = 0; i < showAnswersOrder.length; i++) {
-                    radioButtonId[i].setText(quizQuestion[difficultyLevel][crtQ].possibleAnswers[showAnswersOrder[i]]);
+                for (vr8 = 0; vr8 < showAnswersOrder.length; vr8++) {
+                    radioButtonId[vr8].setVisibility(View.VISIBLE);
+                    radioButtonId[vr8].setText(quizQuestion[difficultyLevel][crtQ].possibleAnswers[showAnswersOrder[vr8]]);
 
                     if (reviewQuiz) {
-                        radioButtonId[i].setClickable(false);
-                        if (radioButtonId[i].getText().equals(quizQuestion[difficultyLevel][crtQ].correctAnswerRadio))
-                            radioButtonId[i].setBackgroundColor(ContextCompat.getColor(Quiz.this, R.color.correct_answers));
-                        if (radioButtonId[i].getText().equals(allUserAnswers.get(currentQuestion).radioAnswer))
-                            radioButtonId[i].setChecked(true);
+                        radioButtonId[vr8].setClickable(false);
+                        if (radioButtonId[vr8].getText().equals(quizQuestion[difficultyLevel][crtQ].correctAnswerRadio))
+                            radioButtonId[vr8].setBackgroundColor(ContextCompat.getColor(Quiz.this, R.color.correct_answers));
+                        if (radioButtonId[vr8].getText().equals(allUserAnswers.get(currentQuestion).radioAnswer)) {
+                            radioButtonId[vr8].setChecked(true);
+                            Log.v("checked or not",String.valueOf(radioButtonId[vr8].isChecked()));
+                        }
                     }
                 }
                 break;
@@ -382,6 +391,9 @@ public class Quiz extends AppCompatActivity {
         }
     }
 
+    /****************************************************************************************************************
+     * THIS METHOD IS USED FOR INITIALIZING ALL QUESTIONS; WHENEVER NEEDED, THE ARRAY OF QUESTIONS CAN BE INCREASED *
+     ****************************************************************************************************************/
     private void initializeQuestions(int difficultyLevel) {
         if (difficultyLevel == 0) {
             quizQuestion[difficultyLevel][0] = new Question(R.drawable.b01_david_goliath, getResources().getString(R.string.q_b_1_txt), "C",
