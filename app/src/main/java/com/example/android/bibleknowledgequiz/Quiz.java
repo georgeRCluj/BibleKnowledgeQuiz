@@ -110,120 +110,130 @@ public class Quiz extends AppCompatActivity {
                     }
                     case MotionEvent.ACTION_UP: {
                         nextButton.setAlpha(.9f);
-                        Boolean userAnswered = false;
-                        if (currentQuestion + 1 <= nrOfQuestions) {
-                            switch (quizQuestion[difficultyLevel][crtQ].answerType) {
-                                case "C": {
-                                    ArrayList<String> userAnswersCheckbox = new ArrayList<String>();
-                                    int nrOfCheckedBoxes = 0;
-                                    for (int i = 0; i < quizQuestion[difficultyLevel][crtQ].correctAnswersCheckBox.length; i++)
-                                        if (checkBoxId[i].isChecked()) {
-                                            nrOfCheckedBoxes += 1;
-                                            userAnswersCheckbox.add((String) checkBoxId[i].getText());
-                                        }
-                                    if (nrOfCheckedBoxes == 0) userAnswered = false;
-                                    else {
-                                        userAnswered = true;
-                                        allUserAnswers.add(new UserAnswer("C", userAnswersCheckbox));
-                                    }
-                                    break;
-                                }
-                                case "R": {
-                                    for (int i = 0; i < radioButtonId.length; i++)
-                                        if (radioButtonId[i].isChecked()) {
-                                            allUserAnswers.add(new UserAnswer("R", (String) radioButtonId[i].getText()));
+                        if (!reviewQuiz) {
+                            Boolean userAnswered = false;
+                            if (currentQuestion + 1 <= nrOfQuestions) {
+                                switch (quizQuestion[difficultyLevel][crtQ].answerType) {
+                                    case "C": {
+                                        ArrayList<String> userAnswersCheckbox = new ArrayList<String>();
+                                        int nrOfCheckedBoxes = 0;
+                                        for (int i = 0; i < quizQuestion[difficultyLevel][crtQ].correctAnswersCheckBox.length; i++)
+                                            if (checkBoxId[i].isChecked()) {
+                                                nrOfCheckedBoxes += 1;
+                                                userAnswersCheckbox.add((String) checkBoxId[i].getText());
+                                            }
+                                        if (nrOfCheckedBoxes == 0) userAnswered = false;
+                                        else {
                                             userAnswered = true;
-                                            break;      // exit for loop after the radio button is checked
+                                            allUserAnswers.add(new UserAnswer("C", userAnswersCheckbox, showAnswersOrder));
                                         }
-                                    break;
-                                }
-                                case "E": {
-                                    if (editTextId.getText().toString().trim().length() > 0) {          // "trim" returns a copy of this string with leading and trailing white space removed; the user will not be able to give an answer consisting just of white spaces
-                                        userAnswered = true;
-                                        allUserAnswers.add(new UserAnswer("E", editTextId.getText().toString()));
+                                        break;
                                     }
-                                    break;
+                                    case "R": {
+                                        for (int i = 0; i < radioButtonId.length; i++)
+                                            if (radioButtonId[i].isChecked()) {
+                                                allUserAnswers.add(new UserAnswer("R", (String) radioButtonId[i].getText(), showAnswersOrder));
+                                                userAnswered = true;
+                                                break;      // exit for loop after the radio button is checked
+                                            }
+                                        break;
+                                    }
+                                    case "E": {
+                                        if (editTextId.getText().toString().trim().length() > 0) {          // "trim" returns a copy of this string with leading and trailing white space removed; the user will not be able to give an answer consisting just of white spaces
+                                            userAnswered = true;
+                                            allUserAnswers.add(new UserAnswer("E", editTextId.getText().toString()));
+                                        }
+                                        break;
+                                    }
+                                }
+                                if (!userAnswered)
+                                    AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_SHORT, "Please answer the question!");
+                                else if (currentQuestion + 1 == nrOfQuestions) {
+                                    float score = 0;
+                                    for (int count = 0; count + 1 <= nrOfQuestions; count++)
+                                        switch (allUserAnswers.get(count).answerType) {
+                                            case "C": {
+                                                String[] answerListCheckbox = {"", "", "", ""};
+                                                for (int i = 0; i < allUserAnswers.get(count).answersCheckBox.size(); i++)
+                                                    answerListCheckbox[i] = allUserAnswers.get(count).answersCheckBox.get(i);
+                                                if (AppTools.compareStringArrays(answerListCheckbox, quizQuestion[difficultyLevel][showQuestionsOrder[count]].correctAnswersCheckBox))
+                                                    score += 1;
+                                                break;
+                                            }
+                                            case "R": {
+                                                if (allUserAnswers.get(count).radioAnswer.equals(quizQuestion[difficultyLevel][showQuestionsOrder[count]].correctAnswerRadio))
+                                                    score += 1;
+                                                break;
+                                            }
+                                            case "E": {
+                                                for (int i = 0; i < quizQuestion[difficultyLevel][showQuestionsOrder[count]].correctAnswerEdit.length; i++)
+                                                    if (allUserAnswers.get(count).answerEdit.equalsIgnoreCase(quizQuestion[difficultyLevel][showQuestionsOrder[count]].correctAnswerEdit[i])) {
+                                                        score += 1;
+                                                        break;
+                                                    }
+                                                break;
+                                            }
+                                        }
+                                    score = (score / nrOfQuestions) * 10;
+                                    endTime = System.currentTimeMillis();
+                                    totalTime = (endTime - startTime) / 1000;
+                                    int minSpent = (int) totalTime / 60;
+                                    int secSpent = (int) totalTime % 60;
+                                    String messageToShow = "";
+                                    if (minSpent != 0)
+                                        messageToShow = "Your score is " + String.format("%.1f", score) + " out of 10. You finished the quiz in " + String.valueOf(minSpent) + " minutes and " + String.valueOf(secSpent) + " seconds";
+                                    else
+                                        messageToShow = "Your score is " + String.format("%.1f", score) + " out of 10. You finished the quiz in " + String.valueOf(secSpent) + " seconds";
+
+                                    // below the alert dialog appearing
+
+                                    final Dialog dialog = new Dialog(Quiz.this);
+                                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);                           // requestFeature has to be added before setting the content
+                                    dialog.setContentView(R.layout.custom_dialog_box);
+                                    dialog.setCancelable(false);
+                                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                    TextView text = (TextView) dialog.findViewById(R.id.txt_dia);
+                                    text.setText(messageToShow);
+                                    Button reviewButton = (Button) dialog.findViewById(R.id.btn_review);
+                                    Button exitButton = (Button) dialog.findViewById(R.id.btn_exit);
+                                    Button newButton = (Button) dialog.findViewById(R.id.btn_new_quiz);
+
+                                    newButton.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            finish();                                                               // finish the current activity;
+                                            homeScreenActivity.finish();                                            // finish the HomeScreen activity, in order to erase data saved already (difficulty level and nr of questions);
+                                            Intent homeScreenIntent = new Intent(Quiz.this, HomeScreen.class);      // restart activity through Intent
+                                            startActivity(homeScreenIntent);
+                                        }
+                                    });
+                                    reviewButton.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            reviewQuiz = true;
+                                            currentQuestion = 0;
+                                            crtQ = showQuestionsOrder[currentQuestion];
+                                            dialog.dismiss();
+                                            displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
+                                        }
+                                    });
+                                    exitButton.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            ActivityCompat.finishAffinity(Quiz.this);                               // ends up all activities, but does not force the app to close; use "finishAffinity();" for API > 15
+                                        }
+                                    });
+                                    dialog.show();
+                                } else {
+                                    currentQuestion += 1;
+                                    crtQ = showQuestionsOrder[currentQuestion];
+                                    displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
                                 }
                             }
-                            if (!userAnswered)
-                                AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_SHORT, "Please answer the question!");
-                            else if (currentQuestion + 1 == nrOfQuestions) {
-                                float score = 0;
-                                for (int count = 0; count + 1 <= nrOfQuestions; count++)
-                                    switch (allUserAnswers.get(count).answerType) {
-                                        case "C": {
-                                            String[] answerListCheckbox = {"", "", "", ""};
-                                            for (int i = 0; i < allUserAnswers.get(count).answersCheckBox.size(); i++)
-                                                answerListCheckbox[i] = allUserAnswers.get(count).answersCheckBox.get(i);
-                                            if (AppTools.compareStringArrays(answerListCheckbox, quizQuestion[difficultyLevel][showQuestionsOrder[count]].correctAnswersCheckBox))
-                                                score += 1;
-                                            break;
-                                        }
-                                        case "R": {
-                                            if (allUserAnswers.get(count).answerRadioEdit.equals(quizQuestion[difficultyLevel][showQuestionsOrder[count]].correctAnswerRadio))
-                                                score += 1;
-                                            break;
-                                        }
-                                        case "E": {
-                                            for (int i = 0; i < quizQuestion[difficultyLevel][showQuestionsOrder[count]].correctAnswerEdit.length; i++)
-                                                if (allUserAnswers.get(count).answerRadioEdit.equalsIgnoreCase(quizQuestion[difficultyLevel][showQuestionsOrder[count]].correctAnswerEdit[i])) {
-                                                    score += 1;
-                                                    break;
-                                                }
-                                            break;
-                                        }
-                                    }
-                                score = (score / nrOfQuestions) * 10;
-                                endTime = System.currentTimeMillis();
-                                totalTime = (endTime - startTime) / 1000;
-                                int minSpent = (int) totalTime / 60;
-                                int secSpent = (int) totalTime % 60;
-                                String messageToShow = "";
-                                if (minSpent != 0)
-                                    messageToShow = "Your score is " + String.format("%.1f", score) + " out of 10. You finished the quiz in " + String.valueOf(minSpent) + " minutes, " + String.valueOf(secSpent) + " seconds";
-                                else
-                                    messageToShow = "Your score is " + String.format("%.1f", score) + " out of 10. You finished the quiz in " + String.valueOf(secSpent) + " seconds";
-
-                                // below the alert dialog appearing
-
-                                final Dialog dialog = new Dialog(Quiz.this);
-                                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);                           // requestFeature has to be added before setting the content
-                                dialog.setContentView(R.layout.custom_dialog_box);
-                                dialog.setCancelable(false);
-                                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                                TextView text = (TextView) dialog.findViewById(R.id.txt_dia);
-                                text.setText(messageToShow);
-                                Button reviewButton = (Button) dialog.findViewById(R.id.btn_review);
-                                Button exitButton = (Button) dialog.findViewById(R.id.btn_exit);
-                                Button newButton = (Button) dialog.findViewById(R.id.btn_new_quiz);
-
-                                newButton.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        finish();                                                               // finish the current activity;
-                                        homeScreenActivity.finish();                                            // finish the HomeScreen activity, in order to erase data saved already (difficulty level and nr of questions);
-                                        Intent homeScreenIntent = new Intent(Quiz.this, HomeScreen.class);      // restart activity through Intent
-                                        startActivity(homeScreenIntent);
-                                    }
-                                });
-                                reviewButton.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        reviewQuiz = true;
-                                        currentQuestion = 0;
-                                        crtQ = showQuestionsOrder[currentQuestion];
-                                        dialog.dismiss();
-                                        displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
-                                    }
-                                });
-                                exitButton.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        ActivityCompat.finishAffinity(Quiz.this);                               // ends up all activities, but does not force the app to close; use "finishAffinity();" for API > 15
-                                    }
-                                });
-                                dialog.show();
-                            } else {
+                        } else {
+                            if (currentQuestion + 1 == nrOfQuestions)
+                                AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_SHORT, "This is the last question!");
+                            else {
                                 currentQuestion += 1;
                                 crtQ = showQuestionsOrder[currentQuestion];
                                 displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
@@ -268,7 +278,9 @@ public class Quiz extends AppCompatActivity {
         checkBoxGroupId.setVisibility(View.GONE);
         for (int i = 0; i < showAnswersOrder.length; i++) {
             checkBoxId[i].setChecked(false);
+            checkBoxId[i].setBackgroundColor(Color.TRANSPARENT);
             radioButtonId[i].setChecked(false);
+            radioButtonId[i].setBackgroundColor(Color.TRANSPARENT);
             editTextId.setText("");
             editTextId.setHint(getResources().getString(R.string.edit_text_hint));
         }
@@ -282,7 +294,11 @@ public class Quiz extends AppCompatActivity {
         switch (answerType) {
             case "C": {
                 checkBoxGroupId.setVisibility(View.VISIBLE);
-                AppTools.shuffleArray(showAnswersOrder);    // here we shuffle the answers order for the checkbox question
+                if (reviewQuiz)
+                    for (int t = 0; t < showAnswersOrder.length; t++)
+                        showAnswersOrder[t] = allUserAnswers.get(currentQuestion).checkBoxOrder[t];     // if we are in the review mode, we do not want to shuffle the answers order
+                else
+                    AppTools.shuffleArray(showAnswersOrder);                                            // here we shuffle the answers order for the checkbox question
                 for (int i = 0; i < showAnswersOrder.length; i++) {
                     checkBoxId[i].setVisibility(View.VISIBLE);
                     checkBoxId[i].setText(quizQuestion[difficultyLevel][crtQ].possibleAnswers[showAnswersOrder[i]]);
@@ -301,7 +317,10 @@ public class Quiz extends AppCompatActivity {
             }
             case "R": {
                 radioGroupId.setVisibility(View.VISIBLE);
-                AppTools.shuffleArray(showAnswersOrder);        // here we shuffle the answers order for the radio question
+                if (reviewQuiz)
+                    showAnswersOrder = allUserAnswers.get(currentQuestion).radioOrder;          // if we are in the review mode, we do not want to shuffle the answers order
+                else
+                    AppTools.shuffleArray(showAnswersOrder);                                                // here we shuffle the answers order for the radio question
                 for (int i = 0; i < showAnswersOrder.length; i++) {
                     radioButtonId[i].setText(quizQuestion[difficultyLevel][crtQ].possibleAnswers[showAnswersOrder[i]]);
 
@@ -309,7 +328,7 @@ public class Quiz extends AppCompatActivity {
                         radioButtonId[i].setClickable(false);
                         if (radioButtonId[i].getText().equals(quizQuestion[difficultyLevel][crtQ].correctAnswerRadio))
                             radioButtonId[i].setBackgroundColor(ContextCompat.getColor(Quiz.this, R.color.correct_answers));
-                        if (radioButtonId[i].getText().equals(allUserAnswers.get(currentQuestion).answerRadioEdit))
+                        if (radioButtonId[i].getText().equals(allUserAnswers.get(currentQuestion).radioAnswer))
                             radioButtonId[i].setChecked(true);
                     }
                 }
@@ -326,14 +345,14 @@ public class Quiz extends AppCompatActivity {
 
                     // below we extract the position of the correct answer given by the user in the array of possible correct answers
                     for (int i = 0; i < quizQuestion[difficultyLevel][crtQ].correctAnswerEdit.length; i++)
-                        if (allUserAnswers.get(currentQuestion).answerRadioEdit.equalsIgnoreCase(quizQuestion[difficultyLevel][crtQ].correctAnswerEdit[i])) {
+                        if (allUserAnswers.get(currentQuestion).answerEdit.equalsIgnoreCase(quizQuestion[difficultyLevel][crtQ].correctAnswerEdit[i])) {
                             userCorrAnswPos = i;
                             break;
                         }
 
                     // below we define the text to be shown on the screen if the user did not give any correct answer
                     if (userCorrAnswPos == -1)
-                        allCorrectAnswers = "Your answer: " + allUserAnswers.get(currentQuestion).answerRadioEdit + "\nCorrect answer(s): ";
+                        allCorrectAnswers = "Your answer: " + allUserAnswers.get(currentQuestion).answerEdit + "\nCorrect answer(s): ";
 
                     // below we build a single String with all possible correct answers
                     allCorrectAnswers += quizQuestion[difficultyLevel][crtQ].correctAnswerEdit[0];
