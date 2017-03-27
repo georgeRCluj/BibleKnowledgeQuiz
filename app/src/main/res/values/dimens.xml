@@ -32,6 +32,10 @@
     <dimen name="home_button_min_height">35dp</dimen>
     <dimen name="home_button_vertical_margin">32dp</dimen>
 
+    <!-- Dialog Box Margins -->
+    <dimen name="dialog_box_button_vertical_margin">16dp</dimen>
+    <dimen name="dialog_box_text_margin">16dp</dimen>
+
     <!-- Toast padding -->
     <dimen name="toast_padding_vertical">5dp</dimen>
     <dimen name="toast_padding_horizontal">8dp</dimen>

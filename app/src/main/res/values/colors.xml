@@ -21,4 +21,10 @@
     <color name="button_disabled">#757575</color>
     <color name="toast_shadow">#85dec6aa</color>
 
+    <!-- Colors for reviewing the quiz -->
+    <color name="correct_answers">#75EB8815</color>
+    <color name="correct_answers_text">#EB8815</color>
+
+
+
 </resources>

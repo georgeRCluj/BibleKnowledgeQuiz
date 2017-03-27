@@ -9,7 +9,8 @@
     <string name="home_button_start_quiz">Start Quiz</string>
     <string name="home_toast_message_start_quiz">Please select the difficulty level!</string>
     <string name="previous_button_forbidden_message">You cannot browse back during the quiz</string>
-    <string name="edit_text_hint">Please enter your answer here</string>
+    <string name="previous_button_forbidden_message_2">This is the first question, please browse forward</string>
+    <string name="edit_text_hint">Please enter your answer here (the answer is not case-sensitive!)</string>
 
 
     <!-- QUESTIONS BELOW -->
