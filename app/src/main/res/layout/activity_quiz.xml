@@ -7,8 +7,8 @@
     tools:context="com.example.android.bibleknowledgequiz.Quiz">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/bible_background" />
 
@@ -35,13 +35,14 @@
 
             <ImageView
                 android:id="@+id/current_picture"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="20dp"
                 android:alpha=".80"
                 android:scaleType="centerCrop"
-                android:layout_centerInParent="true"
-                android:src="@drawable/b08_paul" />
+                android:src="@drawable/b08_paul"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
 
             <ImageView
                 android:id="@+id/next_button"
@@ -66,6 +67,7 @@
                 android:alpha=".90"
                 android:clickable="true"
                 android:src="@drawable/icon_left_arrow_black" />
+
         </RelativeLayout>
 
         <TextView
