@@ -13,13 +13,16 @@
     <!-- Home - choose difficulty -->
     <color name="home_difficulty_color">#292929</color>
 
-    <!-- Buttons' and toasts' colors -->
+    <!-- Buttons', toasts' and popups' colors -->
     <color name="button_border">#65dec6aa</color>
     <color name="button_shadow">#45dec6aa</color>
     <color name="button_background_enabled">#23dec6aa</color>
     <color name="button_background_pressed">#85dec6aa</color>
     <color name="button_disabled">#757575</color>
     <color name="toast_shadow">#85dec6aa</color>
+    <color name="popup_shadow">#99dec6aa</color>
+    <color name="pop_up_text_enabled">#212121</color>
+    <color name="pop_up_text_pressed">#5D5D5D</color>
 
     <!-- Colors for reviewing the quiz -->
     <color name="correct_answers">#75EB8815</color>

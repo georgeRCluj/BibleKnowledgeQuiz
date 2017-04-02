@@ -37,12 +37,9 @@
 
     <!-- HOME: Text Header, menu, Start quiz button -->
     <style name="TextHeader" parent="@style/Headline">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/header_text_color</item>
-        <item name="android:background">@drawable/view_shape_1</item>
-        <item name="android:layout_marginTop">@dimen/activity_vertical_margin</item>
-        <item name="android:gravity">center</item>
         <!-- customized shadowing -->
         <item name="android:shadowColor">@color/button_disabled</item>
         <item name="android:shadowDx">4</item>
@@ -119,8 +116,27 @@
         <item name="android:shadowRadius">3</item>
     </style>
 
+    <style name="popUpMenuStle" parent="Subheading">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_clicked</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:clickable">true</item>
+        <!-- customized shadowing -->
+        <item name="android:shadowColor">@color/button_disabled</item>
+        <item name="android:shadowDx">3</item>
+        <item name="android:shadowDy">3</item>
+        <item name="android:shadowRadius">3</item>
+    </style>
+
     <!-- TAKE OUT HARDCODED FROM BELOW! -->
     <style name="quizButtonStyle" parent="homeButtonStyle">
         <item name="android:layout_marginBottom">8dp</item>
     </style>
+
 </resources>
