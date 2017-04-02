@@ -3,15 +3,24 @@ package com.example.android.bibleknowledgequiz;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.view.ContextThemeWrapper;
+import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
@@ -91,7 +100,27 @@ public class HomeScreen extends AppCompatActivity {
     }
 
     public static Activity homeScreenActivity;
+
     {
         homeScreenActivity = this;
+    }
+
+    public void showPopup(View v) {
+        // Inflate the popup_layout.xml
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_home_popup_menu, (LinearLayout) findViewById(R.id.homePopUpMenu));
+
+        // Creating the PopupWindow
+        final PopupWindow popup = new PopupWindow(this);
+        popup.setContentView(layout);
+        popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popup.setFocusable(true);
+
+        // Clear the default background
+        popup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popup.showAsDropDown(v);
+        // popup.showAtLocation(layout, Gravity.NO_GRAVITY, 30, 30);
+
     }
 }
