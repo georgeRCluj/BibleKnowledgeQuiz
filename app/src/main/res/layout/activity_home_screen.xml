@@ -12,10 +12,31 @@
         android:scaleType="centerCrop"
         android:src="@drawable/bible_background" />
 
-    <TextView
+    <RelativeLayout
         android:id="@+id/home_status_bar"
-        style="@style/TextHeader"
-        android:text="@string/app_name" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/view_shape_1">
+
+        <TextView
+            android:id="@+id/status_bar_text"
+            style="@style/TextHeader"
+            android:layout_centerHorizontal="true"
+            android:text="@string/app_name" />
+
+        <ImageView
+            android:id="@+id/overflow_button"
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@id/status_bar_text"
+            android:layout_marginLeft="16dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/three_lines_black_menu"
+            android:clickable="true"
+            android:onClick="showPopup"/>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/home_text"
@@ -74,10 +95,12 @@
     </LinearLayout>
 
     <Button
-        style="@style/homeButtonStyle"
         android:id="@+id/home_startQuizButton"
+        style="@style/homeButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/home_button_start_quiz"/>
+        android:text="@string/home_button_start_quiz" />
+
+
 
 </RelativeLayout>
