@@ -51,7 +51,7 @@ public class Quiz extends AppCompatActivity {
     ArrayList<UserAnswer> allUserAnswers = new ArrayList<UserAnswer>();
 
     /*******************
-     * onCreate Method *
+     * ONCREATE METHOD *
      ******************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +96,7 @@ public class Quiz extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent buttonAction) {
 
-                // when the button is pressed, the transparency gets changed between 90%[.9f] and 60%[.6f]
+                // when the button is pressed, the transparency gets changed from 90%[.9f] to 60%[.6f]
                 switch (buttonAction.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
                         nextButton.setAlpha(.6f);
@@ -174,9 +174,9 @@ public class Quiz extends AppCompatActivity {
         });
     }
 
-    /************************************************************************************************************
-     * THE METHOD BELOW RECORDS USERS' ANSWERS AND RETURNS TRUE OR FALSE IF THE USER ANSWERED THE QUESTION OR NOT *
-     ************************************************************************************************************/
+    /********************************************************************************************************
+     * THE METHOD RECORDS USERS' ANSWERS AND RETURNS TRUE OR FALSE IF THE USER ANSWERED THE QUESTION OR NOT *
+     *******************************************************************************************************/
     private boolean quizMode(CheckBox[] checkBoxId, RadioButton[] radioButtonId, EditText editTextId) {
         boolean userAnswered = false;
         switch (quizQuestion[difficultyLevel][crtQ].answerType) {
