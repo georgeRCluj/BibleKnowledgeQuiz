@@ -64,8 +64,8 @@ public class Quiz extends AppCompatActivity {
         // this is the reason for creating method "displayQuestion" with all parameters below because we could not use them as global variables, since we could not initialize them before setContentView
         // if we try to initialize them as global e.g. "RadioGroup radioGroupId;" and then declare them in OnCreate method after "setContentView", we will get a NullPointerException error
         final RadioGroup radioGroupId = (RadioGroup) findViewById(R.id.radio_group);
-        final RadioButton[] radioButtonId = {(RadioButton) findViewById(R.id.answers_radio_1), (RadioButton) findViewById(R.id.answers_radio_2),
-                (RadioButton) findViewById(R.id.answers_radio_3), (RadioButton) findViewById(R.id.answers_radio_4)};
+        final RadioButton[] radioButtonId = {(RadioButton) radioGroupId.findViewById(R.id.answers_radio_1), (RadioButton) radioGroupId.findViewById(R.id.answers_radio_2),
+                (RadioButton) radioGroupId.findViewById(R.id.answers_radio_3), (RadioButton) radioGroupId.findViewById(R.id.answers_radio_4)};
         final LinearLayout checkBoxGroupId = (LinearLayout) findViewById(R.id.answers_checkbox_layout);
         final CheckBox[] checkBoxId = {(CheckBox) findViewById(R.id.answers_checkbox_1), (CheckBox) findViewById(R.id.answers_checkbox_2),
                 (CheckBox) findViewById(R.id.answers_checkbox_3), (CheckBox) findViewById(R.id.answers_checkbox_4)};
@@ -304,20 +304,20 @@ public class Quiz extends AppCompatActivity {
     }
 
     /*************************************************************************************
-     * THIS METHOD IS USED FOR DISPLAYING QUSTIONS EITHER IN QUIZ MODE OR IN REVIEW MODE *
+     * THIS METHOD IS USED FOR DISPLAYING QUESTIONS EITHER IN QUIZ MODE OR IN REVIEW MODE *
      *************************************************************************************/
     private void displayQuestion(String answerType, RadioGroup radioGroupId, RadioButton[] radioButtonId, LinearLayout checkBoxGroupId, CheckBox[] checkBoxId,
                                  EditText editTextId, TextView current_questionText, ImageView current_questionImage) {
-        int vr1, vr2, vr3, vr4, vr5, vr6, vr7, vr8;
+        int vr4, vr5;
         // when displaying a new question, we firstly erase the content from the previous question
         checkBoxGroupId.setVisibility(View.GONE);
         radioGroupId.setVisibility(View.GONE);
         editTextId.setVisibility(View.GONE);
-        for (vr1 = 0; vr1 < showAnswersOrder.length; vr1++) {
-            checkBoxId[vr1].setChecked(false);
-            checkBoxId[vr1].setBackgroundColor(Color.TRANSPARENT);
-            radioButtonId[vr1].setChecked(false);
-            radioButtonId[vr1].setBackgroundColor(Color.TRANSPARENT);
+        radioGroupId.clearCheck();
+        for (int i = 0; i < showAnswersOrder.length; i++) {
+            checkBoxId[i].setChecked(false);
+            checkBoxId[i].setBackgroundColor(Color.TRANSPARENT);
+            radioButtonId[i].setBackgroundColor(Color.TRANSPARENT);
             editTextId.setText("");
             editTextId.setHint(getResources().getString(R.string.edit_text_hint));
         }
@@ -330,41 +330,40 @@ public class Quiz extends AppCompatActivity {
             case "C": {
                 checkBoxGroupId.setVisibility(View.VISIBLE);
                 if (reviewQuiz)
-                    for (vr2 = 0; vr2 < showAnswersOrder.length; vr2++)
-                        showAnswersOrder[vr2] = allUserAnswers.get(currentQuestion).checkBoxOrder[vr2];     // if we are in the review mode, we do not want to shuffle the answers order
+                    for (int i1 = 0; i1 < showAnswersOrder.length; i1++)
+                        showAnswersOrder[i1] = allUserAnswers.get(currentQuestion).checkBoxOrder[i1];     // if we are in the review mode, we do not want to shuffle the answers order
                 else
                     AppTools.shuffleArray(showAnswersOrder);                                            // here we shuffle the answers order for the checkbox question
-                for (vr3 = 0; vr3 < showAnswersOrder.length; vr3++) {
-                    checkBoxId[vr3].setVisibility(View.VISIBLE);
-                    checkBoxId[vr3].setText(quizQuestion[difficultyLevel][crtQ].possibleAnswers[showAnswersOrder[vr3]]);
+                for (int i2 = 0; i2 < showAnswersOrder.length; i2++) {
+                    checkBoxId[i2].setVisibility(View.VISIBLE);
+                    checkBoxId[i2].setText(quizQuestion[difficultyLevel][crtQ].possibleAnswers[showAnswersOrder[i2]]);
 
                     if (reviewQuiz) {
-                        checkBoxId[vr3].setClickable(false);
-                        for (vr4 = 0; vr4 < quizQuestion[difficultyLevel][crtQ].correctAnswersCheckBox.length; vr4++)               // cnt standing for counter
-                            if (checkBoxId[vr3].getText().equals(quizQuestion[difficultyLevel][crtQ].correctAnswersCheckBox[vr4]))
-                                checkBoxId[vr3].setBackgroundColor(ContextCompat.getColor(Quiz.this, R.color.correct_answers));           // ContextCompat - will choose the Marshmallow two parameter method or the pre-Marshmallow method appropriately.
+                        checkBoxId[i2].setClickable(false);
+                        for (vr4 = 0; vr4 < quizQuestion[difficultyLevel][crtQ].correctAnswersCheckBox.length; vr4++)
+                            if (checkBoxId[i2].getText().equals(quizQuestion[difficultyLevel][crtQ].correctAnswersCheckBox[vr4]))
+                                checkBoxId[i2].setBackgroundColor(ContextCompat.getColor(Quiz.this, R.color.correct_answers));           // ContextCompat - will choose the Marshmallow two parameter method or the pre-Marshmallow method appropriately.
                         for (vr5 = 0; vr5 < allUserAnswers.get(currentQuestion).answersCheckBox.size(); vr5++)
-                            if (checkBoxId[vr3].getText().equals(allUserAnswers.get(currentQuestion).answersCheckBox.get(vr5)))
-                                checkBoxId[vr3].setChecked(true);
+                            if (checkBoxId[i2].getText().equals(allUserAnswers.get(currentQuestion).answersCheckBox.get(vr5)))
+                                checkBoxId[i2].setChecked(true);
                     }
                 }
                 break;
             }
             case "R": {
+                radioGroupId.setVisibility(View.VISIBLE);
                 if (!reviewQuiz) {
                     AppTools.shuffleArray(showAnswersOrder);                                                // here we shuffle the answers order for the radio questions
-                    radioGroupId.setVisibility(View.VISIBLE);
-                    for (vr8 = 0; vr8 < 4; vr8++) {
-                        radioButtonId[vr8].setVisibility(View.VISIBLE);
-                        radioButtonId[vr8].setText(quizQuestion[difficultyLevel][crtQ].possibleAnswers[showAnswersOrder[vr8]]);
+                    for (int i = 0; i < 4; i++) {
+                        radioButtonId[i].setVisibility(View.VISIBLE);
+                        radioButtonId[i].setText(quizQuestion[difficultyLevel][crtQ].possibleAnswers[showAnswersOrder[i]]);
                     }
                 } else {
-                    radioGroupId.setVisibility(View.VISIBLE);
                     for (int i = 0; i < 4; i++) {
                         showAnswersOrder[i] = allUserAnswers.get(currentQuestion).radioOrder[i];
                         radioButtonId[i].setText(quizQuestion[difficultyLevel][crtQ].possibleAnswers[showAnswersOrder[i]]);
                         if (radioButtonId[i].getText().equals(allUserAnswers.get(currentQuestion).radioAnswer))
-                            radioButtonId[i].setChecked(true);
+                            radioGroupId.check(radioButtonId[i].getId());                                               // or "//radioButtonId[i].setChecked(true);" both solutios work
                         if (radioButtonId[i].getText().equals(quizQuestion[difficultyLevel][crtQ].correctAnswerRadio))
                             radioButtonId[i].setBackgroundColor(ContextCompat.getColor(Quiz.this, R.color.correct_answers));
                         radioButtonId[i].setClickable(false);
@@ -374,7 +373,6 @@ public class Quiz extends AppCompatActivity {
             }
 
             case "E":
-
             {
                 editTextId.setVisibility(View.VISIBLE);
 
