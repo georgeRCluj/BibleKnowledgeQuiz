@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/custom_dialog_box"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,8 +17,7 @@
         android:layout_marginLeft="@dimen/dialog_box_text_margin"
         android:layout_marginRight="@dimen/dialog_box_text_margin"
         android:layout_gravity="center"
-        android:text="Congratulations, you have finished the quiz in 50 seconds!" />
-
+        android:text="By starting a new quiz, the current quiz will be reset. Are you sure? " />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -26,31 +27,22 @@
 
         <Button
             style="@style/dialogBoxButtonStyle"
-            android:id="@+id/btn_review"
+            android:id="@+id/yes_bttn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:clickable="true"
-            android:text="Review" />
+            android:text="Yes" />
 
         <Button
-            android:id="@+id/btn_new_quiz"
-            style="@style/dialogBoxButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:clickable="true"
-            android:text="New Quiz" />
-
-        <Button
-            android:id="@+id/btn_exit"
+            android:id="@+id/no_bttn"
             style="@style/dialogBoxButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:layout_marginRight="16dp"
-            android:text="Exit" />
+            android:text="No" />
     </LinearLayout>
 
 </LinearLayout>

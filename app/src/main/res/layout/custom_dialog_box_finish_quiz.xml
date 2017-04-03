@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/toast_shape"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txt_dia"
+        style="@style/homeMenuStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dialog_box_text_margin"
+        android:layout_marginLeft="@dimen/dialog_box_text_margin"
+        android:layout_marginRight="@dimen/dialog_box_text_margin"
+        android:layout_gravity="center"
+        android:text="Congratulations, you have finished the quiz in 50 seconds!" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <Button
+            style="@style/dialogBoxButtonStyle"
+            android:id="@+id/btn_review"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:clickable="true"
+            android:text="Review" />
+
+        <Button
+            android:id="@+id/btn_new_quiz"
+            style="@style/dialogBoxButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:clickable="true"
+            android:text="New Quiz" />
+
+        <Button
+            android:id="@+id/btn_exit"
+            style="@style/dialogBoxButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_marginRight="16dp"
+            android:text="Exit" />
+    </LinearLayout>
+
+</LinearLayout>

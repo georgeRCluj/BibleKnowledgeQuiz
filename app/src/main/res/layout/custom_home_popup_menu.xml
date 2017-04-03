@@ -12,12 +12,12 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/btn_new_quiz"
+            android:id="@+id/popUpMenu_new_quiz"
             style="@style/popUpMenuStle"
             android:text="New Quiz" />
 
         <TextView
-            android:id="@+id/btn_exit"
+            android:id="@+id/popUpMenu_exit"
             style="@style/popUpMenuStle"
             android:text="Exit" />
     </LinearLayout>

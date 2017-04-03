@@ -35,7 +35,7 @@
             android:layout_centerVertical="true"
             android:src="@drawable/three_lines_black_menu"
             android:clickable="true"
-            android:onClick="showPopup"/>
+            android:onClick="showPopupMenu"/>
     </RelativeLayout>
 
     <TextView
