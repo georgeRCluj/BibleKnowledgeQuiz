@@ -32,8 +32,10 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static android.R.attr.data;
 import static android.R.attr.left;
 import static android.R.attr.right;
+import static android.R.attr.start;
 import static android.widget.Toast.makeText;
 import static com.example.android.bibleknowledgequiz.AppTools.showDialogBoxNewQuiz;
 import static com.example.android.bibleknowledgequiz.HomeScreen.BUNDLE_LEVEL;
@@ -53,12 +55,46 @@ public class Quiz extends AppCompatActivity {
     long startTime, endTime, totalTime;
     boolean reviewQuiz = false;
 
-    // below are the variables for swiping
+    // below are the variables for swiping left or right
     float x1, x2;
     static final int MIN_DISTANCE = 150;
 
     // below we declare a variable Array of UserAnswer where we record all user answers
     ArrayList<UserAnswer> allUserAnswers = new ArrayList<UserAnswer>();
+
+    // below we constants for bundle saving (rotation / onSavedInstanceState)
+    static final String BUNDLE_DIFFICULTY = "difficulty_level";
+    static final String BUNDLE_NRQUEST = "no_of_questions";
+    static final String BUNDLE_CRTQUEST = "current_question";
+    static final String BUNDLE_CRTQ = "current_question_shuffled";
+    static final String BUNDLE_ALLQUESTIONS = "questions";
+    static final String BUNDLE_ANSWERSORDER = "answers_order";
+    static final String BUNDLE_QUESTIONSORDER = "questions_order";
+    static final String BUNDLE_STARTTIME = "start_time";
+    static final String BUNDLE_ENDTIME = "end_time";
+    static final String BUNDLE_TOTALTIME = "total_time";
+    static final String BUNDLE_REVIEWMODE = "review_mode";
+    static final String BUNDLE_ALLUSERANSWERS = "all_user_answers";
+
+    /*******************************
+     * ONSAVEDINSTANCESTATE METHOD *
+     ******************************/
+    @Override
+    protected void onSaveInstanceState(Bundle dataToSave) {
+        dataToSave.putInt(BUNDLE_DIFFICULTY, difficultyLevel);
+        dataToSave.putInt(BUNDLE_NRQUEST, nrOfQuestions);
+        dataToSave.putInt(BUNDLE_CRTQUEST, currentQuestion);
+        dataToSave.putInt(BUNDLE_CRTQ, crtQ);
+        dataToSave.putSerializable(BUNDLE_ALLQUESTIONS, quizQuestion);
+        dataToSave.putIntArray(BUNDLE_ANSWERSORDER, showAnswersOrder);
+        dataToSave.putIntArray(BUNDLE_QUESTIONSORDER, showQuestionsOrder);
+        dataToSave.putLong(BUNDLE_STARTTIME, startTime);
+        dataToSave.putLong(BUNDLE_ENDTIME, endTime);
+        dataToSave.putLong(BUNDLE_TOTALTIME, totalTime);
+        dataToSave.putBoolean(BUNDLE_REVIEWMODE, reviewQuiz);
+        dataToSave.putSerializable(BUNDLE_ALLUSERANSWERS, allUserAnswers);
+        super.onSaveInstanceState(dataToSave);
+    }
 
     /*******************
      * ONCREATE METHOD *
@@ -67,11 +103,13 @@ public class Quiz extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(activity_quiz);
+        if (savedInstanceState == null) {
+        }
         startTime = System.currentTimeMillis();
 
         // below we initialize radio buttons, radio group, checkboxes and edit text from ACTIVITY_QUIZ.XML; we do it here in order not to use expensive "findViewById" too often;
-        // take care: findViewById in java file related to activity before setContentView will always return NULL!!!
-        // this is the reason for creating method "displayQuestion" with all parameters below because we could not use them as global variables, since we could not initialize them before setContentView
+        // findViewById in java file related to activity before setContentView will always return NULL!!!
+        // this is the reason for creating method "displayQuestion" and other methods with all parameters below because we could not use them as global variables, since we could not initialize them before setContentView
         // if we try to initialize them as global e.g. "RadioGroup radioGroupId;" and then declare them in OnCreate method after "setContentView", we will get a NullPointerException error
         final RadioGroup radioGroupId = (RadioGroup) findViewById(R.id.radio_group);
         final RadioButton[] radioButtonId = {(RadioButton) radioGroupId.findViewById(R.id.answers_radio_1), (RadioButton) radioGroupId.findViewById(R.id.answers_radio_2),
@@ -84,7 +122,6 @@ public class Quiz extends AppCompatActivity {
         final ImageView current_questionImage = (ImageView) findViewById(R.id.current_picture);
         final ImageView overFlowButton = (ImageView) findViewById(R.id.overflow_button);
         final RelativeLayout quizLayout = (RelativeLayout) findViewById(R.id.activity_quiz_screen);
-        final Button homeButton = (Button) findViewById(android.R.id.home);
 
         // below we retrieve information saved in Bundle from the Home Activity
         Intent intent = getIntent();                            // getIntent(), when called in an Activity, gives you a reference to the Intent which was used to launch this Activity.
@@ -106,11 +143,12 @@ public class Quiz extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent touchEvent) {
                 switch (touchEvent.getAction()) {
-                    // when user first touches the screen we get x coordinates
+                    // when user first touches the screen we get x1 coordinates
                     case MotionEvent.ACTION_DOWN: {
                         x1 = touchEvent.getX();
                         break;
                     }
+                    // when user releases the finger from the screen we get x2 coordinates
                     case MotionEvent.ACTION_UP: {
                         x2 = touchEvent.getX();
                         float deltaX = x2 - x1;
@@ -137,6 +175,26 @@ public class Quiz extends AppCompatActivity {
                 AppTools.showOverFlowPopUpMenu(Quiz.this, view);
             }
         });
+    }
+
+    /*********************************
+     * ONRESTOREINSTANCESTATE METHOD *
+     ********************************/
+    @Override
+    protected void onRestoreInstanceState(Bundle dataToRetrieve) {
+        difficultyLevel = dataToRetrieve.getInt(BUNDLE_DIFFICULTY);
+        nrOfQuestions = dataToRetrieve.getInt(BUNDLE_NRQUEST);
+        currentQuestion = dataToRetrieve.getInt(BUNDLE_CRTQUEST);
+        crtQ = dataToRetrieve.getInt(BUNDLE_CRTQ);
+        quizQuestion = (Question[][]) dataToRetrieve.getSerializable(BUNDLE_ALLQUESTIONS);
+        showAnswersOrder = dataToRetrieve.getIntArray(BUNDLE_ANSWERSORDER);
+        showQuestionsOrder = dataToRetrieve.getIntArray(BUNDLE_QUESTIONSORDER);
+        startTime = dataToRetrieve.getLong(BUNDLE_STARTTIME);
+        endTime = dataToRetrieve.getLong(BUNDLE_ENDTIME);
+        totalTime = dataToRetrieve.getLong(BUNDLE_TOTALTIME);
+        reviewQuiz = dataToRetrieve.getBoolean(BUNDLE_REVIEWMODE);
+        allUserAnswers = (ArrayList<UserAnswer>) dataToRetrieve.getSerializable(BUNDLE_ALLUSERANSWERS);
+        super.onRestoreInstanceState(dataToRetrieve);
     }
 
     /********************************************
