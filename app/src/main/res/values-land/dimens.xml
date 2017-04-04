@@ -18,19 +18,22 @@
 
     <!-- Margins and paddings -->
     <!-- Story text -->
-    <dimen name="story_vertical_margin">32dp</dimen>
+    <dimen name="story_vertical_margin">20dp</dimen>
     <dimen name="story_vertical_padding">4dp</dimen>
+
     <!-- Menu -->
-    <dimen name="home_menu_vertical_top_margin">64dp</dimen>
+    <dimen name="home_menu_vertical_top_margin">20dp</dimen>
     <dimen name="home_menu_vertical_body_margin_1">4dp</dimen>
     <dimen name="home_menu_vertical_body_margin_2">8dp</dimen>
     <dimen name="home_menu_vertical_body_margin_3">16dp</dimen>
     <dimen name="home_menu_vertical_body_margin_4">24dp</dimen>
+    <dimen name="home_menu_vertical_body_margin_5">32dp</dimen>
+    <dimen name="home_menu_vertical_body_margin_6">50dp</dimen>
     <dimen name="home_space_btw_radio_buttons">15dp</dimen>
 
     <!-- Home Start Quiz Button -->
     <dimen name="home_button_min_height">35dp</dimen>
-    <dimen name="home_button_vertical_margin">32dp</dimen>
+    <dimen name="home_button_vertical_margin">12dp</dimen>
 
     <!-- Dialog Box Margins -->
     <dimen name="dialog_box_button_vertical_margin">16dp</dimen>

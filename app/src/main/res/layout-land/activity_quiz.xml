@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_quiz_screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    tools:context="com.example.android.bibleknowledgequiz.Quiz">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bible_background" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:theme="@style/homeMenuStyle">
+
+        <RelativeLayout
+            android:id="@+id/home_status_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:background="@drawable/view_shape_1">
+
+            <TextView
+                android:id="@+id/status_bar_text"
+                style="@style/TextHeader"
+                android:layout_width="match_parent"
+                android:layout_centerHorizontal="true"
+                android:text="@string/app_name" />
+
+            <ImageView
+                android:id="@+id/overflow_button"
+                android:layout_width="@dimen/overflow_width"
+                android:layout_height="match_parent"
+                android:layout_alignBottom="@id/status_bar_text"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/overflow_left_margin"
+                android:clickable="true"
+                android:src="@drawable/three_lines_black_menu" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:layout_weight="1"
+                android:background="@drawable/view_shape_2">
+
+                <ImageView
+                    android:id="@+id/current_picture"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/image_margin"
+                    android:alpha=".80"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/b08_paul" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/current_question"
+                    style="@style/homeMenuDimensions"
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/view_shape_2"
+                    android:padding="@dimen/question_padding"
+                    android:text="@string/q_b_8_txt" />
+
+                <LinearLayout
+                    android:id="@+id/current_possible_answers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="@dimen/left_right_padding"
+                    android:layout_marginLeft="@dimen/left_right_padding"
+                    android:layout_marginRight="@dimen/left_right_padding"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/answers_checkbox_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/view_shape_2"
+                        android:gravity="left"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <CheckBox
+                            android:id="@+id/answers_checkbox_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="checkbox_1" />
+
+                        <CheckBox
+                            android:id="@+id/answers_checkbox_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="checkbox_2" />
+
+                        <CheckBox
+                            android:id="@+id/answers_checkbox_3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="checkbox_3" />
+
+                        <CheckBox
+                            android:id="@+id/answers_checkbox_4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="checkbox_4" />
+                    </LinearLayout>
+
+                    <RadioGroup
+                        android:id="@+id/radio_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/view_shape_2"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <RadioButton
+                            android:id="@+id/answers_radio_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="radio_1" />
+
+                        <RadioButton
+                            android:id="@+id/answers_radio_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="radio_2" />
+
+                        <RadioButton
+                            android:id="@+id/answers_radio_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="radio_3" />
+
+                        <RadioButton
+                            android:id="@+id/answers_radio_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="radio_4" />
+                    </RadioGroup>
+
+                    <EditText
+                        android:id="@+id/possible_answers_editText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/view_shape_2"
+                        android:hint="@string/edit_text_hint"
+                        android:padding="@dimen/question_padding"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

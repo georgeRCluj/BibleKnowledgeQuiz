@@ -9,11 +9,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -24,17 +26,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static android.R.attr.left;
+import static android.R.attr.right;
 import static android.widget.Toast.makeText;
 import static com.example.android.bibleknowledgequiz.AppTools.showDialogBoxNewQuiz;
 import static com.example.android.bibleknowledgequiz.HomeScreen.BUNDLE_LEVEL;
 import static com.example.android.bibleknowledgequiz.HomeScreen.BUNDLE_QUESTIONS;
 import static com.example.android.bibleknowledgequiz.HomeScreen.INTENT_TOQUIZ;
 import static com.example.android.bibleknowledgequiz.R.layout.activity_quiz;
+import static java.math.RoundingMode.UP;
 
 public class Quiz extends AppCompatActivity {
     int difficultyLevel, nrOfQuestions;                         // these two variables retrieve data from bundle from HomeScreen;
@@ -46,6 +52,10 @@ public class Quiz extends AppCompatActivity {
     int[] showQuestionsOrder = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     long startTime, endTime, totalTime;
     boolean reviewQuiz = false;
+
+    // below are the variables for swiping
+    float x1, x2;
+    static final int MIN_DISTANCE = 150;
 
     // below we declare a variable Array of UserAnswer where we record all user answers
     ArrayList<UserAnswer> allUserAnswers = new ArrayList<UserAnswer>();
@@ -70,11 +80,11 @@ public class Quiz extends AppCompatActivity {
         final CheckBox[] checkBoxId = {(CheckBox) findViewById(R.id.answers_checkbox_1), (CheckBox) findViewById(R.id.answers_checkbox_2),
                 (CheckBox) findViewById(R.id.answers_checkbox_3), (CheckBox) findViewById(R.id.answers_checkbox_4)};
         final EditText editTextId = (EditText) findViewById(R.id.possible_answers_editText);
-        final ImageView nextButton = (ImageView) findViewById(R.id.next_button);
-        final ImageView previousButton = (ImageView) findViewById(R.id.previous_button);
         final TextView current_questionText = (TextView) findViewById(R.id.current_question);
         final ImageView current_questionImage = (ImageView) findViewById(R.id.current_picture);
         final ImageView overFlowButton = (ImageView) findViewById(R.id.overflow_button);
+        final RelativeLayout quizLayout = (RelativeLayout) findViewById(R.id.activity_quiz_screen);
+        final Button homeButton = (Button) findViewById(android.R.id.home);
 
         // below we retrieve information saved in Bundle from the Home Activity
         Intent intent = getIntent();                            // getIntent(), when called in an Activity, gives you a reference to the Intent which was used to launch this Activity.
@@ -85,79 +95,34 @@ public class Quiz extends AppCompatActivity {
         // the order is shuffled every time, for the user not to "learn" which question follows or the order of the answers within every question
         AppTools.shuffleArray(showQuestionsOrder);  // after shuffling, the showQuestionsOrder might look like this: {8, 6, 2, 0, 9, 1, 3, 5, 7, 4} or any other combination
 
-        AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_LONG, "Please select the right arrow to go to the next question!");
+        AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_LONG, "Please swipe left or right to navigate through the quiz!");
         initializeQuestions(difficultyLevel);           // questions are defined in an array of questions in the method "initializeQuestions" based on the difficulty level chosen by the user;
         currentQuestion = 0;                            // even if is initialized by default with 0, for better tracking we initialized it here;
         crtQ = showQuestionsOrder[currentQuestion];     // we use a different counter for questions, based on the previous shuffling;
         displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
 
-        // below is the listener for the "next arrow" button
-        nextButton.setOnTouchListener(new View.OnTouchListener() {
+        // below is the listener for the "swipe gesture" button (right of left)
+        quizLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent buttonAction) {
-
-                // when the button is pressed, the transparency gets changed from 90%[.9f] to 60%[.6f]
-                switch (buttonAction.getAction()) {
+            public boolean onTouch(View v, MotionEvent touchEvent) {
+                switch (touchEvent.getAction()) {
+                    // when user first touches the screen we get x coordinates
                     case MotionEvent.ACTION_DOWN: {
-                        nextButton.setAlpha(.6f);
-                        break;
-                    }
-
-                    case MotionEvent.ACTION_UP: {
-                        nextButton.setAlpha(.9f);
-
-                        // the below block of code applies when Quiz mode is active
-                        if (!reviewQuiz) {
-                            if (currentQuestion + 1 <= nrOfQuestions) {
-                                if (!quizMode(checkBoxId, radioButtonId, editTextId))   // the method quizMode records user's answers and returns "true" or "false" if the user answered the question or not
-                                    AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_SHORT, "Please answer the question!");
-                                else if (currentQuestion + 1 == nrOfQuestions)
-                                    showFinishQuizDialogBox(Quiz.this, calculateScore(), radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
-                                else {
-                                    currentQuestion += 1;
-                                    crtQ = showQuestionsOrder[currentQuestion];
-                                    displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
-                                }
-                            }
-                        }
-
-                        // the below block of code applies when Review mode is active
-                        else {
-                            if (currentQuestion + 1 == nrOfQuestions)
-                                AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_SHORT, "This is the last question!");
-                            else {
-                                currentQuestion += 1;
-                                crtQ = showQuestionsOrder[currentQuestion];
-                                displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
-                            }
-                        }
-                    }
-                }
-                return false;
-            }
-        });
-
-        // below is the listener for the "previous arrow" button
-        previousButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent buttonAction) {
-                switch (buttonAction.getAction()) {
-                    case MotionEvent.ACTION_DOWN: {
-                        previousButton.setAlpha(.6f);
+                        x1 = touchEvent.getX();
                         break;
                     }
                     case MotionEvent.ACTION_UP: {
-                        previousButton.setAlpha(.9f);
-                        if (reviewQuiz) {
-                            if (currentQuestion == 0)
-                                AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_SHORT, getResources().getString(R.string.previous_button_forbidden_message_2));
-                            else {
-                                currentQuestion -= 1;
-                                crtQ = showQuestionsOrder[currentQuestion];
-                                displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
+                        x2 = touchEvent.getX();
+                        float deltaX = x2 - x1;
+                        if (Math.abs(deltaX) > MIN_DISTANCE) {
+                            //if right to left sweep event on screen (NEXT)
+                            if (x2 < x1) {
+                                nextQuestion(radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
                             }
-                        } else
-                            AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_SHORT, getResources().getString(R.string.previous_button_forbidden_message));
+                            // if right to left sweep event on screen
+                            else
+                                previousQuestion(radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
+                        }
                         break;
                     }
                 }
@@ -172,6 +137,69 @@ public class Quiz extends AppCompatActivity {
                 AppTools.showOverFlowPopUpMenu(Quiz.this, view);
             }
         });
+    }
+
+    /********************************************
+     * THE BELOW METHODS HANDLE THE BACK BUTTON *
+     *******************************************/
+    @Override
+    public void onBackPressed() {
+        AppTools.showDialogBoxNewQuiz(this);
+    }
+
+    /********************************************************************************
+     * THE BELOW METHOD IMPLEMENTS THE NEXT QUESTION, EITHER IN QUIZ OR REVIEW MODE *
+     *******************************************************************************/
+    public void nextQuestion(RadioGroup radioGroupId, RadioButton[] radioButtonId, LinearLayout checkBoxGroupId, CheckBox[] checkBoxId,
+                             EditText editTextId, TextView current_questionText, ImageView current_questionImage) {
+        // the below block of code applies when Quiz mode is active
+        if (!reviewQuiz) {
+            if (currentQuestion + 1 <= nrOfQuestions) {
+                if (!quizMode(checkBoxId, radioButtonId, editTextId))   // the method quizMode records user's answers and returns "true" or "false" if the user answered the question or not
+                    AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_SHORT, "Please answer the question!");
+                else if (currentQuestion + 1 == nrOfQuestions)
+                    showFinishQuizDialogBox(Quiz.this, calculateScore(), radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
+                else {
+                    currentQuestion += 1;
+                    crtQ = showQuestionsOrder[currentQuestion];
+                    displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
+                }
+            }
+        }
+
+        // the below block of code applies when Review mode is active
+        else {
+            if (currentQuestion + 1 == nrOfQuestions)
+                AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_SHORT, "This is the last question!");
+            else {
+                currentQuestion += 1;
+                crtQ = showQuestionsOrder[currentQuestion];
+                displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
+            }
+        }
+    }
+
+    /************************************************************************************
+     * THE BELOW METHOD IMPLEMENTS THE PREVIOUS QUESTION, EITHER IN QUIZ OR REVIEW MODE *
+     ***********************************************************************************/
+    public void previousQuestion(RadioGroup radioGroupId, RadioButton[] radioButtonId, LinearLayout checkBoxGroupId, CheckBox[] checkBoxId,
+                                 EditText editTextId, TextView current_questionText, ImageView current_questionImage) {
+
+        // the below block of code applies when Quiz mode is active
+        if (!reviewQuiz)
+            AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_SHORT, getResources().getString(R.string.previous_button_forbidden_message));
+        else
+
+        // the below block of code applies when Review mode is active
+        {
+            if (currentQuestion == 0)
+                AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_SHORT, getResources().getString(R.string.previous_button_forbidden_message_2));
+            else {
+                currentQuestion -= 1;
+                crtQ = showQuestionsOrder[currentQuestion];
+                displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
+            }
+        }
     }
 
     /********************************************************************************************************
@@ -372,8 +400,7 @@ public class Quiz extends AppCompatActivity {
                 break;
             }
 
-            case "E":
-            {
+            case "E": {
                 editTextId.setVisibility(View.VISIBLE);
 
                 // the whole section below is for the quiz review

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_home_screen"
+    android:id="@+id/activity_quiz_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.android.bibleknowledgequiz.Quiz">
+    tools:context="com.example.android.bibleknowledgequiz.Quiz"
+    android:clickable="true">
 
     <ImageView
         android:layout_width="match_parent"
@@ -37,19 +38,20 @@
 
             <ImageView
                 android:id="@+id/overflow_button"
-                android:layout_width="25dp"
+                android:layout_width="@dimen/overflow_width"
                 android:layout_height="match_parent"
                 android:layout_alignBottom="@id/status_bar_text"
-                android:layout_marginLeft="16dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/three_lines_black_menu"/>
+                android:layout_marginLeft="@dimen/overflow_left_margin"
+                android:clickable="true"
+                android:src="@drawable/three_lines_black_menu" />
         </RelativeLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/activity_horizontal_margin"
             android:layout_weight="2"
             android:background="@drawable/view_shape_2">
 
@@ -57,54 +59,30 @@
                 android:id="@+id/current_picture"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/image_margin"
                 android:alpha=".80"
                 android:scaleType="centerCrop"
-                android:src="@drawable/b08_paul"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true" />
+                android:src="@drawable/b08_paul" />
 
-            <ImageView
-                android:id="@+id/next_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="16dp"
-                android:padding="8dp"
-                android:alpha=".90"
-                android:clickable="true"
-                android:src="@drawable/icon_right_arrow_black" />
-
-            <ImageView
-                android:id="@+id/previous_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="16dp"
-                android:padding="8dp"
-                android:alpha=".90"
-                android:clickable="true"
-                android:src="@drawable/icon_left_arrow_black" />
-
-        </RelativeLayout>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/current_question"
             style="@style/homeMenuDimensions"
             android:layout_width="wrap_content"
             android:background="@drawable/view_shape_2"
-            android:text="question test"
-            android:padding="4dp"/>
+            android:padding="@dimen/question_padding"
+            android:text="@string/q_b_8_txt" />
 
         <LinearLayout
             android:id="@+id/current_possible_answers"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginBottom="@dimen/left_right_padding"
+            android:layout_marginLeft="@dimen/left_right_padding"
+            android:layout_marginRight="@dimen/left_right_padding"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -113,8 +91,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/view_shape_2"
-                android:orientation="vertical"
                 android:gravity="left"
+                android:orientation="vertical"
                 android:visibility="gone">
 
                 <CheckBox
@@ -145,7 +123,7 @@
             <RadioGroup
                 android:id="@+id/radio_group"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/view_shape_2"
                 android:orientation="vertical"
                 android:visibility="gone">
@@ -173,19 +151,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="radio_4" />
-
             </RadioGroup>
 
             <EditText
                 android:id="@+id/possible_answers_editText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="4dp"
                 android:background="@drawable/view_shape_2"
                 android:hint="@string/edit_text_hint"
+                android:padding="@dimen/question_padding"
                 android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
-
 
 </RelativeLayout>

@@ -3,5 +3,6 @@
     <integer name="home_toast_vertical_uplift">170</integer>
     <integer name="quiz_toast_previous_question">0</integer>
     <integer name="toast_text_size">16</integer>
+    <integer name="max_nr_quest_add">7</integer>
 
 </resources>
