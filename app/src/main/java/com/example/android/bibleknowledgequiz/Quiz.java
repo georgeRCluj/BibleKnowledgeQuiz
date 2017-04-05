@@ -169,12 +169,12 @@ public class Quiz extends AppCompatActivity {
             displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage, true);
         }
 
-        // below is the listener for the "swipe gesture" button (right of left)
+        // below is the listener for the "swipe gesture" button (right or left)
         quizLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent touchEvent) {
                 switch (touchEvent.getAction()) {
-                    // when user first touches the screen we get x1 coordinates
+                    // when user first touches the screen we get x1 coordinates; the method can be extended in the future for y1 and y2 (down to up and up to down swiping)
                     case MotionEvent.ACTION_DOWN: {
                         x1 = touchEvent.getX();
                         break;
@@ -221,11 +221,12 @@ public class Quiz extends AppCompatActivity {
      *******************************************************************************/
     public void nextQuestion(RadioGroup radioGroupId, RadioButton[] radioButtonId, LinearLayout checkBoxGroupId, CheckBox[] checkBoxId,
                              EditText editTextId, TextView current_questionText, ImageView current_questionImage) {
-        // the below block of code applies when Quiz mode is active
+
+        // the below block of code applies when "Quiz mode" is active
         if (!reviewQuiz) {
             if (currentQuestion + 1 <= nrOfQuestions) {
                 if (!quizMode(checkBoxId, radioButtonId, editTextId))   // the method quizMode records user's answers and returns "true" or "false" if the user answered the question or not
-                    AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_SHORT, "Please answer the question!");
+                    AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_SHORT, getResources().getString(R.string.please_answer_the_question));
                 else if (currentQuestion + 1 == nrOfQuestions)
                     showFinishQuizDialogBox(Quiz.this, calculateScore(), radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
                 else {
@@ -236,10 +237,10 @@ public class Quiz extends AppCompatActivity {
             }
         }
 
-        // the below block of code applies when Review mode is active
+        // the below block of code applies when "Review mode" is active
         else {
             if (currentQuestion + 1 == nrOfQuestions)
-                AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_SHORT, "This is the last question!");
+                AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_SHORT, getResources().getString(R.string.this_is_the_last_question));
             else {
                 currentQuestion += 1;
                 crtQ = showQuestionsOrder[currentQuestion];
@@ -248,9 +249,9 @@ public class Quiz extends AppCompatActivity {
         }
     }
 
-    /************************************************************************************
-     * THE BELOW METHOD IMPLEMENTS THE PREVIOUS QUESTION, EITHER IN QUIZ OR REVIEW MODE *
-     ***********************************************************************************/
+    /*******************************************************************************************
+     * THE BELOW METHOD IMPLEMENTS THE PREVIOUS QUESTION, IN BOTH "QUIZ MODE" OR "REVIEW MODE" *
+     ******************************************************************************************/
     public void previousQuestion(RadioGroup radioGroupId, RadioButton[] radioButtonId, LinearLayout checkBoxGroupId, CheckBox[] checkBoxId,
                                  EditText editTextId, TextView current_questionText, ImageView current_questionImage) {
 
@@ -303,7 +304,7 @@ public class Quiz extends AppCompatActivity {
                 break;
             }
             case "E": {                                                                         // "E" stands for "Edit" question
-                if (editTextId.getText().toString().trim().length() > 0) {          // "trim" returns a copy of this string with leading and trailing white space removed; the user will not be able to give an answer consisting just of white spaces
+                if (editTextId.getText().toString().trim().length() > 0) {                      // "trim" returns a copy of this string with leading and trailing white space removed; the user will not be able to give an answer consisting just of white spaces
                     userAnswered = true;
                     allUserAnswers.add(new UserAnswer("E", editTextId.getText().toString().trim()));
                 }
@@ -381,9 +382,9 @@ public class Quiz extends AppCompatActivity {
         } else
             messageToShow = yourScoreIs + String.format("%.1f", score) + outOf10 + String.valueOf(secSpent) + inSeconds;
 
-        // below we implement the dialog box
+        // below we implement the dialog box which appears on the screen when the user finishes the quiz
         final Dialog dialog = new Dialog(activity);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);                           // requestFeature has to be added before setting the content
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);                           // "requestFeature" has to be added before setting the content, otherwise an error will be thrown at runtime
         dialog.setContentView(R.layout.custom_dialog_box_finish_quiz);
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -440,7 +441,8 @@ public class Quiz extends AppCompatActivity {
         }
 
         //below we show on the screen the question text, image and the question number
-        current_questionText.setText(quizQuestion[difficultyLevel][crtQ].question + "\n(question " + String.valueOf(currentQuestion + 1) + " out of " + String.valueOf(nrOfQuestions) + ")");
+        current_questionText.setText(quizQuestion[difficultyLevel][crtQ].question + getResources().getString(R.string.current_question_1) + String.valueOf(currentQuestion + 1) +
+                getResources().getString(R.string.current_question_2) + String.valueOf(nrOfQuestions) + getResources().getString(R.string.current_question_3));
         current_questionImage.setImageResource(quizQuestion[difficultyLevel][crtQ].imageResId);
 
         switch (answerType) {
@@ -450,18 +452,17 @@ public class Quiz extends AppCompatActivity {
                     for (int i1 = 0; i1 < showAnswersOrder.length; i1++)
                         showAnswersOrder[i1] = allUserAnswers.get(currentQuestion).checkBoxOrder[i1];   // if we are in the review mode, we do not want to shuffle the answers order
                 else if (!reviewQuiz && !screenRotation)                                                // else, we shuffle the answers order for the checkbox question if we are in the quiz mode and the screen has not been rotated
-                    AppTools.shuffleArray(showAnswersOrder);                                            // one more case left: if we are in the quiz mode [!reviewQuiz] and screen has not been rotated, we will not change the answers order, which was saved in the Bundle
+                    AppTools.shuffleArray(showAnswersOrder);                                            // if we are in the quiz mode [!reviewQuiz] and screen has not been rotated, we will not change the answers order, which was saved in the Bundle
                 for (int i2 = 0; i2 < showAnswersOrder.length; i2++) {
                     checkBoxId[i2].setVisibility(View.VISIBLE);
                     checkBoxId[i2].setText(quizQuestion[difficultyLevel][crtQ].possibleAnswers[showAnswersOrder[i2]]);
-
                     if (reviewQuiz) {
                         checkBoxId[i2].setClickable(false);
                         for (int i3 = 0; i3 < quizQuestion[difficultyLevel][crtQ].correctAnswersCheckBox.length; i3++)              // checking if the answer is the correct answer, then its background will be coloured
                             if (checkBoxId[i2].getText().equals(quizQuestion[difficultyLevel][crtQ].correctAnswersCheckBox[i3]))
                                 checkBoxId[i2].setBackgroundColor(ContextCompat.getColor(Quiz.this, R.color.correct_answers));      // ContextCompat - will choose the Marshmallow two parameter method or the pre-Marshmallow method appropriately.
                         for (int i4 = 0; i4 < allUserAnswers.get(currentQuestion).answersCheckBox.size(); i4++)                     // setting "checked" the answers given by the user
-                            if (checkBoxId[i2].getText().equals(allUserAnswers.get(currentQuestion).answersCheckBox.get(i4)) && !screenRotation)   // when screen has not been rotated, the "cheked" status is saved within the object "Checkbox" in the Bundle and is shown when we make it visible and setText above
+                            if (checkBoxId[i2].getText().equals(allUserAnswers.get(currentQuestion).answersCheckBox.get(i4)) && !screenRotation)   // when screen has not been rotated, the "checked" status is saved within the object "Checkbox" in the Bundle and is shown when we make it visible and setText above
                                 checkBoxId[i2].setChecked(true);                                                                    // but when the screen is not rotated, all checkboxes are unchecked above, thus we need to recheck them here
                     }
                 }
@@ -471,7 +472,7 @@ public class Quiz extends AppCompatActivity {
                 radioGroupId.setVisibility(View.VISIBLE);
                 if (!reviewQuiz) {
                     if (!screenRotation)
-                        AppTools.shuffleArray(showAnswersOrder);                                                // here we shuffle the answers order for the radio questions just if the screen was not rotated
+                        AppTools.shuffleArray(showAnswersOrder);                                                        // here we shuffle the answers order for the radio questions just if the screen was not rotated
                     for (int i = 0; i < 4; i++) {
                         radioButtonId[i].setVisibility(View.VISIBLE);
                         radioButtonId[i].setText(quizQuestion[difficultyLevel][crtQ].possibleAnswers[showAnswersOrder[i]]);
@@ -480,8 +481,8 @@ public class Quiz extends AppCompatActivity {
                     for (int i = 0; i < 4; i++) {
                         showAnswersOrder[i] = allUserAnswers.get(currentQuestion).radioOrder[i];
                         radioButtonId[i].setText(quizQuestion[difficultyLevel][crtQ].possibleAnswers[showAnswersOrder[i]]);
-                        if (radioButtonId[i].getText().equals(allUserAnswers.get(currentQuestion).radioAnswer) && !screenRotation) // when screen has not been rotated, the "cheked" status is saved within the object "RadioButton" or "RadioGroup" in the Bundle and is shown when we make it visible and setText above
-                            radioGroupId.check(radioButtonId[i].getId());                                               // or "//radioButtonId[i].setChecked(true);" both solutios work fine
+                        if (radioButtonId[i].getText().equals(allUserAnswers.get(currentQuestion).radioAnswer) && !screenRotation)  // when screen has not been rotated, the "checked" status is saved within the object "RadioButton" or "RadioGroup" in the Bundle and is shown when we make it visible and setText above
+                            radioGroupId.check(radioButtonId[i].getId());                                                           // or "radioButtonId[i].setChecked(true);" both solutions work fine
                         if (radioButtonId[i].getText().equals(quizQuestion[difficultyLevel][crtQ].correctAnswerRadio))
                             radioButtonId[i].setBackgroundColor(ContextCompat.getColor(Quiz.this, R.color.correct_answers));
                         radioButtonId[i].setClickable(false);
@@ -495,20 +496,20 @@ public class Quiz extends AppCompatActivity {
 
                 // the whole section below is for the quiz review
                 if (reviewQuiz) {
-                    // below we initialize "userCorrAnsw" (the index of the correct answer given by the user in the array of all correct answers; "allCorrectAnswers" contains all possible correct answers;
-                    int userCorrAnswPos = -1;
+                    // below we initialize "userCorrAnswerPos" (the index of the correct answer given by the user in the array of all correct answers; "allCorrectAnswers" contains all possible correct answers;
+                    int userCorrAnswerPos = -1;
                     String allCorrectAnswers = "";
 
-                    // below we extract the position of the correct answer given by the user in the array of possible correct answers
+                    // below we extract the position of the correct answer given by the user in the array of possible correct answers, ignoring case
                     for (int i = 0; i < quizQuestion[difficultyLevel][crtQ].correctAnswerEdit.length; i++)
                         if (allUserAnswers.get(currentQuestion).answerEdit.equalsIgnoreCase(quizQuestion[difficultyLevel][crtQ].correctAnswerEdit[i])) {
-                            userCorrAnswPos = i;
+                            userCorrAnswerPos = i;
                             break;
                         }
 
                     // below we define the text to be shown on the screen if the user did not give any correct answer
-                    if (userCorrAnswPos == -1)
-                        allCorrectAnswers = "Your answer: " + allUserAnswers.get(currentQuestion).answerEdit + "\nCorrect possible answer(s): ";
+                    if (userCorrAnswerPos == -1)
+                        allCorrectAnswers = getResources().getString(R.string.edit_answer_1) + allUserAnswers.get(currentQuestion).answerEdit + getResources().getString(R.string.edit_answer_2);
 
                     // below we build a single String with all possible correct answers
                     allCorrectAnswers += quizQuestion[difficultyLevel][crtQ].correctAnswerEdit[0];
@@ -516,20 +517,20 @@ public class Quiz extends AppCompatActivity {
                         allCorrectAnswers += "; " + quizQuestion[difficultyLevel][crtQ].correctAnswerEdit[i];
                     }
 
-                    // below we use Spannable in order to set colour the correct answer differently within the whole String with correct answers
-                    if (userCorrAnswPos != -1) {
+                    // below we use Spannable in order to set colour of the correct answer within the whole String with correct answers
+                    if (userCorrAnswerPos != -1) {
                         Spannable allSpan = new SpannableString(allCorrectAnswers);
                         // in the next 3 lines of code we identify the length of words and spaces and ";" before the correct answer;
-                        int posStart = userCorrAnswPos * 2;
-                        for (int x = 0; x < userCorrAnswPos; x++)
+                        int posStart = userCorrAnswerPos * 2;
+                        for (int x = 0; x < userCorrAnswerPos; x++)
                             posStart += quizQuestion[difficultyLevel][crtQ].correctAnswerEdit[x].length();
                         allSpan.setSpan(new ForegroundColorSpan(ContextCompat.getColor(Quiz.this, R.color.correct_answers_text)), posStart,
-                                posStart + quizQuestion[difficultyLevel][crtQ].correctAnswerEdit[userCorrAnswPos].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                posStart + quizQuestion[difficultyLevel][crtQ].correctAnswerEdit[userCorrAnswerPos].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         editTextId.setText(allSpan);
                     } else
                         editTextId.setText(allCorrectAnswers);
 
-                    // below we make the text un-editable; another method to is "editTextId.setKeyListener(null);"
+                    // below we make the text un-editable; another method which works fine is "editTextId.setKeyListener(null);"
                     editTextId.setFocusable(false);
                     editTextId.setClickable(false);
                 }

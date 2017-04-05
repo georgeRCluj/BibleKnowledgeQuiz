@@ -8,10 +8,18 @@
     <string name="home_Level_2">Advanced</string>
     <string name="home_button_start_quiz">Start Quiz</string>
     <string name="home_toast_message_start_quiz">Please select the difficulty level!</string>
-    <string name="previous_button_forbidden_message">You cannot browse back during the quiz</string>
-    <string name="previous_button_forbidden_message_2">This is the first question, please browse forward</string>
+    <string name="previous_button_forbidden_message">You cannot navigate back during the quiz</string>
+    <string name="previous_button_forbidden_message_2">This is the first question, please navigate forward!</string>
     <string name="edit_text_hint">Enter your answer here\n (!answer is not case sensitive)</string>
     <string name="please_swipe_left_right">Please swipe left or right to navigate through the quiz!</string>
+    <string name="please_answer_the_question">Please answer the question!</string>
+    <string name="this_is_the_last_question">This is the last question!</string>
+    <string name="current_question_1">\n(question\u0020</string>
+    <string name="current_question_2">\u0020out of\u0020</string>
+    <string name="current_question_3">)</string>
+    <string name="edit_answer_1">Your answer was:\u0020</string>
+    <string name="edit_answer_2">\nCorrect possible answer(s):\u0020</string>
+
 
     <!-- TIME SPENT IN THE QUIZ-->
     <string name="your_score_is">"Your score is\u0020"</string>  <!-- \u0020 means space at the end of the string or at the beginning of it -->
