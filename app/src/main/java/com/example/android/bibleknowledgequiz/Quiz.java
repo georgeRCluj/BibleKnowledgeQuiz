@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import static android.R.attr.data;
 import static android.R.attr.left;
 import static android.R.attr.right;
+import static android.R.attr.rotation;
 import static android.R.attr.start;
 import static android.widget.Toast.makeText;
 import static com.example.android.bibleknowledgequiz.AppTools.showDialogBoxNewQuiz;
@@ -135,7 +136,7 @@ public class Quiz extends AppCompatActivity {
             initializeQuestions(difficultyLevel);           // questions are defined in an array of questions in the method "initializeQuestions" based on the difficulty level chosen by the user;
             currentQuestion = 0;                            // even if is initialized by default with 0, for better tracking we initialized it here;
             crtQ = showQuestionsOrder[currentQuestion];     // we use a different counter for questions, based on the previous shuffling;
-            displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
+            displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage, false);
         } else {
             difficultyLevel = savedInstanceState.getInt(BUNDLE_DIFFICULTY);
             nrOfQuestions = savedInstanceState.getInt(BUNDLE_NRQUEST);
@@ -149,7 +150,7 @@ public class Quiz extends AppCompatActivity {
             totalTime = savedInstanceState.getLong(BUNDLE_TOTALTIME);
             reviewQuiz = savedInstanceState.getBoolean(BUNDLE_REVIEWMODE);
             allUserAnswers = (ArrayList<UserAnswer>) savedInstanceState.getSerializable(BUNDLE_ALLUSERANSWERS);
-            displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
+            displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage, true);
         }
         // below is the listener for the "swipe gesture" button (right of left)
         quizLayout.setOnTouchListener(new View.OnTouchListener() {
@@ -213,7 +214,7 @@ public class Quiz extends AppCompatActivity {
                 else {
                     currentQuestion += 1;
                     crtQ = showQuestionsOrder[currentQuestion];
-                    displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
+                    displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage, false);
                 }
             }
         }
@@ -225,7 +226,7 @@ public class Quiz extends AppCompatActivity {
             else {
                 currentQuestion += 1;
                 crtQ = showQuestionsOrder[currentQuestion];
-                displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
+                displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage, false);
             }
         }
     }
@@ -248,7 +249,7 @@ public class Quiz extends AppCompatActivity {
             else {
                 currentQuestion -= 1;
                 crtQ = showQuestionsOrder[currentQuestion];
-                displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
+                displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage, false);
             }
         }
     }
@@ -259,7 +260,7 @@ public class Quiz extends AppCompatActivity {
     private boolean quizMode(CheckBox[] checkBoxId, RadioButton[] radioButtonId, EditText editTextId) {
         boolean userAnswered = false;
         switch (quizQuestion[difficultyLevel][crtQ].answerType) {
-            case "C": {
+            case "C": {                                                                        // "C" stands for "Checkbox" question
                 ArrayList<String> userAnswersCheckbox = new ArrayList<String>();
                 int nrOfCheckedBoxes = 0;
                 for (int i = 0; i < quizQuestion[difficultyLevel][crtQ].correctAnswersCheckBox.length; i++)
@@ -274,7 +275,7 @@ public class Quiz extends AppCompatActivity {
                 }
                 break;
             }
-            case "R": {
+            case "R": {                                                                         // "R" stands for "RadioButton" question
                 for (int vr3 = 0; vr3 < radioButtonId.length; vr3++) {
                     if (radioButtonId[vr3].isChecked()) {
                         allUserAnswers.add(new UserAnswer("R", (String) radioButtonId[vr3].getText(), showAnswersOrder));
@@ -284,7 +285,7 @@ public class Quiz extends AppCompatActivity {
                 }
                 break;
             }
-            case "E": {
+            case "E": {                                                                         // "E" stands for "Edit" question
                 if (editTextId.getText().toString().trim().length() > 0) {          // "trim" returns a copy of this string with leading and trailing white space removed; the user will not be able to give an answer consisting just of white spaces
                     userAnswered = true;
                     allUserAnswers.add(new UserAnswer("E", editTextId.getText().toString().trim()));
@@ -370,7 +371,7 @@ public class Quiz extends AppCompatActivity {
                 currentQuestion = 0;
                 crtQ = showQuestionsOrder[currentQuestion];
                 dialog.dismiss();
-                displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
+                displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage, false);
             }
         });
         exitButton.setOnClickListener(new View.OnClickListener() {
@@ -386,19 +387,22 @@ public class Quiz extends AppCompatActivity {
      * THIS METHOD IS USED FOR DISPLAYING QUESTIONS EITHER IN QUIZ MODE OR IN REVIEW MODE *
      *************************************************************************************/
     private void displayQuestion(String answerType, RadioGroup radioGroupId, RadioButton[] radioButtonId, LinearLayout checkBoxGroupId, CheckBox[] checkBoxId,
-                                 EditText editTextId, TextView current_questionText, ImageView current_questionImage) {
-        // when displaying a new question, we firstly erase the content from the previous question
-        checkBoxGroupId.setVisibility(View.GONE);
-        radioGroupId.setVisibility(View.GONE);
-        editTextId.setVisibility(View.GONE);
-        radioGroupId.clearCheck();
-        for (int i = 0; i < showAnswersOrder.length; i++) {
-            checkBoxId[i].setChecked(false);
-            checkBoxId[i].setBackgroundColor(Color.TRANSPARENT);
-            radioButtonId[i].setBackgroundColor(Color.TRANSPARENT);
+                                 EditText editTextId, TextView current_questionText, ImageView current_questionImage, boolean screenRotation) {
+
+        // when displaying a new question, we firstly erase the content from the previous question, except when we rotate the screen
+        if (!screenRotation) {
+            checkBoxGroupId.setVisibility(View.GONE);
+            radioGroupId.setVisibility(View.GONE);
+            editTextId.setVisibility(View.GONE);
+            radioGroupId.clearCheck();
+            for (int i = 0; i < showAnswersOrder.length; i++) {
+                checkBoxId[i].setChecked(false);
+                checkBoxId[i].setBackgroundColor(Color.TRANSPARENT);
+                radioButtonId[i].setBackgroundColor(Color.TRANSPARENT);
+            }
+            editTextId.setText("");
+            editTextId.setHint(getResources().getString(R.string.edit_text_hint));
         }
-        editTextId.setText("");
-        editTextId.setHint(getResources().getString(R.string.edit_text_hint));
 
         //below we show on the screen the question text, image and the question number
         current_questionText.setText(quizQuestion[difficultyLevel][crtQ].question + "\n(question " + String.valueOf(currentQuestion + 1) + " out of " + String.valueOf(nrOfQuestions) + ")");
@@ -409,21 +413,21 @@ public class Quiz extends AppCompatActivity {
                 checkBoxGroupId.setVisibility(View.VISIBLE);
                 if (reviewQuiz)
                     for (int i1 = 0; i1 < showAnswersOrder.length; i1++)
-                        showAnswersOrder[i1] = allUserAnswers.get(currentQuestion).checkBoxOrder[i1];     // if we are in the review mode, we do not want to shuffle the answers order
-                else
-                    AppTools.shuffleArray(showAnswersOrder);                                            // here we shuffle the answers order for the checkbox question
+                        showAnswersOrder[i1] = allUserAnswers.get(currentQuestion).checkBoxOrder[i1];   // if we are in the review mode, we do not want to shuffle the answers order
+                else if (!reviewQuiz && !screenRotation)                                                // else, we shuffle the answers order for the checkbox question if we are in the quiz mode and the screen has not been rotated
+                    AppTools.shuffleArray(showAnswersOrder);                                            // one more case left: if we are in the quiz mode [!reviewQuiz] and screen has not been rotated, we will not change the answers order, which was saved in the Bundle
                 for (int i2 = 0; i2 < showAnswersOrder.length; i2++) {
                     checkBoxId[i2].setVisibility(View.VISIBLE);
                     checkBoxId[i2].setText(quizQuestion[difficultyLevel][crtQ].possibleAnswers[showAnswersOrder[i2]]);
 
                     if (reviewQuiz) {
                         checkBoxId[i2].setClickable(false);
-                        for (int i3 = 0; i3 < quizQuestion[difficultyLevel][crtQ].correctAnswersCheckBox.length; i3++)
+                        for (int i3 = 0; i3 < quizQuestion[difficultyLevel][crtQ].correctAnswersCheckBox.length; i3++)              // checking if the answer is the correct answer, then its background will be coloured
                             if (checkBoxId[i2].getText().equals(quizQuestion[difficultyLevel][crtQ].correctAnswersCheckBox[i3]))
-                                checkBoxId[i2].setBackgroundColor(ContextCompat.getColor(Quiz.this, R.color.correct_answers));           // ContextCompat - will choose the Marshmallow two parameter method or the pre-Marshmallow method appropriately.
-                        for (int i4 = 0; i4 < allUserAnswers.get(currentQuestion).answersCheckBox.size(); i4++)
-                            if (checkBoxId[i2].getText().equals(allUserAnswers.get(currentQuestion).answersCheckBox.get(i4)))
-                                checkBoxId[i2].setChecked(true);
+                                checkBoxId[i2].setBackgroundColor(ContextCompat.getColor(Quiz.this, R.color.correct_answers));      // ContextCompat - will choose the Marshmallow two parameter method or the pre-Marshmallow method appropriately.
+                        for (int i4 = 0; i4 < allUserAnswers.get(currentQuestion).answersCheckBox.size(); i4++)                     // setting "checked" the answers given by the user
+                            if (checkBoxId[i2].getText().equals(allUserAnswers.get(currentQuestion).answersCheckBox.get(i4)) && !screenRotation)   // when screen has not been rotated, the "cheked" status is saved within the object "Checkbox" in the Bundle and is shown when we make it visible and setText above
+                                checkBoxId[i2].setChecked(true);                                                                    // but when the screen is not rotated, all checkboxes are unchecked above, thus we need to recheck them here
                     }
                 }
                 break;
@@ -431,7 +435,8 @@ public class Quiz extends AppCompatActivity {
             case "R": {
                 radioGroupId.setVisibility(View.VISIBLE);
                 if (!reviewQuiz) {
-                    AppTools.shuffleArray(showAnswersOrder);                                                // here we shuffle the answers order for the radio questions
+                    if (!screenRotation)
+                        AppTools.shuffleArray(showAnswersOrder);                                                // here we shuffle the answers order for the radio questions just if the screen was not rotated
                     for (int i = 0; i < 4; i++) {
                         radioButtonId[i].setVisibility(View.VISIBLE);
                         radioButtonId[i].setText(quizQuestion[difficultyLevel][crtQ].possibleAnswers[showAnswersOrder[i]]);
@@ -440,8 +445,8 @@ public class Quiz extends AppCompatActivity {
                     for (int i = 0; i < 4; i++) {
                         showAnswersOrder[i] = allUserAnswers.get(currentQuestion).radioOrder[i];
                         radioButtonId[i].setText(quizQuestion[difficultyLevel][crtQ].possibleAnswers[showAnswersOrder[i]]);
-                        if (radioButtonId[i].getText().equals(allUserAnswers.get(currentQuestion).radioAnswer))
-                            radioGroupId.check(radioButtonId[i].getId());                                               // or "//radioButtonId[i].setChecked(true);" both solutios work
+                        if (radioButtonId[i].getText().equals(allUserAnswers.get(currentQuestion).radioAnswer) && !screenRotation) // when screen has not been rotated, the "cheked" status is saved within the object "RadioButton" or "RadioGroup" in the Bundle and is shown when we make it visible and setText above
+                            radioGroupId.check(radioButtonId[i].getId());                                               // or "//radioButtonId[i].setChecked(true);" both solutios work fine
                         if (radioButtonId[i].getText().equals(quizQuestion[difficultyLevel][crtQ].correctAnswerRadio))
                             radioButtonId[i].setBackgroundColor(ContextCompat.getColor(Quiz.this, R.color.correct_answers));
                         radioButtonId[i].setClickable(false);
@@ -468,7 +473,7 @@ public class Quiz extends AppCompatActivity {
 
                     // below we define the text to be shown on the screen if the user did not give any correct answer
                     if (userCorrAnswPos == -1)
-                        allCorrectAnswers = "Your answer: " + allUserAnswers.get(currentQuestion).answerEdit + "\nCorrect answer(s): ";
+                        allCorrectAnswers = "Your answer: " + allUserAnswers.get(currentQuestion).answerEdit + "\nCorrect possible answer(s): ";
 
                     // below we build a single String with all possible correct answers
                     allCorrectAnswers += quizQuestion[difficultyLevel][crtQ].correctAnswerEdit[0];
