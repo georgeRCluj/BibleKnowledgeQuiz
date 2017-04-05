@@ -103,9 +103,6 @@ public class Quiz extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(activity_quiz);
-        if (savedInstanceState == null) {
-        }
-        startTime = System.currentTimeMillis();
 
         // below we initialize radio buttons, radio group, checkboxes and edit text from ACTIVITY_QUIZ.XML; we do it here in order not to use expensive "findViewById" too often;
         // findViewById in java file related to activity before setContentView will always return NULL!!!
@@ -123,21 +120,37 @@ public class Quiz extends AppCompatActivity {
         final ImageView overFlowButton = (ImageView) findViewById(R.id.overflow_button);
         final RelativeLayout quizLayout = (RelativeLayout) findViewById(R.id.activity_quiz_screen);
 
-        // below we retrieve information saved in Bundle from the Home Activity
-        Intent intent = getIntent();                            // getIntent(), when called in an Activity, gives you a reference to the Intent which was used to launch this Activity.
-        Bundle bundle = intent.getBundleExtra(INTENT_TOQUIZ);   // take care - getExtras() not working for retrieving a Bundle, it returns null;
-        nrOfQuestions = bundle.getInt(BUNDLE_QUESTIONS);
-        difficultyLevel = bundle.getInt(BUNDLE_LEVEL);      // difficulty level is 0 or 1
+        if (savedInstanceState == null) {
+            startTime = System.currentTimeMillis();
+            // below we retrieve information saved in Bundle from the Home Activity
+            Intent intent = getIntent();                            // getIntent(), when called in an Activity, gives you a reference to the Intent which was used to launch this Activity.
+            Bundle bundle = intent.getBundleExtra(INTENT_TOQUIZ);   // take care - getExtras() not working for retrieving a Bundle, it returns null;
+            nrOfQuestions = bundle.getInt(BUNDLE_QUESTIONS);
+            difficultyLevel = bundle.getInt(BUNDLE_LEVEL);          // difficulty level is 0 or 1
 
-        // the order is shuffled every time, for the user not to "learn" which question follows or the order of the answers within every question
-        AppTools.shuffleArray(showQuestionsOrder);  // after shuffling, the showQuestionsOrder might look like this: {8, 6, 2, 0, 9, 1, 3, 5, 7, 4} or any other combination
+            // the order is shuffled every time, for the user not to "learn" which question follows or the order of the answers within every question
+            AppTools.shuffleArray(showQuestionsOrder);  // after shuffling, the showQuestionsOrder might look like this: {8, 6, 2, 0, 9, 1, 3, 5, 7, 4} or any other combination
 
-        AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_LONG, "Please swipe left or right to navigate through the quiz!");
-        initializeQuestions(difficultyLevel);           // questions are defined in an array of questions in the method "initializeQuestions" based on the difficulty level chosen by the user;
-        currentQuestion = 0;                            // even if is initialized by default with 0, for better tracking we initialized it here;
-        crtQ = showQuestionsOrder[currentQuestion];     // we use a different counter for questions, based on the previous shuffling;
-        displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
-
+            AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_LONG, "Please swipe left or right to navigate through the quiz!");
+            initializeQuestions(difficultyLevel);           // questions are defined in an array of questions in the method "initializeQuestions" based on the difficulty level chosen by the user;
+            currentQuestion = 0;                            // even if is initialized by default with 0, for better tracking we initialized it here;
+            crtQ = showQuestionsOrder[currentQuestion];     // we use a different counter for questions, based on the previous shuffling;
+            displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
+        } else {
+            difficultyLevel = savedInstanceState.getInt(BUNDLE_DIFFICULTY);
+            nrOfQuestions = savedInstanceState.getInt(BUNDLE_NRQUEST);
+            currentQuestion = savedInstanceState.getInt(BUNDLE_CRTQUEST);
+            crtQ = savedInstanceState.getInt(BUNDLE_CRTQ);
+            quizQuestion = (Question[][]) savedInstanceState.getSerializable(BUNDLE_ALLQUESTIONS);
+            showAnswersOrder = savedInstanceState.getIntArray(BUNDLE_ANSWERSORDER);
+            showQuestionsOrder = savedInstanceState.getIntArray(BUNDLE_QUESTIONSORDER);
+            startTime = savedInstanceState.getLong(BUNDLE_STARTTIME);
+            endTime = savedInstanceState.getLong(BUNDLE_ENDTIME);
+            totalTime = savedInstanceState.getLong(BUNDLE_TOTALTIME);
+            reviewQuiz = savedInstanceState.getBoolean(BUNDLE_REVIEWMODE);
+            allUserAnswers = (ArrayList<UserAnswer>) savedInstanceState.getSerializable(BUNDLE_ALLUSERANSWERS);
+            displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
+        }
         // below is the listener for the "swipe gesture" button (right of left)
         quizLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -175,26 +188,6 @@ public class Quiz extends AppCompatActivity {
                 AppTools.showOverFlowPopUpMenu(Quiz.this, view);
             }
         });
-    }
-
-    /*********************************
-     * ONRESTOREINSTANCESTATE METHOD *
-     ********************************/
-    @Override
-    protected void onRestoreInstanceState(Bundle dataToRetrieve) {
-        difficultyLevel = dataToRetrieve.getInt(BUNDLE_DIFFICULTY);
-        nrOfQuestions = dataToRetrieve.getInt(BUNDLE_NRQUEST);
-        currentQuestion = dataToRetrieve.getInt(BUNDLE_CRTQUEST);
-        crtQ = dataToRetrieve.getInt(BUNDLE_CRTQ);
-        quizQuestion = (Question[][]) dataToRetrieve.getSerializable(BUNDLE_ALLQUESTIONS);
-        showAnswersOrder = dataToRetrieve.getIntArray(BUNDLE_ANSWERSORDER);
-        showQuestionsOrder = dataToRetrieve.getIntArray(BUNDLE_QUESTIONSORDER);
-        startTime = dataToRetrieve.getLong(BUNDLE_STARTTIME);
-        endTime = dataToRetrieve.getLong(BUNDLE_ENDTIME);
-        totalTime = dataToRetrieve.getLong(BUNDLE_TOTALTIME);
-        reviewQuiz = dataToRetrieve.getBoolean(BUNDLE_REVIEWMODE);
-        allUserAnswers = (ArrayList<UserAnswer>) dataToRetrieve.getSerializable(BUNDLE_ALLUSERANSWERS);
-        super.onRestoreInstanceState(dataToRetrieve);
     }
 
     /********************************************
@@ -294,7 +287,7 @@ public class Quiz extends AppCompatActivity {
             case "E": {
                 if (editTextId.getText().toString().trim().length() > 0) {          // "trim" returns a copy of this string with leading and trailing white space removed; the user will not be able to give an answer consisting just of white spaces
                     userAnswered = true;
-                    allUserAnswers.add(new UserAnswer("E", editTextId.getText().toString()));
+                    allUserAnswers.add(new UserAnswer("E", editTextId.getText().toString().trim()));
                 }
                 break;
             }
@@ -394,7 +387,6 @@ public class Quiz extends AppCompatActivity {
      *************************************************************************************/
     private void displayQuestion(String answerType, RadioGroup radioGroupId, RadioButton[] radioButtonId, LinearLayout checkBoxGroupId, CheckBox[] checkBoxId,
                                  EditText editTextId, TextView current_questionText, ImageView current_questionImage) {
-        int vr4, vr5;
         // when displaying a new question, we firstly erase the content from the previous question
         checkBoxGroupId.setVisibility(View.GONE);
         radioGroupId.setVisibility(View.GONE);
@@ -404,9 +396,9 @@ public class Quiz extends AppCompatActivity {
             checkBoxId[i].setChecked(false);
             checkBoxId[i].setBackgroundColor(Color.TRANSPARENT);
             radioButtonId[i].setBackgroundColor(Color.TRANSPARENT);
-            editTextId.setText("");
-            editTextId.setHint(getResources().getString(R.string.edit_text_hint));
         }
+        editTextId.setText("");
+        editTextId.setHint(getResources().getString(R.string.edit_text_hint));
 
         //below we show on the screen the question text, image and the question number
         current_questionText.setText(quizQuestion[difficultyLevel][crtQ].question + "\n(question " + String.valueOf(currentQuestion + 1) + " out of " + String.valueOf(nrOfQuestions) + ")");
@@ -426,11 +418,11 @@ public class Quiz extends AppCompatActivity {
 
                     if (reviewQuiz) {
                         checkBoxId[i2].setClickable(false);
-                        for (vr4 = 0; vr4 < quizQuestion[difficultyLevel][crtQ].correctAnswersCheckBox.length; vr4++)
-                            if (checkBoxId[i2].getText().equals(quizQuestion[difficultyLevel][crtQ].correctAnswersCheckBox[vr4]))
+                        for (int i3 = 0; i3 < quizQuestion[difficultyLevel][crtQ].correctAnswersCheckBox.length; i3++)
+                            if (checkBoxId[i2].getText().equals(quizQuestion[difficultyLevel][crtQ].correctAnswersCheckBox[i3]))
                                 checkBoxId[i2].setBackgroundColor(ContextCompat.getColor(Quiz.this, R.color.correct_answers));           // ContextCompat - will choose the Marshmallow two parameter method or the pre-Marshmallow method appropriately.
-                        for (vr5 = 0; vr5 < allUserAnswers.get(currentQuestion).answersCheckBox.size(); vr5++)
-                            if (checkBoxId[i2].getText().equals(allUserAnswers.get(currentQuestion).answersCheckBox.get(vr5)))
+                        for (int i4 = 0; i4 < allUserAnswers.get(currentQuestion).answersCheckBox.size(); i4++)
+                            if (checkBoxId[i2].getText().equals(allUserAnswers.get(currentQuestion).answersCheckBox.get(i4)))
                                 checkBoxId[i2].setChecked(true);
                     }
                 }
