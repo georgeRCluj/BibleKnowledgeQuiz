@@ -23,6 +23,10 @@ import android.widget.Toast;
 import java.util.Arrays;
 import java.util.Random;
 
+/*************************************************************************
+ * THIS CLASS CONTAINS USEFUL TOOLS USED REPEATEDLY IN THE OTHER CLASSES *
+ ************************************************************************/
+
 public class AppTools {
 
     /*******************************************************************************************
@@ -66,7 +70,7 @@ public class AppTools {
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(activity.LAYOUT_INFLATER_SERVICE);                             // when used in an activity, replace with "= getLayoutInflater();"
         View layout = inflater.inflate(R.layout.custom_toast, (ViewGroup) activity.findViewById(R.id.custom_toast_container));              // when used in an activity, remove "activity.";
         TextView text = (TextView) layout.findViewById(R.id.text);
-        text.setTextSize(activity.getResources().getInteger(R.integer.toast_text_size));                                        // when used in an activity, remove "activity."
+        text.setTextSize(activity.getResources().getInteger(R.integer.toast_text_size));
         text.setText(textInput);
         Toast toast = new Toast(activity);                                                                                                  // when used in an activity, replace "activity" with context
         toast.setGravity(gravity, dX, dY);
@@ -84,7 +88,7 @@ public class AppTools {
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(activity.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.custom_home_popup_menu, (LinearLayout) activity.findViewById(R.id.homePopUpMenu));
 
-        // Creating the PopupWindow
+        // Creating the PopupWindow;
         final PopupWindow popup = new PopupWindow(activity);
         popup.setContentView(layout);
         popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
@@ -95,24 +99,22 @@ public class AppTools {
         popup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         popup.showAsDropDown(view);
 
-        TextView popUpMenuNewQuiz = (TextView) layout.findViewById(R.id.popUpMenu_new_quiz);
+        TextView popUpMenuNewQuiz = (TextView) layout.findViewById(R.id.popUpMenu_new_quiz);            // !!on trying to create the third onClickListener in the PopupWindow, I got an error; very probable PopUpWindow does not support more than 2 buttons
         popUpMenuNewQuiz.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                if (activity.getClass().getSimpleName().equals("Quiz"))
+                if (activity.getClass().getSimpleName().equals("Quiz"))                                 // when the button is clicked from the Quiz activity, the user receives a dialog box on the screen
                     AppTools.showDialogBoxNewQuiz(activity);
-                else restartQuiz(activity);
+                else AppTools.restartQuiz(activity);
                 popup.dismiss();
             }
         });
 
         TextView popUpMenuExit = (TextView) layout.findViewById(R.id.popUpMenu_exit);
         popUpMenuExit.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                ActivityCompat.finishAffinity(activity);
+                ActivityCompat.finishAffinity(activity);                                                // "finishAffinity" closes all the sibling activities, related to the activity passed as parameter
             }
         });
     }
@@ -125,9 +127,9 @@ public class AppTools {
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(activity.LAYOUT_INFLATER_SERVICE);                                      // when used in an activity, replace with "= getLayoutInflater();"
         View layout = inflater.inflate(R.layout.custom_dialog_box_new_quiz, (ViewGroup) activity.findViewById(R.id.custom_dialog_box));              // when used in an activity, remove "activity.";
         final Dialog dialog = new Dialog(activity);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);                                                                                        // requestFeature has to be added before setting the content
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);                                                                                        // requestFeature has to be added before setting the content; otherwise will throw a runtime error
         dialog.setContentView(layout);
-        dialog.setCancelable(true);
+        dialog.setCancelable(true);                                                                                                                  // setCancelable cancels the option of the user to press "back" button
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         Button yesButton = (Button) dialog.findViewById(R.id.yes_bttn);
         Button noButton = (Button) dialog.findViewById(R.id.no_bttn);

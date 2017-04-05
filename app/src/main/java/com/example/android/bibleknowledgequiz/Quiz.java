@@ -45,16 +45,24 @@ import static com.example.android.bibleknowledgequiz.HomeScreen.INTENT_TOQUIZ;
 import static com.example.android.bibleknowledgequiz.R.layout.activity_quiz;
 import static java.math.RoundingMode.UP;
 
+/********************************************
+ * THIS CLASS IS RELATED TO THE QUIZ SCREEN *
+ *******************************************/
+
 public class Quiz extends AppCompatActivity {
+
+    /********************************************************
+     * INITIALIZATION OF GLOBAL VARIABLES USED IN THE CLASS *
+     *******************************************************/
     int difficultyLevel, nrOfQuestions;                         // these two variables retrieve data from bundle from HomeScreen;
     int currentQuestion, crtQ;                                  // these two variables helps us to go through the all the questions and to show the questions in a shuffled order
-    public Question[][] quizQuestion = new Question[2][10];     // quizQuestion - array of questions: [2] meaning beginner or advanced; [10] meaning the number of total questions in the quiz
+    public Question[][] quizQuestion = new Question[2][10];     // quizQuestion - array of questions: [2] meaning "beginner" or "advanced"; [10] meaning the number of total questions in the quiz; at any time there can be added questions
 
-    // below we initialize the answers and questions showing order variables;
-    int[] showAnswersOrder = {0, 1, 2, 3};      // after shuffling, the showAnswersOrder might look like this: {2, 0, 1, 3} or any other combination
-    int[] showQuestionsOrder = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    long startTime, endTime, totalTime;
-    boolean reviewQuiz = false;
+    // below we initialize the "answers and questions showing order" variables, time and game mode variables
+    int[] showAnswersOrder = {0, 1, 2, 3};                      // after shuffling, the showAnswersOrder might look like this: {2, 0, 1, 3} or any other combination
+    int[] showQuestionsOrder = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};  // after shuffling, the showAnswersOrder might look like this: {8, 6, 7, 5, 2, 0, 1, 3, 5, 4, 9} or any other combination
+    long startTime, endTime, totalTime;                         // these variables will help us to determine how much time it takes the user to do the quiz
+    boolean reviewQuiz = false;                                 // this variable determines the game mode - "reviewQuiz = false" meaning we are in quiz mode; "reviewQuiz = true" meaning we are in the review mode
 
     // below are the variables for swiping left or right
     float x1, x2;
@@ -63,7 +71,7 @@ public class Quiz extends AppCompatActivity {
     // below we declare a variable Array of UserAnswer where we record all user answers
     ArrayList<UserAnswer> allUserAnswers = new ArrayList<UserAnswer>();
 
-    // below we constants for bundle saving (rotation / onSavedInstanceState)
+    // below we declare constants for bundle saving (rotation / onSavedInstanceState)
     static final String BUNDLE_DIFFICULTY = "difficulty_level";
     static final String BUNDLE_NRQUEST = "no_of_questions";
     static final String BUNDLE_CRTQUEST = "current_question";
@@ -77,9 +85,9 @@ public class Quiz extends AppCompatActivity {
     static final String BUNDLE_REVIEWMODE = "review_mode";
     static final String BUNDLE_ALLUSERANSWERS = "all_user_answers";
 
-    /*******************************
-     * ONSAVEDINSTANCESTATE METHOD *
-     ******************************/
+    /*****************************************************************************************************
+     * ONSAVEDINSTANCESTATE METHOD, USED FOR ROTATION OF SCREEN, WHEN THE ACTIVITY IS KILLED BY THE O.S. *
+     ****************************************************************************************************/
     @Override
     protected void onSaveInstanceState(Bundle dataToSave) {
         dataToSave.putInt(BUNDLE_DIFFICULTY, difficultyLevel);
@@ -107,8 +115,8 @@ public class Quiz extends AppCompatActivity {
 
         // below we initialize radio buttons, radio group, checkboxes and edit text from ACTIVITY_QUIZ.XML; we do it here in order not to use expensive "findViewById" too often;
         // findViewById in java file related to activity before setContentView will always return NULL!!!
-        // this is the reason for creating method "displayQuestion" and other methods with all parameters below because we could not use them as global variables, since we could not initialize them before setContentView
-        // if we try to initialize them as global e.g. "RadioGroup radioGroupId;" and then declare them in OnCreate method after "setContentView", we will get a NullPointerException error
+        // this is the reason for creating method "displayQuestion" and other methods with long signature because we could not use them as global variables, since we could not initialize them before setContentView
+        // if we try to initialize them as global variables e.g. "RadioGroup radioGroupId;" and then declare them in OnCreate method after "setContentView", we will get a "NullPointerException" error at runtime
         final RadioGroup radioGroupId = (RadioGroup) findViewById(R.id.radio_group);
         final RadioButton[] radioButtonId = {(RadioButton) radioGroupId.findViewById(R.id.answers_radio_1), (RadioButton) radioGroupId.findViewById(R.id.answers_radio_2),
                 (RadioButton) radioGroupId.findViewById(R.id.answers_radio_3), (RadioButton) radioGroupId.findViewById(R.id.answers_radio_4)};
@@ -121,23 +129,31 @@ public class Quiz extends AppCompatActivity {
         final ImageView overFlowButton = (ImageView) findViewById(R.id.overflow_button);
         final RelativeLayout quizLayout = (RelativeLayout) findViewById(R.id.activity_quiz_screen);
 
+        // below we initialize the game and take into account the rotation of the screen;
         if (savedInstanceState == null) {
             startTime = System.currentTimeMillis();
+
             // below we retrieve information saved in Bundle from the Home Activity
-            Intent intent = getIntent();                            // getIntent(), when called in an Activity, gives you a reference to the Intent which was used to launch this Activity.
-            Bundle bundle = intent.getBundleExtra(INTENT_TOQUIZ);   // take care - getExtras() not working for retrieving a Bundle, it returns null;
+            Intent intent = getIntent();                            // getIntent(), when called in an Activity, gives you a reference to the Intent which was used to launch the Activity
+            Bundle bundle = intent.getBundleExtra(INTENT_TOQUIZ);   // N.B.: "getExtras()" not working for retrieving a Bundle, it returns null; it works with "getBundleExtra(intent)"
             nrOfQuestions = bundle.getInt(BUNDLE_QUESTIONS);
-            difficultyLevel = bundle.getInt(BUNDLE_LEVEL);          // difficulty level is 0 or 1
+            difficultyLevel = bundle.getInt(BUNDLE_LEVEL);          // difficulty level is 0 (beginner) or 1 (advanced)
 
             // the order is shuffled every time, for the user not to "learn" which question follows or the order of the answers within every question
-            AppTools.shuffleArray(showQuestionsOrder);  // after shuffling, the showQuestionsOrder might look like this: {8, 6, 2, 0, 9, 1, 3, 5, 7, 4} or any other combination
+            AppTools.shuffleArray(showQuestionsOrder);              // after shuffling, the showQuestionsOrder might look like this: {8, 6, 2, 0, 9, 1, 3, 5, 7, 4} or any other combination
 
-            AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_LONG, "Please swipe left or right to navigate through the quiz!");
-            initializeQuestions(difficultyLevel);           // questions are defined in an array of questions in the method "initializeQuestions" based on the difficulty level chosen by the user;
-            currentQuestion = 0;                            // even if is initialized by default with 0, for better tracking we initialized it here;
-            crtQ = showQuestionsOrder[currentQuestion];     // we use a different counter for questions, based on the previous shuffling;
+            // below a toast telling the user that can swipe left or right in order to navigate through the quiz
+            AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_LONG, getResources().getString(R.string.please_swipe_left_right));
+
+            // below all the questions are initialized in an array of questions in the method "initializeQuestions" based on the difficulty level chosen by the user;
+            initializeQuestions(difficultyLevel);
+
+            // below we initialize currentQuestion (0) and crtQ (crtQ is the variable that helps us with shuffling); the first question is displayed
+            currentQuestion = 0;
+            crtQ = showQuestionsOrder[currentQuestion];
             displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage, false);
         } else {
+            // here we save data in a Bundle in case of rotation; the last argument in the "displayQuestion" method below ("true") transmits that a rotation took place
             difficultyLevel = savedInstanceState.getInt(BUNDLE_DIFFICULTY);
             nrOfQuestions = savedInstanceState.getInt(BUNDLE_NRQUEST);
             currentQuestion = savedInstanceState.getInt(BUNDLE_CRTQUEST);
@@ -152,6 +168,7 @@ public class Quiz extends AppCompatActivity {
             allUserAnswers = (ArrayList<UserAnswer>) savedInstanceState.getSerializable(BUNDLE_ALLUSERANSWERS);
             displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage, true);
         }
+
         // below is the listener for the "swipe gesture" button (right of left)
         quizLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -192,7 +209,7 @@ public class Quiz extends AppCompatActivity {
     }
 
     /********************************************
-     * THE BELOW METHODS HANDLE THE BACK BUTTON *
+     * THE BELOW METHOD HANDLES THE BACK BUTTON *
      *******************************************/
     @Override
     public void onBackPressed() {
@@ -341,10 +358,28 @@ public class Quiz extends AppCompatActivity {
         int minSpent = (int) totalTime / 60;
         int secSpent = (int) totalTime % 60;
         String messageToShow = "";
-        if (minSpent != 0)
-            messageToShow = "Your score is " + String.format("%.1f", score) + " out of 10. You finished the quiz in " + String.valueOf(minSpent) + " minutes and " + String.valueOf(secSpent) + " seconds";
-        else
-            messageToShow = "Your score is " + String.format("%.1f", score) + " out of 10. You finished the quiz in " + String.valueOf(secSpent) + " seconds";
+        String yourScoreIs = getResources().getString(R.string.your_score_is);
+        String outOf10 = getResources().getString(R.string.out_of_10);
+        String inMinutes = getResources().getString(R.string.in_minutes);
+        String inSeconds = getResources().getString(R.string.in_seconds);
+        String in1Minute = getResources().getString(R.string.one_minute);
+        String in1MinuteAnd = getResources().getString(R.string.one_minute_and);
+        String minutesAnd = getResources().getString(R.string.minutes_and);
+
+        if (minSpent != 0) {
+            if (secSpent == 0) {
+                if (minSpent == 1)
+                    messageToShow = yourScoreIs + String.format("%.1f", score) + outOf10 + String.valueOf(minSpent) + in1Minute;
+                else
+                    messageToShow = yourScoreIs + String.format("%.1f", score) + outOf10 + String.valueOf(minSpent) + inMinutes;
+            } else {
+                if (minSpent == 1)
+                    messageToShow = yourScoreIs + String.format("%.1f", score) + outOf10 + String.valueOf(minSpent) + in1MinuteAnd + String.valueOf(secSpent) + inSeconds;
+                else
+                    messageToShow = yourScoreIs + String.format("%.1f", score) + outOf10 + String.valueOf(minSpent) + minutesAnd + String.valueOf(secSpent) + inSeconds;
+            }
+        } else
+            messageToShow = yourScoreIs + String.format("%.1f", score) + outOf10 + String.valueOf(secSpent) + inSeconds;
 
         // below we implement the dialog box
         final Dialog dialog = new Dialog(activity);

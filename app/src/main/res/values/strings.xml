@@ -10,8 +10,17 @@
     <string name="home_toast_message_start_quiz">Please select the difficulty level!</string>
     <string name="previous_button_forbidden_message">You cannot browse back during the quiz</string>
     <string name="previous_button_forbidden_message_2">This is the first question, please browse forward</string>
-    <string name="edit_text_hint">Please enter your answer here (the answer is not case-sensitive!)</string>
+    <string name="edit_text_hint">Enter your answer here\n (!answer is not case sensitive)</string>
+    <string name="please_swipe_left_right">Please swipe left or right to navigate through the quiz!</string>
 
+    <!-- TIME SPENT IN THE QUIZ-->
+    <string name="your_score_is">"Your score is\u0020"</string>  <!-- \u0020 means space at the end of the string or at the beginning of it -->
+    <string name="out_of_10">"\u0020out of 10. You finished the quiz in\u0020"</string>
+    <string name="minutes_and">"\u0020minutes and\u0020"</string>
+    <string name="in_minutes">"\u0020minutes"</string>
+    <string name="one_minute_and">"\u0020minute and\u0020"</string>
+    <string name="one_minute">"\u0020minute"</string>
+    <string name="in_seconds">"\u0020seconds"</string>
 
     <!-- QUESTIONS BELOW -->
     <!-- BEGINNER -->

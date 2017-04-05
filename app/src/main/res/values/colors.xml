@@ -29,6 +29,7 @@
     <color name="popup_shadow">#80BC9D79</color>
     <color name="pop_up_text_enabled">#212121</color>
     <color name="pop_up_text_pressed">#5D5D5D</color>
+    <color name="pop_up_separator">#BC9D79</color>
 
     <!-- Colors for reviewing the quiz -->
     <color name="correct_answers">#75EB8815</color>

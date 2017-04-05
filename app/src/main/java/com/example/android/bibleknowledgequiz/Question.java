@@ -1,9 +1,13 @@
 package com.example.android.bibleknowledgequiz;
 
 public class Question {
+
+    /****************************************************************************************
+     * THIS CLASS CONSISTS OF THE OBJECT "QUESTION", WHICH STORES ALL QUESTIONS IN THE QUIZ *
+     ***************************************************************************************/
     int imageResId;
     String question = "";                                       // we initialize String variables, since they are not primitive data, in order to avoid NullPointerException error
-    String answerType = "";                                     // answerType can be "R" (radio), "C" (checkbox), "E" (edit box)
+    String answerType = "";                                     // answerType can be "R" (radio question), "C" (checkbox question), "E" (edit box question)
     String[] possibleAnswers = new String[]{"", "", "", ""};    // possible answers are 4 in case of radio buttons and checkboxes
     String correctAnswerRadio = "";                             // correct answer for radio questions
     String[] correctAnswersCheckBox = {"", "", "", ""};         // correct answers for the checkbox questions
@@ -20,7 +24,7 @@ public class Question {
                     String[] possibleAnswers, String correctAnswerRadio) {
         this(imgResId, question, answerType);                                           // initialization of the base constructor
         for (int count = 0; count <= 3; count++)
-            this.possibleAnswers[count] = possibleAnswers[count];                       // adding possible answers and the correct answer
+            this.possibleAnswers[count] = possibleAnswers[count];                       // adding possible answers and the correct answer; if we assign "=", instead of going through the array, it will be passed just the reference, not the value
         this.correctAnswerRadio = correctAnswerRadio;
     }
 

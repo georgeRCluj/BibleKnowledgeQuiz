@@ -34,6 +34,9 @@ import java.util.Random;
 
 import static java.util.logging.Logger.global;
 
+/********************************************
+ * THIS CLASS IS RELATED TO THE HOME SCREEN *
+ *******************************************/
 public class HomeScreen extends AppCompatActivity {
 
     // private - only within the class;
@@ -62,7 +65,7 @@ public class HomeScreen extends AppCompatActivity {
 
         // below is set up the listener for the seekBar; the three methods below are included automatically in the syntax
         // if you would place a Log in each of them, you can see that if you touch the seekBar then the second and the third method are called in this order;
-        // if the seekbar cursor is moved, then the second method, the first method and the third method are called in this order;
+        // if the seek bar cursor is moved, then the second method, the first method and the third method are called in this order;
         homeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

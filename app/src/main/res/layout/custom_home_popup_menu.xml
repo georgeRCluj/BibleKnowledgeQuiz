@@ -6,20 +6,14 @@
     android:background="@drawable/popup_shape"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    <TextView
+        android:id="@+id/popUpMenu_new_quiz"
+        style="@style/popUpMenuStle"
+        android:text="New Quiz" />
 
-        <TextView
-            android:id="@+id/popUpMenu_new_quiz"
-            style="@style/popUpMenuStle"
-            android:text="New Quiz" />
-
-        <TextView
-            android:id="@+id/popUpMenu_exit"
-            style="@style/popUpMenuStle"
-            android:text="Exit" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/popUpMenu_exit"
+        style="@style/popUpMenuStle"
+        android:text="Exit" />
 
 </LinearLayout>
