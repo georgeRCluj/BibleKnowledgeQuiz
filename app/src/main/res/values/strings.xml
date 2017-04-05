@@ -3,14 +3,14 @@
     <string name="home_text">The Bible is the book left by God as a treasure for the humankind. It is the most important book, that changed many people\'s lives and should be read daily. This app gives you the opportunity to test your Bible knowledge.</string>
     <string name="home_difficulty">Please select the difficulty level: </string>
     <string name="home_choose_no_of_questions">Please select the number of questions: </string>
-    <string name="home_no_of_questions">3</string>
+    <string name="home_no_of_questions" translatable="false">3</string>
     <string name="home_Level_1">Beginner</string>
     <string name="home_Level_2">Advanced</string>
     <string name="home_button_start_quiz">Start Quiz</string>
     <string name="home_toast_message_start_quiz">Please select the difficulty level!</string>
     <string name="previous_button_forbidden_message">You cannot navigate back during the quiz</string>
     <string name="previous_button_forbidden_message_2">This is the first question, please navigate forward!</string>
-    <string name="edit_text_hint">Enter your answer here\n (!answer is not case sensitive)</string>
+    <string name="edit_text_hint">Enter your answer here\n(answer is not case sensitive)</string>
     <string name="please_swipe_left_right">Please swipe left or right to navigate through the quiz!</string>
     <string name="please_answer_the_question">Please answer the question!</string>
     <string name="this_is_the_last_question">This is the last question!</string>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Bible Knowledge Quiz</string>
+    <string name="home_Level_1">Incepator</string>
+    <string name="home_Level_2">Avansat</string>
+    <string name="home_button_start_quiz">Start quiz</string>
+    <string name="home_choose_no_of_questions">Selectati numarul de intrebari:</string>
+    <string name="home_difficulty">Selectati nivelul de dificultate:</string>
+    <string name="home_text"></string>
+    <string name="current_question_2">" din "</string>
+    <string name="current_question_3">)</string>
+    <string name="edit_answer_1">"Raspunsul tau a fost: "</string>
+    <string name="edit_answer_2"></string>
+    <string name="current_question_1"></string>
+    <string name="edit_text_hint">Introdu raspunsul tau aici</string>
+    <string name="home_toast_message_start_quiz">Selectati nivelul de dificultate!</string>
+    <string name="in_minutes">\" minute\"</string>
+    <string name="in_seconds">\" secunde\"</string>
+    <string name="minutes_and">\" minute si \"</string>
+    <string name="one_minute">\" minut\"</string>
+    <string name="one_minute_and">\" minut si \"</string>
+    <string name="out_of_10">\" din 10. Ai terminat quiz-ul in \"</string>
+    <string name="please_answer_the_question">Raspunde la intrebare!</string>
+    <string name="please_swipe_left_right">Navigheaza la stanga sau la dreapta</string>
+</resources>

@@ -58,11 +58,14 @@ public class Quiz extends AppCompatActivity {
     int currentQuestion, crtQ;                                  // these two variables helps us to go through the all the questions and to show the questions in a shuffled order
     public Question[][] quizQuestion = new Question[2][10];     // quizQuestion - array of questions: [2] meaning "beginner" or "advanced"; [10] meaning the number of total questions in the quiz; at any time there can be added questions
 
-    // below we initialize the "answers and questions showing order" variables, time and game mode variables
+    // below we initialize the "answers and questions showing order" variables, time, game mode variables
     int[] showAnswersOrder = {0, 1, 2, 3};                      // after shuffling, the showAnswersOrder might look like this: {2, 0, 1, 3} or any other combination
     int[] showQuestionsOrder = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};  // after shuffling, the showAnswersOrder might look like this: {8, 6, 7, 5, 2, 0, 1, 3, 5, 4, 9} or any other combination
     long startTime, endTime, totalTime;                         // these variables will help us to determine how much time it takes the user to do the quiz
     boolean reviewQuiz = false;                                 // this variable determines the game mode - "reviewQuiz = false" meaning we are in quiz mode; "reviewQuiz = true" meaning we are in the review mode
+
+    // below we initialize the variables related to the "showing up" on the screen of dialog boxes and overflow menu
+    boolean showFinalDialogBox = false;
 
     // below are the variables for swiping left or right
     float x1, x2;
@@ -84,6 +87,7 @@ public class Quiz extends AppCompatActivity {
     static final String BUNDLE_TOTALTIME = "total_time";
     static final String BUNDLE_REVIEWMODE = "review_mode";
     static final String BUNDLE_ALLUSERANSWERS = "all_user_answers";
+    static final String BUNDLE_SHOWFINALDIALOGBOX = "show_final_dialog_box";
 
     /*****************************************************************************************************
      * ONSAVEDINSTANCESTATE METHOD, USED FOR ROTATION OF SCREEN, WHEN THE ACTIVITY IS KILLED BY THE O.S. *
@@ -102,6 +106,7 @@ public class Quiz extends AppCompatActivity {
         dataToSave.putLong(BUNDLE_TOTALTIME, totalTime);
         dataToSave.putBoolean(BUNDLE_REVIEWMODE, reviewQuiz);
         dataToSave.putSerializable(BUNDLE_ALLUSERANSWERS, allUserAnswers);
+        dataToSave.putBoolean(BUNDLE_SHOWFINALDIALOGBOX, showFinalDialogBox);
         super.onSaveInstanceState(dataToSave);
     }
 
@@ -166,7 +171,10 @@ public class Quiz extends AppCompatActivity {
             totalTime = savedInstanceState.getLong(BUNDLE_TOTALTIME);
             reviewQuiz = savedInstanceState.getBoolean(BUNDLE_REVIEWMODE);
             allUserAnswers = (ArrayList<UserAnswer>) savedInstanceState.getSerializable(BUNDLE_ALLUSERANSWERS);
+            showFinalDialogBox = savedInstanceState.getBoolean(BUNDLE_SHOWFINALDIALOGBOX);
             displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage, true);
+            if (showFinalDialogBox)
+                showFinishQuizDialogBox(this, calculateScore(), radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
         }
 
         // below is the listener for the "swipe gesture" button (right or left)
@@ -354,7 +362,8 @@ public class Quiz extends AppCompatActivity {
                                          final CheckBox[] checkBoxId, final EditText editTextId, final TextView current_questionText, final ImageView current_questionImage) {
 
         // below the section of calculating time spent in the quiz
-        endTime = System.currentTimeMillis();
+        if (!showFinalDialogBox)                    // we have to add this condition to cover the case when the user rotates the screen when the dialog box is shown and the end time is updated...
+            endTime = System.currentTimeMillis();
         totalTime = (endTime - startTime) / 1000;
         int minSpent = (int) totalTime / 60;
         int secSpent = (int) totalTime % 60;
@@ -384,6 +393,7 @@ public class Quiz extends AppCompatActivity {
 
         // below we implement the dialog box which appears on the screen when the user finishes the quiz
         final Dialog dialog = new Dialog(activity);
+        showFinalDialogBox = true;
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);                           // "requestFeature" has to be added before setting the content, otherwise an error will be thrown at runtime
         dialog.setContentView(R.layout.custom_dialog_box_finish_quiz);
         dialog.setCancelable(false);
