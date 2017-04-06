@@ -4,103 +4,103 @@
     <!-- BEGINNER QUESTIONS -->
     <!-- QUESTION 1 -->
     <string-array name="q_b_1_ans"> <!-- question beginner 1 possible answers [CHECKBOX] -->
-        <item>Isaiah</item>
-        <item>David</item>
-        <item>Joshua</item>
-        <item>Goliath</item>
+        <item>@string/q_b_1_a</item>
+        <item>@string/q_b_1_b</item>
+        <item>@string/q_b_1_c</item>
+        <item>@string/q_b_1_d</item>
     </string-array>
 
     <string-array name="q_b_1_cr"> <!-- question beginner 1 correct answers [CHECKBOX]-->
-        <item>David</item>
-        <item>Goliath</item>
+        <item>@string/q_b_1_b</item>
+        <item>@string/q_b_1_d</item>
         <item></item>
         <item></item>
     </string-array>
 
     <!-- QUESTION 2 -->
     <string-array name="q_b_2_cr"> <!-- question beginner 2 correct answers [EDIT] -->
-        <item>Red Sea</item>
-        <item>The Red Sea</item>
+        <item>@string/q_b_2_a</item>
+        <item>@string/q_b_2_b</item>
     </string-array>
 
     <!-- QUESTION 3 -->
     <string-array name="q_b_3_ans"> <!-- question beginner 3 possible answers [RADIO] -->
-        <item>Jesus raising Lazarus from the dead</item>
-        <item>Jesus preaching to the people</item>
-        <item>Jesus multiplying the loaves and fishes</item>
-        <item>Jesus talking to Nicodemus</item>
+        <item>@string/q_b_3_a</item>
+        <item>@string/q_b_3_b</item>
+        <item>@string/q_b_3_c</item>
+        <item>@string/q_b_3_d</item>
     </string-array>
 
     <!-- QUESTION 4 -->
     <string-array name="q_b_4_ans"> <!-- question beginner 4 possible answers [CHECKBOX] -->
-        <item>Isaac</item>
-        <item>David</item>
-        <item>Abraham</item>
-        <item>Absalom</item>
+        <item>@string/q_b_4_a</item>
+        <item>@string/q_b_4_b</item>
+        <item>@string/q_b_4_c</item>
+        <item>@string/q_b_4_d</item>
     </string-array>
 
     <string-array name="q_b_4_cr"> <!-- question beginner 4 correct answers [CHECKBOX]-->
-        <item>David</item>
-        <item>Absalom</item>
+        <item>@string/q_b_4_b</item>
+        <item>@string/q_b_4_d</item>
         <item></item>
         <item></item>
     </string-array>
 
     <!-- QUESTION 5 -->
     <string-array name="q_b_5_cr"> <!-- question beginner 5 correct answers [EDIT] -->
-        <item>Potiphar</item>
+        <item>@string/q_b_5_a</item>
     </string-array>
 
     <!-- QUESTION 6 -->
     <string-array name="q_b_6_ans"> <!-- question beginner 6 possible answers [RADIO] -->
-        <item>Abigail</item>
-        <item>Rachel</item>
-        <item>Hannah</item>
-        <item>Priscilla</item>
+        <item>@string/q_b_6_a</item>
+        <item>@string/q_b_6_b</item>
+        <item>@string/q_b_6_c</item>
+        <item>@string/q_b_6_d</item>
     </string-array>
 
     <!-- QUESTION 7 -->
     <string-array name="q_b_7_ans"> <!-- question beginner 7 possible answers [CHECKBOX] -->
-        <item>To wash my sins</item>
-        <item>To be my personal God and Lord</item>
-        <item>To help me become God\'s child</item>
-        <item>To prepare a place for me in heaven</item>
+        <item>@string/q_b_7_a</item>
+        <item>@string/q_b_7_b</item>
+        <item>@string/q_b_7_c</item>
+        <item>@string/q_b_7_d</item>
     </string-array>
 
     <string-array name="q_b_7_cr"> <!-- question beginner 7 correct answers [CHECKBOX]-->
-        <item>To wash my sins</item>
-        <item>To be my personal God and Lord</item>
-        <item>To help me become God\'s child</item>
-        <item>To prepare a place for me in heaven</item>
+        <item>@string/q_b_7_a</item>
+        <item>@string/q_b_7_b</item>
+        <item>@string/q_b_7_c</item>
+        <item>@string/q_b_7_d</item>
     </string-array>
 
     <!-- QUESTION 8 -->
     <string-array name="q_b_8_cr"> <!-- question beginner 8 correct answers [EDIT] -->
-        <item>Saul</item>
-        <item>Saul of Tarsus</item>
-        <item>Paul</item>
-        <item>Paul of Tarsus</item>
+        <item>@string/q_b_8_a</item>
+        <item>@string/q_b_8_b</item>
+        <item>@string/q_b_8_c</item>
+        <item>@string/q_b_8_d</item>
     </string-array>
 
     <!-- QUESTION 9 -->
     <string-array name="q_b_9_ans"> <!-- question beginner 9 possible answers [RADIO] -->
-        <item>Easter</item>
-        <item>The Pentecost</item>
-        <item>Jesus ascending to Heaven</item>
-        <item>Jesus coming back to take His church</item>
+        <item>@string/q_b_9_a</item>
+        <item>@string/q_b_9_b</item>
+        <item>@string/q_b_9_c</item>
+        <item>@string/q_b_9_d</item>
     </string-array>
 
     <!-- QUESTION 10 -->
     <string-array name="q_b_10_ans"> <!-- question beginner 10 possible answers [CHECKBOX] -->
-        <item>Nehemiah and the people</item>
-        <item>Rebuilding Jerusalem Temple wall</item>
-        <item>Rebuilding Jerusalem city wall</item>
-        <item>Jewish people in slavery</item>
+        <item>@string/q_b_10_a</item>
+        <item>@string/q_b_10_b</item>
+        <item>@string/q_b_10_c</item>
+        <item>@string/q_b_10_d</item>
     </string-array>
 
     <string-array name="q_b_10_cr"> <!-- question beginner 10 correct answers [CHECKBOX]-->
-        <item>Nehemiah and the people</item>
-        <item>Rebuilding Jerusalem city wall</item>
+        <item>@string/q_b_10_a</item>
+        <item>@string/q_b_10_c</item>
         <item></item>
         <item></item>
     </string-array>
@@ -108,107 +108,107 @@
     <!-- ADVANCED QUESTIONS -->
     <!-- QUESTION 1 -->
     <string-array name="q_a_1_ans"> <!-- question advanced 1 possible answers [CHECKBOX] -->
-        <item>It was poisoned</item>
-        <item>It was not looking good</item>
-        <item>They did not want to get compromised</item>
-        <item>They wanted to stay holy</item>
+        <item>@string/q_a_1_a</item>
+        <item>@string/q_a_1_b</item>
+        <item>@string/q_a_1_c</item>
+        <item>@string/q_a_1_d</item>
     </string-array>
 
     <string-array name="q_a_1_cr"> <!-- question advanced 1 correct answers [CHECKBOX]-->
-        <item>They did not want to get compromised</item>
-        <item>They wanted to stay holy</item>
+        <item>@string/q_a_1_c</item>
+        <item>@string/q_a_1_d</item>
         <item></item>
         <item></item>
     </string-array>
 
     <!-- QUESTION 2 -->
     <string-array name="q_a_2_ans"> <!-- question advanced 2 possible answers [CHECKBOX] -->
-        <item>The people</item>
-        <item>Aaron</item>
-        <item>Moses</item>
-        <item>Joseph</item>
+        <item>@string/q_a_2_a</item>
+        <item>@string/q_a_2_b</item>
+        <item>@string/q_a_2_c</item>
+        <item>@string/q_a_2_d</item>
     </string-array>
 
     <string-array name="q_a_2_cr"> <!-- question advanced 2 correct answers [CHECKBOX]-->
-        <item>Aaron</item>
-        <item>The people</item>
+        <item>@string/q_a_2_a</item>
+        <item>@string/q_a_2_b</item>
         <item></item>
         <item></item>
     </string-array>
 
     <!-- QUESTION 3 -->
     <string-array name="q_a_3_ans"> <!-- question advanced 3 possible answers [RADIO] -->
-        <item>Going fishing</item>
-        <item>Going to Niniveh</item>
-        <item>Learning swimming</item>
-        <item>Cathing wales</item>
+        <item>@string/q_a_3_a</item>
+        <item>@string/q_a_3_b</item>
+        <item>@string/q_a_3_c</item>
+        <item>@string/q_a_3_d</item>
     </string-array>
 
     <!-- QUESTION 4 -->
     <string-array name="q_a_4_ans"> <!-- question advanced 4 possible answers [RADIO] -->
-        <item>David</item>
-        <item>Absalom</item>
-        <item>Samson</item>
-        <item>Joab</item>
+        <item>@string/q_a_4_a</item>
+        <item>@string/q_a_4_b</item>
+        <item>@string/q_a_4_c</item>
+        <item>@string/q_a_4_d</item>
     </string-array>
 
     <!-- QUESTION 5 -->
     <string-array name="q_a_5_cr"> <!-- question advanced 5 correct answers [EDIT]-->
-        <item>Patmos</item>
-        <item>to Patmos</item>
+        <item>@string/q_a_5_a</item>
+        <item>@string/q_a_5_b</item>
     </string-array>
 
     <!-- QUESTION 6 -->
     <string-array name="q_a_6_cr"> <!-- question advanced 6 correct answers [EDIT]-->
-        <item>Simon Cyrene</item>
-        <item>Simon of Cyrene</item>
-        <item>Cyrene Simon</item>
+        <item>@string/q_a_6_a</item>
+        <item>@string/q_a_6_b</item>
+        <item>@string/q_a_6_c</item>
     </string-array>
 
     <!-- QUESTION 7 -->
     <string-array name="q_a_7_ans"> <!-- question beginner 7 possible answers [CHECKBOX] -->
-        <item>To wash my sins</item>
-        <item>To be my personal God and Lord </item>
-        <item>To help me become God\'s child</item>
-        <item>To prepare a place for me in heaven</item>
+        <item>@string/q_a_7_a</item>
+        <item>@string/q_a_7_b</item>
+        <item>@string/q_a_7_c</item>
+        <item>@string/q_a_7_d</item>
     </string-array>
 
     <string-array name="q_a_7_cr"> <!-- question beginner 7 correct answers [CHECKBOX]-->
-        <item>To wash my sins</item>
-        <item>To be my personal God and Lord </item>
-        <item>To help me become God\'s child</item>
-        <item>To prepare a place for me in heaven</item>
+        <item>@string/q_a_7_a</item>
+        <item>@string/q_a_7_b</item>
+        <item>@string/q_a_7_c</item>
+        <item>@string/q_a_7_d</item>
     </string-array>
 
     <!-- QUESTION 8 -->
     <string-array name="q_a_8_ans"> <!-- question advanced 8 possible answers [CHECKBOX] -->
-        <item>Abigail</item>
-        <item>Ruth</item>
-        <item>Samuel</item>
-        <item>Obed</item>
+        <item>@string/q_a_8_a</item>
+        <item>@string/q_a_8_b</item>
+        <item>@string/q_a_8_c</item>
+        <item>@string/q_a_8_d</item>
     </string-array>
 
     <string-array name="q_a_8_cr"> <!-- question advanced 8 correct answers [CHECKBOX]-->
-        <item>Ruth</item>
-        <item>Obed</item>
+        <item>@string/q_a_8_b</item>
+        <item>@string/q_a_8_d</item>
         <item></item>
         <item></item>
     </string-array>
 
     <!-- QUESTION 9 -->
     <string-array name="q_a_9_ans"> <!-- question advanced 3 possible answers [RADIO] -->
-        <item>The apostles</item>
-        <item>People in the house of Mary</item>
-        <item>People in Jerusalem</item>
-        <item>The Christians gathered outside</item>
+        <item>@string/q_a_9_a</item>
+        <item>@string/q_a_9_b</item>
+        <item>@string/q_a_9_c</item>
+        <item>@string/q_a_9_d</item>
     </string-array>
 
     <!-- QUESTION 10 -->
     <string-array name="q_a_10_cr"> <!-- question advanced 6 correct answers [EDIT]-->
-        <item>Esther</item>
-        <item>Queen Esther</item>
-        <item>Hadassah</item>
-        <item>Queen Hadassah</item>
+        <item>@string/q_a_10_a</item>
+        <item>@string/q_a_10_b</item>
+        <item>@string/q_a_10_c</item>
+        <item>@string/q_a_10_d</item>
     </string-array>
 
 </resources>

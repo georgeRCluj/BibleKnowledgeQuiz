@@ -1,25 +1,153 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Bible Knowledge Quiz</string>
+    <string name="app_name">Quiz cunostinte biblice</string>
+    <string name="home_text">Bilia este cartea lasata de Dumnezeu ca o comoara pentru omenire. Este cea mai importanta carte, care a schimbat vietile multor oameni si ar trebui citita zilnic. Aceasta aplicatie iti ofera oportunitatea de a iti testa cunostintele biblice.</string>
+    <string name="home_difficulty">Selecteaza nivelul de dificultate: </string>
+    <string name="home_choose_no_of_questions">Selecteaza numarul de intrebari: </string>
+    <string name="home_no_of_questions" translatable="false">3</string>
     <string name="home_Level_1">Incepator</string>
     <string name="home_Level_2">Avansat</string>
-    <string name="home_button_start_quiz">Start quiz</string>
-    <string name="home_choose_no_of_questions">Selectati numarul de intrebari:</string>
-    <string name="home_difficulty">Selectati nivelul de dificultate:</string>
-    <string name="home_text"></string>
-    <string name="current_question_2">" din "</string>
+    <string name="home_button_start_quiz">Incepe quizul</string>
+    <string name="home_toast_message_start_quiz">Selecteaza nivelul de dificultate!</string>
+    <string name="previous_button_forbidden_message">Nu poti naviga inapoi in timpul quizului!</string>
+    <string name="previous_button_forbidden_message_2">Aceasta este prima intrebare, te rugam sa navighezi inainte!</string>
+    <string name="edit_text_hint">Introdu raspunsul tau aici\n(raspunsul nu este sensibil la majuscule)\n(nu folosi diacritice)</string>
+    <string name="please_swipe_left_right">Te rugam sa glisezi la stanga sau la dreapta pentru a naviga in quiz!</string>
+    <string name="please_answer_the_question">Te rugam sa raspunzi la intrebare!</string>
+    <string name="this_is_the_last_question">Aceasta este ultima intrebare!</string>
+    <string name="current_question_1">\n(intrebarea\u0020</string>
+    <string name="current_question_2">\u0020din\u0020</string>
     <string name="current_question_3">)</string>
-    <string name="edit_answer_1">"Raspunsul tau a fost: "</string>
-    <string name="edit_answer_2"></string>
-    <string name="current_question_1"></string>
-    <string name="edit_text_hint">Introdu raspunsul tau aici</string>
-    <string name="home_toast_message_start_quiz">Selectati nivelul de dificultate!</string>
-    <string name="in_minutes">\" minute\"</string>
-    <string name="in_seconds">\" secunde\"</string>
-    <string name="minutes_and">\" minute si \"</string>
-    <string name="one_minute">\" minut\"</string>
-    <string name="one_minute_and">\" minut si \"</string>
-    <string name="out_of_10">\" din 10. Ai terminat quiz-ul in \"</string>
-    <string name="please_answer_the_question">Raspunde la intrebare!</string>
-    <string name="please_swipe_left_right">Navigheaza la stanga sau la dreapta</string>
+    <string name="edit_answer_1">Raspunsul tau a fost:\u0020</string>
+    <string name="edit_answer_2">\nRaspunsuri corecte posibile:\u0020</string>
+    <string name="dialog_box_congratulations">Felicitari, ai terminat quizul in 50 de secunde!</string>
+    <string name="dialog_box_review">Revizuire</string>
+    <string name="dialog_box_new_quiz">Quiz nou</string>
+    <string name="dialog_box_exit">Iesi</string>
+    <string name="dialog_box_are_you_sure">Prin inceperea unui quiz nou, quizul curent va fi resetat. Esti sigur?</string>
+    <string name="dialog_box_yes">Da</string>
+    <string name="dialog_box_no">Nu</string>
+    <string name="popup_overflow_new_quiz">Quiz nou</string>
+    <string name="popup_overflow_exit">Iesi</string>
+
+    <!-- TIME SPENT IN THE QUIZ-->
+    <string name="your_score_is">"Scorul tau este\u0020"</string>  <!-- \u0020 means space at the end of the string or at the beginning of it -->
+    <string name="out_of_10">"\u0020din 10. Ai finalizat quizul in\u0020"</string>
+    <string name="minutes_and">"\u0020minute si\u0020"</string>
+    <string name="in_minutes">"\u0020minute"</string>
+    <string name="one_minute_and">"\u0020minut si\u0020"</string>
+    <string name="one_minute">"\u0020minut"</string>
+    <string name="in_seconds">"\u0020secunde"</string>
+
+    <!--************************************************************************************************************************************-->
+    <!-- QUESTIONS BELOW -->
+    <!-- BEGINNER QUESTIONS -->
+    <string name="q_b_1_txt">Care sunt personajele din imagine?</string> <!-- question 1 beginner text -->
+    <string name="q_b_2_txt">Care este numele marii din imagine?</string>
+    <string name="q_b_3_txt">Ce istorisire este prezentata in imagine?</string>
+    <string name="q_b_4_txt">Cine este barbatul din copac si cine este tatal sau?</string>
+    <string name="q_b_5_txt">Care este numele sotului doamnei din imagine?</string>
+    <string name="q_b_6_txt">Care este numele femeii care si-a adus baietelul pentru a sluji la templu?</string>
+    <string name="q_b_7_txt">De ce a murit Hristos pe cruce?</string>
+    <string name="q_b_8_txt">Care este apostolul din imagine care a fost orbit?</string>
+    <string name="q_b_9_txt">Ce eveniment este reprezentat in imagine?</string>
+    <string name="q_b_10_txt">Ce reprezinta imaginea?</string>
+
+    <!--BEGINNER QUESTIONS ANSWER POSSIBILITIES -->
+    <string name="q_b_1_a">Isaia</string>
+    <string name="q_b_1_b">David</string>
+    <string name="q_b_1_c">Iosua</string>
+    <string name="q_b_1_d">Goliat</string>
+    <string name="q_b_2_a">Marea Rosie</string>
+    <string name="q_b_2_b">Rosie</string>
+    <string name="q_b_3_a">Isus inviindu-l pe Lazar din morti</string>
+    <string name="q_b_3_b">Isus predicand multimii</string>
+    <string name="q_b_3_c">Isus inmultind painile si pestii</string>
+    <string name="q_b_3_d">Isus vorbind cu Nicodim</string>
+    <string name="q_b_4_a">Isaac</string>
+    <string name="q_b_4_b">David</string>
+    <string name="q_b_4_c">Avraam</string>
+    <string name="q_b_4_d">Absalom</string>
+    <string name="q_b_5_a">Potifar</string>
+    <string name="q_b_6_a">Abigail</string>
+    <string name="q_b_6_b">Rahela</string>
+    <string name="q_b_6_c">Ana</string>
+    <string name="q_b_6_d">Priscila</string>
+    <string name="q_b_7_a">Sa imi spele pacatele</string>
+    <string name="q_b_7_b">Sa fie Dumnezeul si Domnul meu personal</string>
+    <string name="q_b_7_c">Sa ma ajute sa devin copil al lui Dumnezeu</string>
+    <string name="q_b_7_d">Sa imi pregateasca un loc in Rai</string>
+    <string name="q_b_8_a">Saul</string>
+    <string name="q_b_8_b">Saul din Tars</string>
+    <string name="q_b_8_c">Pavel</string>
+    <string name="q_b_8_d">Pavel din Tars</string>
+    <string name="q_b_9_a">Pastele</string>
+    <string name="q_b_9_b">Rusaliile</string>
+    <string name="q_b_9_c">Isus inaltandus-Se la cer</string>
+    <string name="q_b_9_d">Isus revening sa Isi ia biserica</string>
+    <string name="q_b_10_a">Neemia si poporul</string>
+    <string name="q_b_10_b">Reconstruind zidul Templului din Ierusalim</string>
+    <string name="q_b_10_c">Reconstruind zidul cetatii Ierusalimul</string>
+    <string name="q_b_10_d">Poporul evreu in robie</string>
+
+    <!-- BEGINNER CORRECT ANSWERS -->
+    <string name="q_b_3_cr">@string/q_b_3_c</string>
+    <string name="q_b_6_cr">@string/q_b_6_c</string>
+    <string name="q_b_9_cr">@string/q_b_9_b</string>
+
+    <!-- ADVANCED QUESTIONS -->
+    <string name="q_a_1_txt">De ce au refuzat cei 4 tineri mancarea?</string> <!-- question 1 advanced text -->
+    <string name="q_a_2_txt">Cine a fost vinovat pentru situatia descrisa in imagine?</string>
+    <string name="q_a_3_txt">Ce a incercat acest om sa evite?</string>
+    <string name="q_a_4_txt">Cine este omul din imagine?</string>
+    <string name="q_a_5_txt">Unde a fost exilat omul din imagine?</string>
+    <string name="q_a_6_txt">Cum se numeste omul care L-a ajutat pe Isus sa Isi duca crucea si de unde este el?</string>
+    <string name="q_a_7_txt">De ce a murit Hristos pe cruce?</string>
+    <string name="q_a_8_txt">Cine este femeia din coltul din dreapta si cine este nepotul ei?</string>
+    <string name="q_a_9_txt">Cine s-a rugat pentru omul din imagine ca sa fie eliberat?</string>
+    <string name="q_a_10_txt">Cine este imparateasa din imagine?</string>
+
+    <!-- ADVANCED QUESTIONS ANSWER POSSIBILITIES -->
+    <string name="q_a_1_a">Era otravita</string>
+    <string name="q_a_1_b">Nu arata bine</string>
+    <string name="q_a_1_c">Nu au vrut sa se compromita</string>
+    <string name="q_a_1_d">Au vrut sa ramana sfinti</string>
+    <string name="q_a_2_a">Poporul</string>
+    <string name="q_a_2_b">Aaron</string>
+    <string name="q_a_2_c">Moise</string>
+    <string name="q_a_2_d">Iosif</string>
+    <string name="q_a_3_a">Sa mearga la pescuit</string>
+    <string name="q_a_3_b">Sa mearga la Ninive</string>
+    <string name="q_a_3_c">Sa invete sa inoate</string>
+    <string name="q_a_3_d">Sa prinda balene</string>
+    <string name="q_a_4_a">David</string>
+    <string name="q_a_4_b">Absalom</string>
+    <string name="q_a_4_c">Samson</string>
+    <string name="q_a_4_d">Ioab</string>
+    <string name="q_a_5_a">Patmos</string>
+    <string name="q_a_5_b">in Patmos</string>
+    <string name="q_a_6_a">Simon Cirena</string>
+    <string name="q_a_6_b">Simon din Cirena</string>
+    <string name="q_a_6_c">Cirena Simon</string>
+    <string name="q_a_7_a">Sa imi spele pacatele</string>
+    <string name="q_a_7_b">Sa fie Dumnezeul si Domnul meu personal</string>
+    <string name="q_a_7_c">Sa ma ajute sa devin copil al lui Dumnezeu</string>
+    <string name="q_a_7_d">Sa imi pregateasca un loc in Rai</string>
+    <string name="q_a_8_a">Abigail</string>
+    <string name="q_a_8_b">Rut</string>
+    <string name="q_a_8_c">Samuel</string>
+    <string name="q_a_8_d">Obed</string>
+    <string name="q_a_9_a">Apostolii</string>
+    <string name="q_a_9_b">Oamenii din casa Mariei</string>
+    <string name="q_a_9_c">Oamenii din Ierusalim</string>
+    <string name="q_a_9_d">Crestinii de afara</string>
+    <string name="q_a_10_a">Estera</string>
+    <string name="q_a_10_b">Imparateasa Estera</string>
+    <string name="q_a_10_c">Hadasa</string>
+    <string name="q_a_10_d">Imparateasa Hadasa</string>
+
+    <!-- ADVANCED CORRECT ANSWERS -->
+    <string name="q_a_3_cr">@string/q_a_3_b</string>
+    <string name="q_a_4_cr">@string/q_a_4_c</string>
+    <string name="q_a_9_cr">@string/q_a_9_b</string>
+
 </resources>

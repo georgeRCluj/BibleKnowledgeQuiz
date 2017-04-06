@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/toast_shape"
     android:orientation="vertical">
 
@@ -15,7 +14,7 @@
         android:layout_marginLeft="@dimen/dialog_box_text_margin"
         android:layout_marginRight="@dimen/dialog_box_text_margin"
         android:layout_gravity="center"
-        android:text="Congratulations, you have finished the quiz in 50 seconds!" />
+        android:text="@string/dialog_box_congratulations" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -28,10 +27,10 @@
             android:id="@+id/btn_review"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginLeft="@dimen/dialog_box_text_margin"
+            android:layout_marginRight="@dimen/dialog_box_text_margin"
             android:clickable="true"
-            android:text="Review" />
+            android:text="@string/dialog_box_review" />
 
         <Button
             android:id="@+id/btn_new_quiz"
@@ -40,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
             android:clickable="true"
-            android:text="New Quiz" />
+            android:text="@string/dialog_box_new_quiz" />
 
         <Button
             android:id="@+id/btn_exit"
@@ -48,8 +47,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:layout_marginRight="16dp"
-            android:text="Exit" />
+            android:layout_marginRight="@dimen/dialog_box_text_margin"
+            android:text="@string/dialog_box_exit" />
     </LinearLayout>
 
 </LinearLayout>

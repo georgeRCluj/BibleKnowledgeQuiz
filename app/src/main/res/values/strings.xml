@@ -19,7 +19,14 @@
     <string name="current_question_3">)</string>
     <string name="edit_answer_1">Your answer was:\u0020</string>
     <string name="edit_answer_2">\nCorrect possible answer(s):\u0020</string>
-
+    <string name="dialog_box_congratulations">Congratulations, you have finished the quiz in 50 seconds!</string>
+    <string name="dialog_box_review">Review</string>
+    <string name="dialog_box_new_quiz">New Quiz</string>
+    <string name="dialog_box_exit">Exit</string>
+    <string name="dialog_box_are_you_sure">By starting a new quiz, the current quiz will be reset. Are you sure?</string>
+    <string name="dialog_box_yes">Yes</string>
+    <string name="popup_overflow_new_quiz">New Quiz</string>
+    <string name="popup_overflow_exit">Exit</string>
 
     <!-- TIME SPENT IN THE QUIZ-->
     <string name="your_score_is">"Your score is\u0020"</string>  <!-- \u0020 means space at the end of the string or at the beginning of it -->
@@ -30,8 +37,9 @@
     <string name="one_minute">"\u0020minute"</string>
     <string name="in_seconds">"\u0020seconds"</string>
 
+    <!--************************************************************************************************************************************-->
     <!-- QUESTIONS BELOW -->
-    <!-- BEGINNER -->
+    <!-- BEGINNER QUESTIONS -->
     <string name="q_b_1_txt">Who are the characters in the picture?</string> <!-- question 1 beginner text -->
     <string name="q_b_2_txt">What is the name of the sea in the picture?</string>
     <string name="q_b_3_txt">What story is presented in the picture?</string>
@@ -41,11 +49,53 @@
     <string name="q_b_7_txt">Why did Jesus die on a cross?</string>
     <string name="q_b_8_txt">Who is the apostle in the image who was blinded?</string>
     <string name="q_b_9_txt">What event is represented in the image?</string>
-    <string name="q_b_10_txt">What does the image above represent?</string>
+    <string name="q_b_10_txt">What does the image represent?</string>
 
-    <!-- ADVANCED -->
+    <!--BEGINNER QUESTIONS ANSWER POSSIBILITIES -->
+    <string name="q_b_1_a">Isaiah</string>
+    <string name="q_b_1_b">David</string>
+    <string name="q_b_1_c">Joshua</string>
+    <string name="q_b_1_d">Goliath</string>
+    <string name="q_b_2_a">Red Sea</string>
+    <string name="q_b_2_b">The Red Sea</string>
+    <string name="q_b_3_a">Jesus raising Lazarus from the dead</string>
+    <string name="q_b_3_b">Jesus preaching to the people</string>
+    <string name="q_b_3_c">Jesus multiplying the bread and fishes</string>
+    <string name="q_b_3_d">Jesus talking to Nicodemus</string>
+    <string name="q_b_4_a">Isaac</string>
+    <string name="q_b_4_b">David</string>
+    <string name="q_b_4_c">Abraham</string>
+    <string name="q_b_4_d">Absalom</string>
+    <string name="q_b_5_a">Potiphar</string>
+    <string name="q_b_6_a">Abigail</string>
+    <string name="q_b_6_b">Rachel</string>
+    <string name="q_b_6_c">Hannah</string>
+    <string name="q_b_6_d">Priscilla</string>
+    <string name="q_b_7_a">To wash my sins</string>
+    <string name="q_b_7_b">To be my personal God and Lord</string>
+    <string name="q_b_7_c">To help me become God\'s child</string>
+    <string name="q_b_7_d">To prepare a place for me in heaven</string>
+    <string name="q_b_8_a">Saul</string>
+    <string name="q_b_8_b">Saul of Tarsus</string>
+    <string name="q_b_8_c">Paul</string>
+    <string name="q_b_8_d">Paul of Tarsus</string>
+    <string name="q_b_9_a">Easter</string>
+    <string name="q_b_9_b">The Pentecost</string>
+    <string name="q_b_9_c">Jesus ascending to Heaven</string>
+    <string name="q_b_9_d">Jesus coming back to take His church</string>
+    <string name="q_b_10_a">Nehemiah and the people</string>
+    <string name="q_b_10_b">Rebuilding Jerusalem Temple wall</string>
+    <string name="q_b_10_c">Rebuilding Jerusalem city wall</string>
+    <string name="q_b_10_d">Jewish people in slavery</string>
+
+    <!-- BEGINNER CORRECT ANSWERS -->
+    <string name="q_b_3_cr">@string/q_b_3_c</string>
+    <string name="q_b_6_cr">@string/q_b_6_c</string>
+    <string name="q_b_9_cr">@string/q_b_9_b</string>
+
+    <!-- ADVANCED QUESTIONS -->
     <string name="q_a_1_txt">Why did the 4 teenagers refuse the food?</string> <!-- question 1 advanced text -->
-    <string name="q_a_2_txt">Who was guilty for the situation described above?</string>
+    <string name="q_a_2_txt">Who was guilty for the situation described?</string>
     <string name="q_a_3_txt">What did this man try to avoid?</string>
     <string name="q_a_4_txt">Who is the man in the picture?</string>
     <string name="q_a_5_txt">Where was the man in the picture exiled?</string>
@@ -55,16 +105,48 @@
     <string name="q_a_9_txt">Who was praying for the man in the picture to be set free?</string>
     <string name="q_a_10_txt">Who is the queen in the image?</string>
 
-    <!-- CORRECT ANSWERS -->
-    <!-- BEGINNER -->
-    <string name="q_b_2_cr">Red Sea</string>
-    <string name="q_b_3_cr">Jesus multiplying the loaves and fishes</string>
-    <string name="q_b_6_cr">Hannah</string>
-    <string name="q_b_9_cr">The Pentecost</string>
-
-    <!-- ADVANCED -->
-    <string name="q_a_3_cr">Going to Niniveh</string>
-    <string name="q_a_4_cr">Samson</string>
-    <string name="q_a_9_cr">People in the house of Mary</string>
+    <!-- ADVANCED QUESTIONS ANSWER POSSIBILITIES -->
+    <string name="q_a_1_a">It was poisoned</string>
+    <string name="q_a_1_b">It was not looking good</string>
+    <string name="q_a_1_c">They did not want to get compromised</string>
+    <string name="q_a_1_d">They wanted to stay holy</string>
+    <string name="q_a_2_a">The people</string>
+    <string name="q_a_2_b">Aaron</string>
+    <string name="q_a_2_c">Moses</string>
+    <string name="q_a_2_d">Joseph</string>
+    <string name="q_a_3_a">Going fishing</string>
+    <string name="q_a_3_b">Going to Niniveh</string>
+    <string name="q_a_3_c">Learning swimming</string>
+    <string name="q_a_3_d">Catching wales</string>
+    <string name="q_a_4_a">David</string>
+    <string name="q_a_4_b">Absalom</string>
+    <string name="q_a_4_c">Samson</string>
+    <string name="q_a_4_d">Joab</string>
+    <string name="q_a_5_a">Patmos</string>
+    <string name="q_a_5_b">to Patmos</string>
+    <string name="q_a_6_a">Simon Cyrene</string>
+    <string name="q_a_6_b">Simon of Cyrene</string>
+    <string name="q_a_6_c">Cyrene Simon</string>
+    <string name="q_a_7_a">To wash my sins</string>
+    <string name="q_a_7_b">To be my personal God and Lord</string>
+    <string name="q_a_7_c">To help me become God\'s child</string>
+    <string name="q_a_7_d">To prepare a place for me in heaven</string>
+    <string name="q_a_8_a">Abigail</string>
+    <string name="q_a_8_b">Ruth</string>
+    <string name="q_a_8_c">Samuel</string>
+    <string name="q_a_8_d">Obed</string>
+    <string name="q_a_9_a">The apostles</string>
+    <string name="q_a_9_b">People in the house of Mary</string>
+    <string name="q_a_9_c">People in Jerusalem</string>
+    <string name="q_a_9_d">The Christians gathered outside</string>
+    <string name="q_a_10_a">Esther</string>
+    <string name="q_a_10_b">Queen Esther</string>
+    <string name="q_a_10_c">Hadassah</string>
+    <string name="q_a_10_d">Queen Hadassah</string>
+    
+    <!-- ADVANCED CORRECT ANSWERS -->
+    <string name="q_a_3_cr">@string/q_a_3_b</string>
+    <string name="q_a_4_cr">@string/q_a_4_c</string>
+    <string name="q_a_9_cr">@string/q_a_9_b</string>
 
 </resources>

@@ -17,7 +17,7 @@
         android:layout_marginLeft="@dimen/dialog_box_text_margin"
         android:layout_marginRight="@dimen/dialog_box_text_margin"
         android:layout_gravity="center"
-        android:text="By starting a new quiz, the current quiz will be reset. Are you sure? " />
+        android:text="@string/dialog_box_are_you_sure" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -30,10 +30,10 @@
             android:id="@+id/yes_bttn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginLeft="@dimen/dialog_box_text_margin"
+            android:layout_marginRight="@dimen/dialog_box_text_margin"
             android:clickable="true"
-            android:text="Yes" />
+            android:text="@string/dialog_box_yes" />
 
         <Button
             android:id="@+id/no_bttn"
@@ -41,8 +41,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:layout_marginRight="16dp"
-            android:text="No" />
+            android:layout_marginRight="@dimen/dialog_box_text_margin"
+            android:text="@string/dialog_box_no" />
     </LinearLayout>
 
 </LinearLayout>

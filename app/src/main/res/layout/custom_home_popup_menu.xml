@@ -9,11 +9,11 @@
     <TextView
         android:id="@+id/popUpMenu_new_quiz"
         style="@style/popUpMenuStle"
-        android:text="New Quiz" />
+        android:text="@string/popup_overflow_new_quiz" />
 
     <TextView
         android:id="@+id/popUpMenu_exit"
         style="@style/popUpMenuStle"
-        android:text="Exit" />
+        android:text="@string/popup_overflow_exit" />
 
 </LinearLayout>

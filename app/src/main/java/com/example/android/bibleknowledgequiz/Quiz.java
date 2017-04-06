@@ -416,6 +416,7 @@ public class Quiz extends AppCompatActivity {
                 reviewQuiz = true;
                 currentQuestion = 0;
                 crtQ = showQuestionsOrder[currentQuestion];
+                showFinalDialogBox = false;
                 dialog.dismiss();
                 displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage, false);
             }
