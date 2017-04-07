@@ -25,6 +25,7 @@
     <string name="dialog_box_exit">Exit</string>
     <string name="dialog_box_are_you_sure">By starting a new quiz, the current quiz will be reset. Are you sure?</string>
     <string name="dialog_box_yes">Yes</string>
+    <string name="dialog_box_no">No</string>
     <string name="popup_overflow_new_quiz">New Quiz</string>
     <string name="popup_overflow_exit">Exit</string>
 
