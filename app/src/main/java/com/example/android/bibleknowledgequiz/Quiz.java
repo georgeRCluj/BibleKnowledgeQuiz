@@ -68,7 +68,6 @@ public class Quiz extends AppCompatActivity {
 
     // below we initialize the variables related to the "showing up" on the screen of dialog boxes and overflow menu
     boolean showFinalDialogBox = false;
-    boolean showOverflowPopUp = false;
 
     // below are the variables for swiping left or right
     float x1, x2;
@@ -91,7 +90,6 @@ public class Quiz extends AppCompatActivity {
     static final String BUNDLE_REVIEWMODE = "review_mode";
     static final String BUNDLE_ALLUSERANSWERS = "all_user_answers";
     static final String BUNDLE_SHOWFINALDIALOGBOX = "show_final_dialog_box";
-    static final String BUNDLE_SHOWOVERFLOWPOPUP = "show_overflow_popup_menu";
 
     /*****************************************************************************************************
      * ONSAVEDINSTANCESTATE METHOD, USED FOR ROTATION OF SCREEN, WHEN THE ACTIVITY IS KILLED BY THE O.S. *
