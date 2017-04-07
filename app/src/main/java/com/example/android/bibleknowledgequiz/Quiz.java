@@ -15,6 +15,7 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -37,6 +38,7 @@ import static android.R.attr.left;
 import static android.R.attr.right;
 import static android.R.attr.rotation;
 import static android.R.attr.start;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 import static android.widget.Toast.makeText;
 import static com.example.android.bibleknowledgequiz.AppTools.showDialogBoxNewQuiz;
 import static com.example.android.bibleknowledgequiz.HomeScreen.BUNDLE_LEVEL;
@@ -66,6 +68,7 @@ public class Quiz extends AppCompatActivity {
 
     // below we initialize the variables related to the "showing up" on the screen of dialog boxes and overflow menu
     boolean showFinalDialogBox = false;
+    boolean showOverflowPopUp = false;
 
     // below are the variables for swiping left or right
     float x1, x2;
@@ -88,6 +91,7 @@ public class Quiz extends AppCompatActivity {
     static final String BUNDLE_REVIEWMODE = "review_mode";
     static final String BUNDLE_ALLUSERANSWERS = "all_user_answers";
     static final String BUNDLE_SHOWFINALDIALOGBOX = "show_final_dialog_box";
+    static final String BUNDLE_SHOWOVERFLOWPOPUP = "show_overflow_popup_menu";
 
     /*****************************************************************************************************
      * ONSAVEDINSTANCESTATE METHOD, USED FOR ROTATION OF SCREEN, WHEN THE ACTIVITY IS KILLED BY THE O.S. *
@@ -175,6 +179,7 @@ public class Quiz extends AppCompatActivity {
             displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage, true);
             if (showFinalDialogBox)
                 showFinishQuizDialogBox(this, calculateScore(), radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
+
         }
 
         // below is the listener for the "swipe gesture" button (right or left)
@@ -216,17 +221,26 @@ public class Quiz extends AppCompatActivity {
         });
     }
 
-    /********************************************
-     * THE BELOW METHOD HANDLES THE BACK BUTTON *
-     *******************************************/
+    /************************************************************
+     * THE BELOW METHOD HANDLES THE BACK BUTTON AND MENU BUTTON *
+     ***********************************************************/
     @Override
-    public void onBackPressed() {
-        AppTools.showDialogBoxNewQuiz(this);
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_MENU:
+                AppTools.showOverFlowPopUpMenu(Quiz.this, findViewById(R.id.overflow_button));
+                return false;
+            case KeyEvent.KEYCODE_BACK:    // it also works with method "@Override public void onBackPressed() {};"
+                AppTools.showDialogBoxNewQuiz(this);
+                return false;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     /********************************************************************************
      * THE BELOW METHOD IMPLEMENTS THE NEXT QUESTION, EITHER IN QUIZ OR REVIEW MODE *
      *******************************************************************************/
+
     public void nextQuestion(RadioGroup radioGroupId, RadioButton[] radioButtonId, LinearLayout checkBoxGroupId, CheckBox[] checkBoxId,
                              EditText editTextId, TextView current_questionText, ImageView current_questionImage) {
 
