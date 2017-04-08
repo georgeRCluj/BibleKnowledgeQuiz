@@ -91,6 +91,15 @@ public class Quiz extends AppCompatActivity {
     static final String BUNDLE_ALLUSERANSWERS = "all_user_answers";
     static final String BUNDLE_SHOWFINALDIALOGBOX = "show_final_dialog_box";
 
+    // below we initialize radio buttons, radio group, checkboxes, edit text box, current question text and image from ACTIVITY_QUIZ.XML;
+    RadioGroup radioGroupId;
+    RadioButton[] radioButtonId = new RadioButton[4];
+    LinearLayout checkBoxGroupId;
+    CheckBox[] checkBoxId = new CheckBox[4];
+    EditText editTextId;
+    TextView current_questionText;
+    ImageView current_questionImage;
+
     /*****************************************************************************************************
      * ONSAVEDINSTANCESTATE METHOD, USED FOR ROTATION OF SCREEN, WHEN THE ACTIVITY IS KILLED BY THE O.S. *
      ****************************************************************************************************/
@@ -120,19 +129,19 @@ public class Quiz extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(activity_quiz);
 
-        // below we initialize radio buttons, radio group, checkboxes and edit text from ACTIVITY_QUIZ.XML; we do it here in order not to use expensive "findViewById" too often;
+        // below we declare radio buttons, radio group, checkboxes, edit text box, current question text and image from ACTIVITY_QUIZ.XML; we do it here in order not to use expensive "findViewById" too often;
         // findViewById in java file related to activity before setContentView will always return NULL!!!
-        // this is the reason for creating method "displayQuestion" and other methods with long signature because we could not use them as global variables, since we could not initialize them before setContentView
-        // if we try to initialize them as global variables e.g. "RadioGroup radioGroupId;" and then declare them in OnCreate method after "setContentView", we will get a "NullPointerException" error at runtime
-        final RadioGroup radioGroupId = (RadioGroup) findViewById(R.id.radio_group);
-        final RadioButton[] radioButtonId = {(RadioButton) radioGroupId.findViewById(R.id.answers_radio_1), (RadioButton) radioGroupId.findViewById(R.id.answers_radio_2),
-                (RadioButton) radioGroupId.findViewById(R.id.answers_radio_3), (RadioButton) radioGroupId.findViewById(R.id.answers_radio_4)};
-        final LinearLayout checkBoxGroupId = (LinearLayout) findViewById(R.id.answers_checkbox_layout);
-        final CheckBox[] checkBoxId = {(CheckBox) findViewById(R.id.answers_checkbox_1), (CheckBox) findViewById(R.id.answers_checkbox_2),
-                (CheckBox) findViewById(R.id.answers_checkbox_3), (CheckBox) findViewById(R.id.answers_checkbox_4)};
-        final EditText editTextId = (EditText) findViewById(R.id.possible_answers_editText);
-        final TextView current_questionText = (TextView) findViewById(R.id.current_question);
-        final ImageView current_questionImage = (ImageView) findViewById(R.id.current_picture);
+        int[] radioButtons = {R.id.answers_radio_1, R.id.answers_radio_2, R.id.answers_radio_3, R.id.answers_radio_4};
+        radioGroupId = (RadioGroup) findViewById(R.id.radio_group);
+        for (int i = 0; i < radioButtons.length; i++)
+            radioButtonId[i] = (RadioButton) findViewById(radioButtons[i]);
+        checkBoxGroupId = (LinearLayout) findViewById(R.id.answers_checkbox_layout);
+        int[] checkBoxes = {R.id.answers_checkbox_1, R.id.answers_checkbox_2, R.id.answers_checkbox_3, R.id.answers_checkbox_4};
+        for (int i = 0; i < checkBoxes.length; i++)
+            checkBoxId[i] = (CheckBox) findViewById(checkBoxes[i]);
+        editTextId = (EditText) findViewById(R.id.possible_answers_editText);
+        current_questionText = (TextView) findViewById(R.id.current_question);
+        current_questionImage = (ImageView) findViewById(R.id.current_picture);
         final ImageView overFlowButton = (ImageView) findViewById(R.id.overflow_button);
         final RelativeLayout quizLayout = (RelativeLayout) findViewById(R.id.activity_quiz_screen);
 
@@ -158,7 +167,7 @@ public class Quiz extends AppCompatActivity {
             // below we initialize currentQuestion (0) and crtQ (crtQ is the variable that helps us with shuffling); the first question is displayed
             currentQuestion = 0;
             crtQ = showQuestionsOrder[currentQuestion];
-            displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage, false);
+            displayQuestion(false);
         } else {
             // here we save data in a Bundle in case of rotation; the last argument in the "displayQuestion" method below ("true") transmits that a rotation took place
             difficultyLevel = savedInstanceState.getInt(BUNDLE_DIFFICULTY);
@@ -174,10 +183,9 @@ public class Quiz extends AppCompatActivity {
             reviewQuiz = savedInstanceState.getBoolean(BUNDLE_REVIEWMODE);
             allUserAnswers = (ArrayList<UserAnswer>) savedInstanceState.getSerializable(BUNDLE_ALLUSERANSWERS);
             showFinalDialogBox = savedInstanceState.getBoolean(BUNDLE_SHOWFINALDIALOGBOX);
-            displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage, true);
+            displayQuestion(true);
             if (showFinalDialogBox)
-                showFinishQuizDialogBox(this, calculateScore(), radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
-
+                showFinishQuizDialogBox(this, calculateScore());
         }
 
         // below is the listener for the "swipe gesture" button (right or left)
@@ -197,11 +205,11 @@ public class Quiz extends AppCompatActivity {
                         if (Math.abs(deltaX) > MIN_DISTANCE) {
                             //if right to left sweep event on screen (NEXT)
                             if (x2 < x1) {
-                                nextQuestion(radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
+                                nextQuestion();
                             }
                             // if right to left sweep event on screen
                             else
-                                previousQuestion(radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
+                                previousQuestion();
                         }
                         break;
                     }
@@ -239,8 +247,7 @@ public class Quiz extends AppCompatActivity {
      * THE BELOW METHOD IMPLEMENTS THE NEXT QUESTION, EITHER IN QUIZ OR REVIEW MODE *
      *******************************************************************************/
 
-    public void nextQuestion(RadioGroup radioGroupId, RadioButton[] radioButtonId, LinearLayout checkBoxGroupId, CheckBox[] checkBoxId,
-                             EditText editTextId, TextView current_questionText, ImageView current_questionImage) {
+    public void nextQuestion() {
 
         // the below block of code applies when "Quiz mode" is active
         if (!reviewQuiz) {
@@ -248,11 +255,11 @@ public class Quiz extends AppCompatActivity {
                 if (!quizMode(checkBoxId, radioButtonId, editTextId))   // the method quizMode records user's answers and returns "true" or "false" if the user answered the question or not
                     AppTools.customToast(Quiz.this, Gravity.CENTER, 0, getResources().getInteger(R.integer.quiz_toast_previous_question), Toast.LENGTH_SHORT, getResources().getString(R.string.please_answer_the_question));
                 else if (currentQuestion + 1 == nrOfQuestions)
-                    showFinishQuizDialogBox(Quiz.this, calculateScore(), radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage);
+                    showFinishQuizDialogBox(Quiz.this, calculateScore());
                 else {
                     currentQuestion += 1;
                     crtQ = showQuestionsOrder[currentQuestion];
-                    displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage, false);
+                    displayQuestion(false);
                 }
             }
         }
@@ -264,7 +271,7 @@ public class Quiz extends AppCompatActivity {
             else {
                 currentQuestion += 1;
                 crtQ = showQuestionsOrder[currentQuestion];
-                displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage, false);
+                displayQuestion(false);
             }
         }
     }
@@ -272,8 +279,7 @@ public class Quiz extends AppCompatActivity {
     /*******************************************************************************************
      * THE BELOW METHOD IMPLEMENTS THE PREVIOUS QUESTION, IN BOTH "QUIZ MODE" OR "REVIEW MODE" *
      ******************************************************************************************/
-    public void previousQuestion(RadioGroup radioGroupId, RadioButton[] radioButtonId, LinearLayout checkBoxGroupId, CheckBox[] checkBoxId,
-                                 EditText editTextId, TextView current_questionText, ImageView current_questionImage) {
+    public void previousQuestion() {
 
         // the below block of code applies when Quiz mode is active
         if (!reviewQuiz)
@@ -287,7 +293,7 @@ public class Quiz extends AppCompatActivity {
             else {
                 currentQuestion -= 1;
                 crtQ = showQuestionsOrder[currentQuestion];
-                displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage, false);
+                displayQuestion(false);
             }
         }
     }
@@ -370,8 +376,7 @@ public class Quiz extends AppCompatActivity {
     /**************************************************************************************
      * THIS METHOD IS USED FOR DISPLAYING THE DIALOG BOX AFTER THE USER FINISHED THE QUIZ *
      **************************************************************************************/
-    private void showFinishQuizDialogBox(Activity activity, float score, final RadioGroup radioGroupId, final RadioButton[] radioButtonId, final LinearLayout checkBoxGroupId,
-                                         final CheckBox[] checkBoxId, final EditText editTextId, final TextView current_questionText, final ImageView current_questionImage) {
+    private void showFinishQuizDialogBox(Activity activity, float score) {
 
         // below the section of calculating time spent in the quiz
         if (!showFinalDialogBox)                    // we have to add this condition to cover the case when the user rotates the screen when the dialog box is shown and the end time is updated...
@@ -430,7 +435,7 @@ public class Quiz extends AppCompatActivity {
                 crtQ = showQuestionsOrder[currentQuestion];
                 showFinalDialogBox = false;
                 dialog.dismiss();
-                displayQuestion(quizQuestion[difficultyLevel][crtQ].answerType, radioGroupId, radioButtonId, checkBoxGroupId, checkBoxId, editTextId, current_questionText, current_questionImage, false);
+                displayQuestion(false);
             }
         });
         exitButton.setOnClickListener(new View.OnClickListener() {
@@ -445,8 +450,7 @@ public class Quiz extends AppCompatActivity {
     /*************************************************************************************
      * THIS METHOD IS USED FOR DISPLAYING QUESTIONS EITHER IN QUIZ MODE OR IN REVIEW MODE *
      *************************************************************************************/
-    private void displayQuestion(String answerType, RadioGroup radioGroupId, RadioButton[] radioButtonId, LinearLayout checkBoxGroupId, CheckBox[] checkBoxId,
-                                 EditText editTextId, TextView current_questionText, ImageView current_questionImage, boolean screenRotation) {
+    private void displayQuestion(boolean screenRotation) {
 
         // when displaying a new question, we firstly erase the content from the previous question, except when we rotate the screen
         if (!screenRotation) {
@@ -468,7 +472,7 @@ public class Quiz extends AppCompatActivity {
                 getResources().getString(R.string.current_question_2) + String.valueOf(nrOfQuestions) + getResources().getString(R.string.current_question_3));
         current_questionImage.setImageResource(quizQuestion[difficultyLevel][crtQ].imageResId);
 
-        switch (answerType) {
+        switch (quizQuestion[difficultyLevel][crtQ].answerType) {
             case "C": {
                 checkBoxGroupId.setVisibility(View.VISIBLE);
                 if (reviewQuiz)
